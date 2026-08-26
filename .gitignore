@@ -1,0 +1,29 @@
+# Built binaries & caches
+*.apk
+*.aab
+*.dex
+*.class
+
+# Android build outputs & IDE
+.gradle/
+build/
+app/build/
+*.iml
+.idea/
+local.properties
+.cxx/
+
+# KiCad locks & backup histories
+*.lck
+*.bak
+*.kicad_prl
+*-save.kicad_pcb
+*-save.kicad_sch
+_restore_backup*/
+.history/
+
+# OS and Temporary files
+.DS_Store
+Thumbs.db
+*.tmp
+*~

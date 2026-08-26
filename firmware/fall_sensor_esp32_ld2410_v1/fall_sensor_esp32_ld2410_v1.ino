@@ -1,0 +1,641 @@
+// VERSION: v4.20 - Synchronization with C1001 Performance & Early Exit Fixes (2026-08-24)
+
+#include <WiFi.h>
+#include <ArduinoOTA.h>
+#include <BLEDevice.h>
+#include <BLEServer.h>
+#include <BLEUtils.h>
+#include <BLE2902.h>
+#include <ld2410.h>
+#include <driver/rtc_io.h>
+
+// --- HARDWARE PINS ---
+#define PIR_WAKE_PIN     13  
+#define MIC_WAKE_PIN     4   
+#define PRESENCE_PIN     25  // LD2410 Hardware Presence Pin
+#define SYNC_BUTTON_PIN  33  
+#define BATTERY_PIN      34  
+#define RADAR_MOSFET_PIN 27  
+#define FALL_LED_PIN     19  
+#define RX_PIN           16  
+#define TX_PIN           17  
+
+// --- BLE UUIDS ---
+#define SERVICE_UUID           "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
+#define CHARACTERISTIC_UUID    "beb5483e-36e1-4688-b7f5-ea07361b26a8"
+
+BLEServer* pServer = NULL;
+BLECharacteristic* pCharacteristic = NULL;
+bool deviceConnected = false;
+bool isBleAdvertising = false;
+unsigned long bleTurnedOnTime = 0;
+bool debugMode = false;
+
+// --- STATE & TIMERS ---
+RTC_DATA_ATTR int bootCount = 0;
+RTC_DATA_ATTR bool wasOccupied = false;
+unsigned long lastPirLogTime = 0;
+unsigned long lastMicLogTime = 0;
+RTC_DATA_ATTR int occupiedCount = 0;  // consecutive occupied snapshots for sleep backoff
+
+enum TriggerSource { BOOT, PIR_WALK_IN, MIC_THUD, MANUAL_SYNC, PERIODIC_TIMER };
+TriggerSource currentTrigger = BOOT;
+
+uint64_t PERIODIC_SLEEP_SEC = 60; // Configurable periodic sleep
+
+bool isRadarPowered = false;
+unsigned long radarTurnedOnTime = 0;
+unsigned long lastLedFlash = 0;
+unsigned long lastDebugLog = 0;
+
+// Smart logging: track last values to only log on change or 10s heartbeat
+uint16_t lastLoggedMovDist = 0;
+uint16_t lastLoggedStaDist = 0;
+bool lastLoggedHWPresence = false;
+bool lastLoggedUARTPresence = false;
+unsigned long lastHeartbeatLog = 0;
+unsigned long lastLogTime = 0;
+const unsigned long HEARTBEAT_LOG_INTERVAL = 10000;  // 10 seconds
+const unsigned long MIN_LOG_INTERVAL = 2000;          // 2s minimum between logs
+
+bool fallConfirmed = false;
+unsigned long sustainedMoveStartTime = 0;
+bool batteryReported = false;
+bool batteryCritical = false;
+
+volatile bool syncButtonPressed = false;
+volatile bool pirTriggered = false;
+volatile bool micTriggered = false;
+bool requestRadarPowerOn = false;
+
+// Sensor Fusion Tracking
+bool pirSeenInSnapshot = false;
+bool micSeenInSnapshot = false;
+
+// Fake Sleep (When BLE is connected)
+bool isFakeSleeping = false;
+bool infiniteFakeSleep = false;
+unsigned long fakeSleepStartTime = 0;
+
+// LD2410 Specific Fall Logic Variables
+bool wasMoving = false;
+bool fallCandidate = false;
+unsigned long motionLostTime = 0;
+uint16_t lastMovingDistance = 0;
+
+const unsigned long DEBOUNCE_COOLDOWN = 3000;
+unsigned long lastSleepTime = 0;  // PIR cooldown: ignore PIR for 5s after sleeping
+const unsigned long PIR_COOLDOWN_MS = 5000;
+
+#define WIFI_SSID "Jio-ruby105"
+#define WIFI_PASS "Pumba@6969"
+bool otaActive = false;
+unsigned long otaStartTime = 0;
+bool requestOtaStart = false;
+bool otaConnecting = false;
+unsigned long otaConnectStartTime = 0;
+bool otaDisconnectBlePending = false;
+unsigned long otaDisconnectBleTime = 0;
+
+HardwareSerial RadarSerial(1);
+ld2410 radar;
+
+void startBLE();
+void stopBLE();
+void powerOnRadar();
+void goToSleep(bool infinite);
+
+class MyServerCallbacks: public BLEServerCallbacks {
+    void onConnect(BLEServer* pServer) {
+      deviceConnected = true;
+      isBleAdvertising = false;
+      batteryReported = false; 
+      bleTurnedOnTime = millis();
+    }
+    void onDisconnect(BLEServer* pServer) {
+      deviceConnected = false;
+      isFakeSleeping = false;
+      // Auto LOG_OFF: stop wasting resources logging to nobody
+      if (debugMode) {
+          debugMode = false;
+      }
+      // Auto OTA_OFF: don't leave WiFi running with no controller
+      if (otaActive) {
+          otaActive = false;
+          WiFi.disconnect(true);
+          WiFi.mode(WIFI_OFF);
+      }
+      if (!isRadarPowered) goToSleep(infiniteFakeSleep);
+    }
+};
+
+void IRAM_ATTR syncButtonISR() { syncButtonPressed = true; }
+void IRAM_ATTR pirISR() { pirTriggered = true; }
+void IRAM_ATTR micISR() { micTriggered = true; }
+
+class MyCallbacks: public BLECharacteristicCallbacks {
+    void onWrite(BLECharacteristic *pChar) {
+      String rxValue = pChar->getValue(); 
+      if (rxValue.length() > 0) {
+        if (rxValue.indexOf("LOG_ON") != -1) {
+          if (debugMode) {
+              pChar->setValue("Debug Mode: Already ON. Ignoring.\n");
+              pChar->notify();
+          } else {
+              debugMode = true;
+              pChar->setValue("Debug Mode: ENABLED\n");
+              pChar->notify();
+              requestRadarPowerOn = true;
+          }
+        }
+        else if (rxValue.indexOf("LOG_OFF") != -1) {
+          debugMode = false;
+          pChar->setValue("Debug Mode: DISABLED\n");
+          pChar->notify();
+        }
+        else if (rxValue.indexOf("OTA_ON") != -1) {
+          if (otaActive || otaConnecting || requestOtaStart) {
+              pChar->setValue("[OTA] Already starting or active. Ignoring.\n");
+              pChar->notify();
+          } else {
+              pChar->setValue("[OTA] Initiating... Powering down Radar & connecting to WiFi.\n");
+              pChar->notify();
+              requestOtaStart = true;
+          }
+        }
+      }
+    }
+};
+
+void startBLE() {
+  BLEDevice::startAdvertising();
+  isBleAdvertising = true;
+  bleTurnedOnTime = millis();
+}
+
+void stopBLE() {
+  BLEDevice::stopAdvertising();
+  isBleAdvertising = false;
+}
+
+void sendBLENotification(const char* message) {
+  if (deviceConnected) {
+    pCharacteristic->setValue(message);
+    pCharacteristic->notify();
+  }
+}
+
+void goToSleep(bool infinite) {
+  // If OTA is active or connecting, we can't sleep but we MUST still turn off the radar
+  // to prevent the 30-second snapshot from spam-firing every loop iteration
+  if (otaActive || otaConnecting) {
+      if (isRadarPowered) {
+          digitalWrite(RADAR_MOSFET_PIN, LOW);
+          digitalWrite(FALL_LED_PIN, LOW);
+          isRadarPowered = false;
+      }
+      return;
+  }
+  if (fallConfirmed) {
+      radarTurnedOnTime = millis(); // Reset timer to prevent 1000Hz re-trigger loop while alarm active
+      return;
+  }
+
+  digitalWrite(RADAR_MOSFET_PIN, LOW);
+  digitalWrite(FALL_LED_PIN, LOW);
+  isRadarPowered = false;
+
+  if (deviceConnected) {
+      isFakeSleeping = true;
+      infiniteFakeSleep = infinite;
+      fakeSleepStartTime = millis();
+      if (infinite) {
+          if (!(pirSeenInSnapshot && micSeenInSnapshot)) {
+              sendBLENotification("[SYS]: Room Empty. Going to Deep Sleep indefinitely...\n");
+          }
+      }
+      else sendBLENotification("[SYS]: All OK. Going on standby for 60s...\n");
+      // Auto log reset logic handled by timestamp tracking
+      return; 
+  }
+
+  // Session logs reset handled by time, no need to reset vars
+  
+  if (isBleAdvertising) stopBLE();
+  if (otaActive) { WiFi.disconnect(true); otaActive = false; }
+  
+  if (infinite) {
+      // Infinite sleep: wake on PIR, MIC, or SYNC button
+      uint64_t bitmask = (1ULL << PIR_WAKE_PIN) | (1ULL << MIC_WAKE_PIN) | (1ULL << SYNC_BUTTON_PIN);
+      esp_sleep_enable_ext1_wakeup(bitmask, ESP_EXT1_WAKEUP_ANY_HIGH);
+  } else {
+      // Periodic 60s sleep: TIMER ONLY, no PIR/MIC interruptions.
+      // Only the sync button can break a periodic sleep.
+      uint64_t bitmask = (1ULL << SYNC_BUTTON_PIN);
+      esp_sleep_enable_ext1_wakeup(bitmask, ESP_EXT1_WAKEUP_ANY_HIGH);
+      esp_sleep_enable_timer_wakeup(PERIODIC_SLEEP_SEC * 1000000ULL);
+  }
+  
+  pirTriggered = false;
+  micTriggered = false;
+  lastSleepTime = millis();
+  
+  esp_deep_sleep_start();
+}
+
+void powerOnRadar() {
+  digitalWrite(RADAR_MOSFET_PIN, HIGH);
+  digitalWrite(FALL_LED_PIN, HIGH);
+  delay(1500);  // LD2410 needs time to stabilize after MOSFET power-on
+  
+  radar.begin(RadarSerial, true); // Initialize LD2410
+
+  isRadarPowered = true;
+  radarTurnedOnTime = millis();
+  isFakeSleeping = false;
+  
+  pirSeenInSnapshot = (currentTrigger == PIR_WALK_IN);
+  micSeenInSnapshot = (currentTrigger == MIC_THUD);
+
+  wasMoving = false;
+  fallCandidate = false;
+  fallConfirmed = false;  // Clear any stale fall from previous cycle
+
+  if (debugMode) {
+      String onMsg = "[RADAR]: Boot. Trigger: ";
+      switch(currentTrigger) {
+        case PIR_WALK_IN: onMsg += "PIR\n"; break;
+        case MIC_THUD:    onMsg += "MIC\n"; break;
+        case PERIODIC_TIMER: onMsg += "Periodic 60s Timer\n"; break;
+        default:          onMsg += "System\n"; break;
+      }
+      sendBLENotification(onMsg.c_str());
+  }
+}
+
+float readBatteryVoltage() {
+  int rawValue = analogRead(BATTERY_PIN);
+  return (rawValue / 4095.0) * 3.3 * 2.0; 
+}
+
+void setup() {
+  pinMode(RADAR_MOSFET_PIN, OUTPUT);
+  pinMode(FALL_LED_PIN, OUTPUT);
+  pinMode(PRESENCE_PIN, INPUT_PULLUP);
+  pinMode(SYNC_BUTTON_PIN, INPUT_PULLDOWN);
+  pinMode(PIR_WAKE_PIN, INPUT_PULLDOWN);
+  pinMode(MIC_WAKE_PIN, INPUT_PULLDOWN);
+  
+  rtc_gpio_pulldown_en((gpio_num_t)PIR_WAKE_PIN);
+  rtc_gpio_pulldown_en((gpio_num_t)MIC_WAKE_PIN);
+  rtc_gpio_pullup_dis((gpio_num_t)MIC_WAKE_PIN);
+  rtc_gpio_pulldown_en((gpio_num_t)SYNC_BUTTON_PIN);
+
+  attachInterrupt(digitalPinToInterrupt(SYNC_BUTTON_PIN), syncButtonISR, RISING);
+  attachInterrupt(digitalPinToInterrupt(PIR_WAKE_PIN), pirISR, RISING);
+  attachInterrupt(digitalPinToInterrupt(MIC_WAKE_PIN), micISR, RISING);
+
+  digitalWrite(RADAR_MOSFET_PIN, LOW);
+  digitalWrite(FALL_LED_PIN, LOW);
+
+  BLEDevice::init("Fall_Sensor_LD2410_v4.20");
+  pServer = BLEDevice::createServer();
+  pServer->setCallbacks(new MyServerCallbacks());
+  BLEService *pService = pServer->createService(SERVICE_UUID);
+  pCharacteristic = pService->createCharacteristic(
+                      CHARACTERISTIC_UUID,
+                      BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE | BLECharacteristic::PROPERTY_NOTIFY
+                    );
+  pCharacteristic->setCallbacks(new MyCallbacks());
+  pCharacteristic->addDescriptor(new BLE2902());
+  pService->start();
+
+  RadarSerial.begin(256000, SERIAL_8N1, RX_PIN, TX_PIN); 
+  
+  if (readBatteryVoltage() < 3.3) {
+      batteryCritical = true;
+  }
+  
+  esp_sleep_wakeup_cause_t wakeup_reason = esp_sleep_get_wakeup_cause();
+  if (wakeup_reason == ESP_SLEEP_WAKEUP_EXT1) {
+    uint64_t wakeup_pin_mask = esp_sleep_get_ext1_wakeup_status();
+    if (wakeup_pin_mask & (1ULL << PIR_WAKE_PIN)) {
+      currentTrigger = PIR_WALK_IN;
+      lastPirLogTime = 0; // Force immediate log
+    } else if (wakeup_pin_mask & (1ULL << MIC_WAKE_PIN)) {
+      currentTrigger = MIC_THUD;
+      lastMicLogTime = 0; // Force immediate log
+    } else if (wakeup_pin_mask & (1ULL << SYNC_BUTTON_PIN)) {
+      currentTrigger = MANUAL_SYNC;
+      startBLE(); 
+      return; 
+    }
+    powerOnRadar();
+  } else if (wakeup_reason == ESP_SLEEP_WAKEUP_TIMER) {
+      currentTrigger = PERIODIC_TIMER;
+      powerOnRadar();
+  } else {
+      currentTrigger = BOOT;
+      powerOnRadar();  
+  }
+}
+
+void loop() {
+  // --- Asynchronous Non-blocking OTA Handler & Absolute Freeze Guard ---
+  if (otaActive || otaConnecting || requestOtaStart || otaDisconnectBlePending) {
+      if (isRadarPowered) {
+          digitalWrite(RADAR_MOSFET_PIN, LOW);
+          digitalWrite(FALL_LED_PIN, LOW);
+          isRadarPowered = false;
+      }
+      if (requestOtaStart) {
+          requestOtaStart = false;
+          isFakeSleeping = false;
+          WiFi.mode(WIFI_STA);
+          WiFi.begin(WIFI_SSID, WIFI_PASS);
+          otaConnecting = true;
+          otaConnectStartTime = millis();
+      }
+      if (otaConnecting) {
+          if (WiFi.status() == WL_CONNECTED) {
+              otaConnecting = false;
+              ArduinoOTA.begin();
+              otaActive = true;
+              otaStartTime = millis();
+              String ipMsg = "[OTA] Ready at: " + WiFi.localIP().toString() + " | Disconnecting BLE to save power...\n";
+              sendBLENotification(ipMsg.c_str());
+              otaDisconnectBlePending = true;
+              otaDisconnectBleTime = millis();
+          } else if (millis() - otaConnectStartTime > 15000) {
+              otaConnecting = false;
+              WiFi.disconnect(true);
+              WiFi.mode(WIFI_OFF);
+              sendBLENotification("[OTA] WiFi connection failed. Restoring normal mode.\n");
+              powerOnRadar();
+          }
+          return;
+      }
+      if (otaDisconnectBlePending) {
+          if (millis() - otaDisconnectBleTime > 1000) {
+              otaDisconnectBlePending = false;
+              BLEDevice::deinit(false);
+              deviceConnected = false;
+              isBleAdvertising = false;
+          }
+      }
+      if (otaActive) {
+          ArduinoOTA.handle();
+          if (millis() - otaStartTime > 300000) {
+              WiFi.disconnect(true);
+              ESP.restart();
+          }
+      }
+      return; // Absolute block — no PIR/MIC interrupts or radar logic run while OTA active!
+  }
+
+  if (isFakeSleeping) {
+      if (!infiniteFakeSleep && (millis() - fakeSleepStartTime > PERIODIC_SLEEP_SEC * 1000)) {
+          pirTriggered = false;
+          micTriggered = false;
+          currentTrigger = PERIODIC_TIMER;
+          powerOnRadar();
+          return;
+      }
+      // During periodic (non-infinite) fake sleep, we just LOG the PIR/MIC triggers 
+      // so the user can see them, but we DO NOT wake the radar up.
+      // Only the 60-second timer will actually wake the radar.
+      if (!infiniteFakeSleep) {
+          if (pirTriggered) {
+              pirTriggered = false;
+              if (deviceConnected && (millis() - lastPirLogTime > DEBOUNCE_COOLDOWN)) {
+                  sendBLENotification("[SYS]: PIR Triggered! (Ignored during 60s sleep)\n");
+                  lastPirLogTime = millis();
+              }
+          }
+          if (micTriggered) {
+              micTriggered = false;
+              if (deviceConnected && (millis() - lastMicLogTime > DEBOUNCE_COOLDOWN)) {
+                  sendBLENotification("[SYS]: MIC Triggered! (Ignored during 60s sleep)\n");
+                  lastMicLogTime = millis();
+              }
+          }
+      } else {
+          // Infinite fake sleep: PIR/MIC CAN break it (room was empty, new activity)
+          if (pirTriggered) {
+              pirTriggered = false;
+              micTriggered = false;
+              currentTrigger = PIR_WALK_IN;
+              powerOnRadar();
+              return;
+          }
+          if (micTriggered) {
+              micTriggered = false;
+              pirTriggered = false;
+              currentTrigger = MIC_THUD;
+              powerOnRadar();
+              return;
+          }
+      }
+      return;
+  }
+
+  // Live Interrupt Handling (with PIR cooldown to prevent wake/sleep loops)
+  if (pirTriggered) {
+      pirTriggered = false;
+      // Ignore PIR if we just woke up less than 5s ago (residual heat)
+      if (millis() - lastSleepTime < PIR_COOLDOWN_MS && lastSleepTime > 0) {
+          // Silently discard — PIR is still seeing residual heat from before sleep
+      } else {
+          pirSeenInSnapshot = true;
+          if (deviceConnected && (millis() - lastPirLogTime > DEBOUNCE_COOLDOWN)) {
+              sendBLENotification("[SYS]: PIR Triggered!\n");
+              lastPirLogTime = millis();
+          }
+          if (!isRadarPowered) { 
+              currentTrigger = PIR_WALK_IN; 
+              powerOnRadar(); 
+          }
+      }
+  }
+
+  if (micTriggered) {
+      micTriggered = false; 
+      micSeenInSnapshot = true;
+      if (deviceConnected && (millis() - lastMicLogTime > DEBOUNCE_COOLDOWN)) {
+          sendBLENotification("[SYS]: MIC Triggered!\n");
+          lastMicLogTime = millis();
+      }
+      if (!isRadarPowered) { 
+          currentTrigger = MIC_THUD; 
+          powerOnRadar(); 
+      }
+  }
+
+  if (requestRadarPowerOn && !isRadarPowered) {
+      requestRadarPowerOn = false;
+      currentTrigger = MANUAL_SYNC;
+      powerOnRadar();
+  }
+
+  if (otaActive) {
+      ArduinoOTA.handle();
+      if (millis() - otaStartTime > 300000) {
+          // BLE is dead (deinit'd), WiFi is up but no OTA happened.
+          // Only safe recovery is a full reboot.
+          WiFi.disconnect(true);
+          ESP.restart();
+      }
+  }
+
+  if (syncButtonPressed) {
+      syncButtonPressed = false;
+      if (fallConfirmed) {
+          fallConfirmed = false;
+          sustainedMoveStartTime = 0;
+          digitalWrite(FALL_LED_PIN, HIGH);
+          sendBLENotification("[FALL] Cleared: Manual Sync Button pressed.\n");
+      }
+      if (!isBleAdvertising && !deviceConnected) {
+          startBLE();
+      }
+  }
+
+  if (!isRadarPowered && isBleAdvertising && !deviceConnected) {
+      if (millis() - bleTurnedOnTime > 60000) { goToSleep(true); }
+  }
+
+  if (deviceConnected && !batteryReported && (millis() - bleTurnedOnTime > 1500)) {
+      float battV = readBatteryVoltage();
+      String battMsg = "[SYS] Battery: " + String(battV, 2) + "V\n";
+      if (batteryCritical) battMsg += "[WARN]: BATTERY CRITICAL (< 3.3V)!\n";
+      sendBLENotification(battMsg.c_str());
+      batteryReported = true;
+  }
+
+  // --- LD2410 Radar Logic ---
+  if (isRadarPowered) {
+      
+      bool presenceDetected = digitalRead(PRESENCE_PIN);
+      
+      if (radar.read()) {
+          bool isMoving = radar.movingTargetDetected();
+          bool isStationary = radar.stationaryTargetDetected();
+
+          if (debugMode && (millis() - lastLogTime >= MIN_LOG_INTERVAL)) {
+              uint16_t movDist = radar.movingTargetDistance();
+              uint16_t staDist = radar.stationaryTargetDistance();
+              // Smart logging: only log if values changed OR 10s heartbeat elapsed
+              int rawPin25 = digitalRead(PRESENCE_PIN);
+              bool uartPresence = radar.presenceDetected();
+              
+              bool valuesChanged = (movDist != lastLoggedMovDist) || (staDist != lastLoggedStaDist) || (rawPin25 != lastLoggedHWPresence) || (uartPresence != lastLoggedUARTPresence);
+              bool heartbeatDue = (millis() - lastHeartbeatLog > HEARTBEAT_LOG_INTERVAL);
+              if (valuesChanged || heartbeatDue) {
+                  String logMsg = "[RADAR] Pin25_RAW: " + String(rawPin25) + " | UART Pres: " + String(uartPresence) + " | Dist: " + String(radar.detectionDistance()) + "cm (M:" + String(movDist) + " S:" + String(staDist) + ")\n";
+                  sendBLENotification(logMsg.c_str());
+                  lastLoggedMovDist = movDist;
+                  lastLoggedStaDist = staDist;
+                  lastLoggedHWPresence = (rawPin25 == HIGH);
+                  lastLoggedUARTPresence = uartPresence;
+                  lastHeartbeatLog = millis();
+                  lastLogTime = millis();
+              }
+          }
+
+          if (isMoving) {
+              // Only track as meaningful movement if energy is above threshold
+              // (filters out noise/ghost detections that cause false falls)
+              if (radar.movingTargetEnergy() > 30) {
+                  lastMovingDistance = radar.movingTargetDistance();
+                  wasMoving = true;
+              }
+              fallCandidate = false;
+          }
+          else if (!isMoving && wasMoving && isStationary) {
+              motionLostTime = millis();
+              fallCandidate = true;
+              wasMoving = false;
+          }
+
+          if (fallCandidate) {
+              if (isMoving) fallCandidate = false;
+              else if (isStationary && (millis() - motionLostTime > 5000)) {
+                  uint16_t fallDist = radar.stationaryTargetDistance();
+                  // Distance sanity check: stationary target must be NEAR where
+                  // the person was moving (same person fell). If the stationary
+                  // target is FAR from the moving target, it's background clutter
+                  // (wall/furniture), not a fallen person.
+                  bool sameTarget = abs((int)lastMovingDistance - (int)fallDist) < 100;
+                  if (sameTarget) {
+                      if (!fallConfirmed) {
+                          fallConfirmed = true;
+                          sustainedMoveStartTime = 0;
+                          String fallMsg = "ALERT: FALL DETECTED at " + String(fallDist) + "cm! (was moving at " + String(lastMovingDistance) + "cm)\n";
+                          sendBLENotification(fallMsg.c_str());
+                      }
+                  }
+                  fallCandidate = false;
+              }
+              else if (!isStationary) fallCandidate = false;
+          }
+
+          if (fallConfirmed) {
+              // Rapid flashing visual siren
+              if (millis() - lastLedFlash > 250) {
+                  lastLedFlash = millis();
+                  digitalWrite(FALL_LED_PIN, !digitalRead(FALL_LED_PIN));
+              }
+
+              // Recovery check: require 5 continuous seconds of active walking movement
+              if (isMoving && radar.movingTargetEnergy() > 40) {
+                  if (sustainedMoveStartTime == 0) {
+                      sustainedMoveStartTime = millis();
+                  } else if (millis() - sustainedMoveStartTime > 5000) {
+                      fallConfirmed = false;
+                      sustainedMoveStartTime = 0;
+                      digitalWrite(FALL_LED_PIN, HIGH);
+                      sendBLENotification("[FALL] Cleared: Sustained movement detected (person recovered).\n");
+                  }
+              } else {
+                  sustainedMoveStartTime = 0; // Reset recovery timer if movement stops (person lying still on floor)
+              }
+          }
+      }
+      
+      // --- Smart Radar Early Exit Strategy ---
+      // Allow 2.5 seconds for radar serial/hardware warmup.
+      // If room presence is confirmed and NO fall evaluation is pending (!fallCandidate && !fallConfirmed),
+      // we perform an early exit and return to sleep immediately (saving ~90% active battery energy!).
+      bool isWarm = (millis() - radarTurnedOnTime > 2500);
+      bool isOccupiedNow = (presenceDetected || radar.presenceDetected());
+      bool earlyExitEligible = isWarm && isOccupiedNow && !fallCandidate && !fallConfirmed;
+      bool snapshotTimeout = (millis() - radarTurnedOnTime > 30000);
+      
+      if (earlyExitEligible || snapshotTimeout) {
+          String checkLabel = (currentTrigger == BOOT) ? "Startup" : "Periodic";
+          
+          if (isOccupiedNow) {
+              if (!wasOccupied) {
+                  sendBLENotification("[SYS]: Person Entered.\n");
+              }
+              wasOccupied = true;
+              String msg = earlyExitEligible 
+                  ? "[SYS]: Fast Occupancy Confirmed (Early Exit at " + String(millis() - radarTurnedOnTime) + "ms). Sleeping for 60s.\n"
+                  : "[SYS]: " + checkLabel + " Check Complete. Room occupied. Sleeping for 60s.\n";
+              sendBLENotification(msg.c_str());
+              goToSleep(false);  // 60s periodic sleep
+          } else {
+              // Sensor Fusion Warning Check
+              if (pirSeenInSnapshot && micSeenInSnapshot) {
+                  sendBLENotification("[WARN]: Sensor Fusion High Confidence (PIR+MIC), but Radar reports Empty!\n");
+              } else if (wasOccupied) {
+                  sendBLENotification("[SYS]: Person left the room.\n");
+              }
+              wasOccupied = false;
+              String msg = "[SYS]: " + checkLabel + " Check Complete. Room empty. Sleeping indefinitely.\n";
+              sendBLENotification(msg.c_str());
+              goToSleep(true);  // Infinite sleep
+          }
+      }
+  }
+}

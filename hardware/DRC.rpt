@@ -1,0 +1,58 @@
+** Drc report for fall_sensor.kicad_pcb **
+** Created on 2026-08-11T00:06:05 **
+** Report includes: Errors, Warnings **
+
+** Found 10 DRC violations **
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(50.0000 mm, 50.0000 mm): Rectangle on Edge.Cuts
+    @(140.0000 mm, 109.0000 mm): Segment of RADAR1 on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(50.0000 mm, 50.0000 mm): Rectangle on Edge.Cuts
+    @(160.0000 mm, 129.0000 mm): Segment of RADAR1 on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(70.0000 mm, 51.0000 mm): Segment of U7 on F.Silkscreen
+    @(68.5000 mm, 92.5000 mm): PTH pad 3 [+3V3] of U7
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(70.0000 mm, 51.0000 mm): Segment of U7 on F.Silkscreen
+    @(68.5000 mm, 52.5000 mm): PTH pad 1 [+5V] of U7
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(51.0000 mm, 94.0000 mm): Segment of U7 on F.Silkscreen
+    @(52.5000 mm, 92.5000 mm): PTH pad 4 [GND] of U7
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(51.0000 mm, 94.0000 mm): Segment of U7 on F.Silkscreen
+    @(52.5000 mm, 52.5000 mm): PTH pad 2 [GND] of U7
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(51.0000 mm, 51.0000 mm): Segment of U7 on F.Silkscreen
+    @(68.5000 mm, 52.5000 mm): PTH pad 1 [+5V] of U7
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(51.0000 mm, 51.0000 mm): Segment of U7 on F.Silkscreen
+    @(52.5000 mm, 52.5000 mm): PTH pad 2 [GND] of U7
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(70.0000 mm, 94.0000 mm): Segment of U7 on F.Silkscreen
+    @(68.5000 mm, 92.5000 mm): PTH pad 3 [+3V3] of U7
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(70.0000 mm, 94.0000 mm): Segment of U7 on F.Silkscreen
+    @(52.5000 mm, 92.5000 mm): PTH pad 4 [GND] of U7
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **

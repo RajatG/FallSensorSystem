@@ -1,0 +1,3108 @@
+(export
+	(version "E")
+	(design
+		(source "C:\\Users\\devja\\Documents\\AntiGravity\\fall_sensor\\fall_sensor.kicad_sch")
+		(date "2026-08-10T08:54:47")
+		(tool "Eeschema 10.0.3")
+		(sheet
+			(number "1")
+			(name "/")
+			(tstamps "/")
+			(title_block
+				(title)
+				(company)
+				(rev)
+				(date)
+				(source "fall_sensor.kicad_sch")
+				(comment
+					(number "1")
+					(value "")
+				)
+				(comment
+					(number "2")
+					(value "")
+				)
+				(comment
+					(number "3")
+					(value "")
+				)
+				(comment
+					(number "4")
+					(value "")
+				)
+				(comment
+					(number "5")
+					(value "")
+				)
+				(comment
+					(number "6")
+					(value "")
+				)
+				(comment
+					(number "7")
+					(value "")
+				)
+				(comment
+					(number "8")
+					(value "")
+				)
+				(comment
+					(number "9")
+					(value "")
+				)
+			)
+		)
+	)
+	(components
+		(comp
+			(ref "BT1")
+			(value "BATTERY_PADS")
+			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
+			(fields
+				(field
+					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Connector_Generic")
+				(part "Conn_01x02")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-000000000027")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C1")
+			(value "1000u")
+			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "CP")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-00000000001f")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C2")
+			(value "0.1u")
+			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "CP")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-000000000020")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C3")
+			(value "2200u")
+			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-000000000021")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C4")
+			(value "0.1u")
+			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "925ac019-f2f1-4356-b14d-d9a0f9a73749")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C5")
+			(value "2200u")
+			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-000000000023")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C6")
+			(value "47u")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "3d66e25c-e6eb-411c-afa7-0c8d740ddf9d")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C7")
+			(value "0.1u")
+			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "ce7e30a6-3f6f-4680-b07d-4534a8a70fca")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C8")
+			(value "0.1u")
+			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "47af8ef6-d874-4ec2-bfcf-966459a0b604")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C9")
+			(value "47u")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "68a1e97c-69d9-497e-994a-206f86ec48a8")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D1")
+			(value "LED")
+			(footprint "LED_THT:LED_D3.0mm")
+			(fields
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "LED")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-000000000024")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "PIR1")
+			(value "AM312_PIR")
+			(footprint "FallSensor:AM312_PIR")
+			(fields
+				(field
+					(name "Footprint") "FallSensor:AM312_PIR")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "FallSensor")
+				(part "AM312_PIR")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-000000000017")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R1")
+			(value "100k")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-00000000001a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R2")
+			(value "100k")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-00000000001b")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R3")
+			(value "270")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-00000000001c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RADAR1")
+			(value "C1001_Radar")
+			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical")
+			(fields
+				(field
+					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "FallSensor")
+				(part "C1001_Radar")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(variants
+				(variant
+					(name "LD2410")
+					(property
+						(name "dnp")
+						(value "1")
+					)
+				)
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-000000000012")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RADAR2")
+			(value "LD2410_Radar")
+			(footprint "FallSensor:LD2410_1.27mm")
+			(fields
+				(field
+					(name "Footprint") "FallSensor:LD2410_1.27mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "FallSensor")
+				(part "LD2410_Radar")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(variants
+				(variant
+					(name "C1001")
+					(property
+						(name "dnp")
+						(value "1")
+					)
+				)
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "74163fff-3cfb-428e-bd9a-0e6de9ec8ebb")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "SW1")
+			(value "SYNC")
+			(footprint "Button_Switch_THT:SW_PUSH_6mm")
+			(fields
+				(field
+					(name "Footprint") "Button_Switch_THT:SW_PUSH_6mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Switch")
+				(part "SW_Push")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-000000000025")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "SW2")
+			(value "LATCH_PWR")
+			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
+			(fields
+				(field
+					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Switch")
+				(part "SW_SPST")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-000000000026")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U1")
+			(value "ESP32_DevKit_V1")
+			(footprint "FallSensor:ESP32_DevKit_DOIT_2x15")
+			(fields
+				(field
+					(name "Footprint") "FallSensor:ESP32_DevKit_DOIT_2x15")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "FallSensor")
+				(part "ESP32_DevKit_V1")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-000000000010")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "16")
+						)
+						(pin
+							(num "17")
+						)
+						(pin
+							(num "18")
+						)
+						(pin
+							(num "19")
+						)
+						(pin
+							(num "20")
+						)
+						(pin
+							(num "21")
+						)
+						(pin
+							(num "22")
+						)
+						(pin
+							(num "23")
+						)
+						(pin
+							(num "24")
+						)
+						(pin
+							(num "25")
+						)
+						(pin
+							(num "26")
+						)
+						(pin
+							(num "27")
+						)
+						(pin
+							(num "28")
+						)
+						(pin
+							(num "29")
+						)
+						(pin
+							(num "30")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U2")
+			(value "Digispark_ATtiny85")
+			(footprint "FallSensor:Digispark_9Pin_RightAngle")
+			(fields
+				(field
+					(name "Footprint") "FallSensor:Digispark_9Pin_RightAngle")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "FallSensor")
+				(part "Digispark_ATtiny85")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-000000000011")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "9")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U3")
+			(value "MT3608_Module")
+			(footprint "FallSensor:MT3608_Module")
+			(fields
+				(field
+					(name "Footprint") "FallSensor:MT3608_Module")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "FallSensor")
+				(part "MT3608_Module")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-000000000014")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U4")
+			(value "TP4056_Module")
+			(footprint "FallSensor:TP4056_Module")
+			(fields
+				(field
+					(name "Footprint") "FallSensor:TP4056_Module")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "FallSensor")
+				(part "TP4056_Module")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-000000000015")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U5")
+			(value "LM393_Sound_Module")
+			(footprint "FallSensor:LM393_Sound_Module")
+			(fields
+				(field
+					(name "Footprint") "FallSensor:LM393_Sound_Module")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "FallSensor")
+				(part "LM393_Sound_Module")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d0d0d0d0-0000-4000-8000-000000000016")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U6")
+			(value "LoadSwitch_DBVT")
+			(footprint "Package_TO_SOT_SMD:SOT-23-6")
+			(fields
+				(field
+					(name "Footprint") "Package_TO_SOT_SMD:SOT-23-6")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "FallSensor")
+				(part "LoadSwitch_DBVT")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "a8dbb7d5-7c4f-4376-87a3-ef98b34e0991")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U7")
+			(value "Buck Converter")
+			(footprint "FallSensor:Mini360_Module")
+			(description "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(fields
+				(field
+					(name "Footprint") "FallSensor:Mini360_Module")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(libsource
+				(lib "Connector_Generic")
+				(part "Conn_01x04")
+				(description "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "Sheetname")
+				(value "fall_sensor")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fall_sensor.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Connector*:*_1x??_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "feeb9fa7-d222-49ee-bb6d-20d944a90a5a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+	)
+	(groups)
+	(variants
+		(variant
+			(name "C1001")
+		)
+		(variant
+			(name "LD2410")
+		)
+	)
+	(libparts
+		(libpart
+			(lib "Connector_Generic")
+			(part "Conn_01x02")
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "Conn_01x02")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "Pin_1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "Pin_2")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Connector_Generic")
+			(part "Conn_01x04")
+			(description "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(footprints
+				(fp "Connector*:*_1x??_*")
+			)
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "Conn_01x04")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "Pin_1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "Pin_2")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "Pin_3")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "Pin_4")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Device")
+			(part "C")
+			(fields
+				(field
+					(name "Reference") "C")
+				(field
+					(name "Value") "C")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Device")
+			(part "CP")
+			(fields
+				(field
+					(name "Reference") "C")
+				(field
+					(name "Value") "CP")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Device")
+			(part "LED")
+			(fields
+				(field
+					(name "Reference") "D")
+				(field
+					(name "Value") "LED")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "A")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "K")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Device")
+			(part "R")
+			(fields
+				(field
+					(name "Reference") "R")
+				(field
+					(name "Value") "R")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "FallSensor")
+			(part "AM312_PIR")
+			(fields
+				(field
+					(name "Reference") "PIR")
+				(field
+					(name "Value") "AM312_PIR")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "VCC")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "OUT")
+					(type "output")
+				)
+				(pin
+					(num "3")
+					(name "GND")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "FallSensor")
+			(part "C1001_Radar")
+			(fields
+				(field
+					(name "Reference") "RADAR")
+				(field
+					(name "Value") "C1001_Radar")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "VIN")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "TX")
+					(type "bidirectional")
+				)
+				(pin
+					(num "4")
+					(name "RX")
+					(type "input")
+				)
+				(pin
+					(num "5")
+					(name "OUT1")
+					(type "bidirectional")
+				)
+				(pin
+					(num "6")
+					(name "OUT2")
+					(type "bidirectional")
+				)
+			)
+		)
+		(libpart
+			(lib "FallSensor")
+			(part "Digispark_ATtiny85")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "Digispark_ATtiny85")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "P5/RESET")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "P4")
+					(type "input")
+				)
+				(pin
+					(num "3")
+					(name "P3")
+					(type "bidirectional")
+				)
+				(pin
+					(num "4")
+					(name "P2")
+					(type "output")
+				)
+				(pin
+					(num "5")
+					(name "P1")
+					(type "input")
+				)
+				(pin
+					(num "6")
+					(name "P0")
+					(type "output")
+				)
+				(pin
+					(num "7")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "8")
+					(name "VIN")
+					(type "power_in")
+				)
+				(pin
+					(num "9")
+					(name "5V")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "FallSensor")
+			(part "ESP32_DevKit_V1")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "ESP32_DevKit_V1")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "3V3")
+					(type "power_out")
+				)
+				(pin
+					(num "2")
+					(name "EN")
+					(type "input")
+				)
+				(pin
+					(num "3")
+					(name "GPIO36")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "GPIO39")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "GPIO34")
+					(type "input")
+				)
+				(pin
+					(num "6")
+					(name "GPIO35")
+					(type "passive")
+				)
+				(pin
+					(num "7")
+					(name "GPIO32")
+					(type "passive")
+				)
+				(pin
+					(num "8")
+					(name "GPIO33")
+					(type "input")
+				)
+				(pin
+					(num "9")
+					(name "GPIO25")
+					(type "input")
+				)
+				(pin
+					(num "10")
+					(name "GPIO26")
+					(type "input")
+				)
+				(pin
+					(num "11")
+					(name "GPIO27")
+					(type "output")
+				)
+				(pin
+					(num "12")
+					(name "GPIO14")
+					(type "passive")
+				)
+				(pin
+					(num "13")
+					(name "GPIO12")
+					(type "passive")
+				)
+				(pin
+					(num "14")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "15")
+					(name "GPIO13")
+					(type "input")
+				)
+				(pin
+					(num "16")
+					(name "VIN")
+					(type "power_in")
+				)
+				(pin
+					(num "17")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "18")
+					(name "GPIO23")
+					(type "passive")
+				)
+				(pin
+					(num "19")
+					(name "GPIO22")
+					(type "passive")
+				)
+				(pin
+					(num "20")
+					(name "TX0")
+					(type "passive")
+				)
+				(pin
+					(num "21")
+					(name "RX0")
+					(type "passive")
+				)
+				(pin
+					(num "22")
+					(name "GPIO21")
+					(type "passive")
+				)
+				(pin
+					(num "23")
+					(name "GPIO19")
+					(type "output")
+				)
+				(pin
+					(num "24")
+					(name "GPIO18")
+					(type "passive")
+				)
+				(pin
+					(num "25")
+					(name "GPIO5")
+					(type "passive")
+				)
+				(pin
+					(num "26")
+					(name "GPIO17")
+					(type "output")
+				)
+				(pin
+					(num "27")
+					(name "GPIO16")
+					(type "input")
+				)
+				(pin
+					(num "28")
+					(name "GPIO4")
+					(type "input")
+				)
+				(pin
+					(num "29")
+					(name "GPIO2")
+					(type "passive")
+				)
+				(pin
+					(num "30")
+					(name "GPIO15")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "FallSensor")
+			(part "LD2410_Radar")
+			(fields
+				(field
+					(name "Reference") "RADAR")
+				(field
+					(name "Value") "LD2410_Radar")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "VCC")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "TX")
+					(type "bidirectional")
+				)
+				(pin
+					(num "4")
+					(name "RX")
+					(type "input")
+				)
+				(pin
+					(num "5")
+					(name "OUT1")
+					(type "bidirectional")
+				)
+			)
+		)
+		(libpart
+			(lib "FallSensor")
+			(part "LM393_Sound_Module")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "LM393_Sound_Module")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "VCC")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "DO")
+					(type "output")
+				)
+				(pin
+					(num "4")
+					(name "AO")
+					(type "output")
+				)
+			)
+		)
+		(libpart
+			(lib "FallSensor")
+			(part "LoadSwitch_DBVT")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "LoadSwitch_DBVT")
+				(field
+					(name "Footprint") "Package_TO_SOT_SMD:SOT-23-6")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "VIN")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "EN")
+					(type "input")
+				)
+				(pin
+					(num "4")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "5")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "6")
+					(name "VOUT")
+					(type "power_out")
+				)
+			)
+		)
+		(libpart
+			(lib "FallSensor")
+			(part "MT3608_Module")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "MT3608_Module")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "VIN+")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "VIN-")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "VOUT+")
+					(type "power_out")
+				)
+				(pin
+					(num "4")
+					(name "GND")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "FallSensor")
+			(part "TP4056_Module")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "TP4056_Module")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "BAT+")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "BAT-")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "OUT+")
+					(type "power_out")
+				)
+				(pin
+					(num "4")
+					(name "OUT-")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "Switch")
+			(part "SW_Push")
+			(fields
+				(field
+					(name "Reference") "SW")
+				(field
+					(name "Value") "SW_Push")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "2")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Switch")
+			(part "SW_SPST")
+			(fields
+				(field
+					(name "Reference") "SW")
+				(field
+					(name "Value") "SW_SPST")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "2")
+					(type "passive")
+				)
+			)
+		)
+	)
+	(libraries
+		(library
+			(logical "Connector_Generic")
+			(uri "${KICAD10_SYMBOL_DIR}/Connector_Generic.kicad_sym")
+		)
+		(library
+			(logical "Device")
+			(uri "${KICAD10_SYMBOL_DIR}/Device.kicad_sym")
+		)
+		(library
+			(logical "FallSensor")
+			(uri "${KIPRJMOD}/FallSensor.kicad_sym")
+		)
+		(library
+			(logical "Switch")
+			(uri "${KICAD10_SYMBOL_DIR}/Switch.kicad_sym")
+		)
+	)
+	(nets
+		(net
+			(code "1")
+			(name "+3V3")
+			(class "Power,Default")
+			(node
+				(ref "C5")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C6")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C7")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C8")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C9")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "PIR1")
+				(pin "1")
+				(pinfunction "VCC_1")
+				(pintype "power_in")
+			)
+			(node
+				(ref "SW1")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "1")
+				(pinfunction "3V3_1")
+				(pintype "power_out")
+			)
+			(node
+				(ref "U5")
+				(pin "1")
+				(pinfunction "VCC_1")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U7")
+				(pin "3")
+				(pinfunction "Pin_3_3")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "2")
+			(name "+5V")
+			(class "Power,Default")
+			(node
+				(ref "C3")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C4")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "9")
+				(pinfunction "5V_9")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U3")
+				(pin "3")
+				(pinfunction "VOUT+_3")
+				(pintype "power_out")
+			)
+			(node
+				(ref "U6")
+				(pin "1")
+				(pinfunction "VIN_1")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U7")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "3")
+			(name "/BATT_ADC")
+			(class "Default")
+			(node
+				(ref "R1")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R2")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "5")
+				(pinfunction "GPIO34_5")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "4")
+			(name "/FALL")
+			(class "Default")
+			(node
+				(ref "RADAR1")
+				(pin "6")
+				(pinfunction "OUT2_6")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U1")
+				(pin "10")
+				(pinfunction "GPIO26_10")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "5")
+			(name "/MIC_WAKE")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "28")
+				(pinfunction "GPIO4_28")
+				(pintype "input")
+			)
+			(node
+				(ref "U2")
+				(pin "6")
+				(pinfunction "P0_6")
+				(pintype "output")
+			)
+		)
+		(net
+			(code "6")
+			(name "/PIR_WAKE")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "15")
+				(pinfunction "GPIO13_15")
+				(pintype "input")
+			)
+			(node
+				(ref "U2")
+				(pin "4")
+				(pinfunction "P2_4")
+				(pintype "output")
+			)
+		)
+		(net
+			(code "7")
+			(name "/PRESENCE")
+			(class "Default")
+			(node
+				(ref "RADAR1")
+				(pin "5")
+				(pinfunction "OUT1_5")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "RADAR2")
+				(pin "5")
+				(pinfunction "OUT1_5")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U1")
+				(pin "9")
+				(pinfunction "GPIO25_9")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "8")
+			(name "/RADAR_EN")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "11")
+				(pinfunction "GPIO27_11")
+				(pintype "output")
+			)
+			(node
+				(ref "U6")
+				(pin "3")
+				(pinfunction "EN_3")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "9")
+			(name "/RADAR_RX")
+			(class "Default")
+			(node
+				(ref "RADAR1")
+				(pin "4")
+				(pinfunction "RX_4")
+				(pintype "input")
+			)
+			(node
+				(ref "RADAR2")
+				(pin "4")
+				(pinfunction "RX_4")
+				(pintype "input")
+			)
+			(node
+				(ref "U1")
+				(pin "26")
+				(pinfunction "GPIO17_26")
+				(pintype "output")
+			)
+		)
+		(net
+			(code "10")
+			(name "/RADAR_TX")
+			(class "Default")
+			(node
+				(ref "RADAR1")
+				(pin "3")
+				(pinfunction "TX_3")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "RADAR2")
+				(pin "3")
+				(pinfunction "TX_3")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U1")
+				(pin "27")
+				(pinfunction "GPIO16_27")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "11")
+			(name "GND")
+			(class "Power,Default")
+			(node
+				(ref "C1")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C2")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C3")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C4")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C5")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C6")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C7")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C8")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C9")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "D1")
+				(pin "2")
+				(pinfunction "K_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "PIR1")
+				(pin "3")
+				(pinfunction "GND_3")
+				(pintype "power_in")
+			)
+			(node
+				(ref "R2")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "RADAR1")
+				(pin "2")
+				(pinfunction "GND_2")
+				(pintype "power_in")
+			)
+			(node
+				(ref "RADAR2")
+				(pin "2")
+				(pinfunction "GND_2")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U1")
+				(pin "14")
+				(pinfunction "GND_14")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U1")
+				(pin "17")
+				(pinfunction "GND_17")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U2")
+				(pin "7")
+				(pinfunction "GND_7")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U3")
+				(pin "2")
+				(pinfunction "VIN-_2")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U3")
+				(pin "4")
+				(pinfunction "GND_4")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U4")
+				(pin "4")
+				(pinfunction "OUT-_4")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U5")
+				(pin "2")
+				(pinfunction "GND_2")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U6")
+				(pin "2")
+				(pinfunction "GND_2")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U6")
+				(pin "4")
+				(pinfunction "GND_4")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U6")
+				(pin "5")
+				(pinfunction "GND_5")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U7")
+				(pin "2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U7")
+				(pin "4")
+				(pinfunction "Pin_4_4")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "12")
+			(name "Net-(BT1-Pin_1)")
+			(class "Default")
+			(node
+				(ref "BT1")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U4")
+				(pin "2")
+				(pinfunction "BAT-_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "13")
+			(name "Net-(BT1-Pin_2)")
+			(class "Default")
+			(node
+				(ref "BT1")
+				(pin "2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U4")
+				(pin "1")
+				(pinfunction "BAT+_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "14")
+			(name "Net-(D1-A)")
+			(class "Default")
+			(node
+				(ref "D1")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R3")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "15")
+			(name "Net-(PIR1-OUT)")
+			(class "Default")
+			(node
+				(ref "PIR1")
+				(pin "2")
+				(pinfunction "OUT_2")
+				(pintype "output")
+			)
+			(node
+				(ref "U2")
+				(pin "5")
+				(pinfunction "P1_5")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "16")
+			(name "Net-(RADAR1-VIN)")
+			(class "Default")
+			(node
+				(ref "RADAR1")
+				(pin "1")
+				(pinfunction "VIN_1")
+				(pintype "power_in")
+			)
+			(node
+				(ref "RADAR2")
+				(pin "1")
+				(pinfunction "VCC_1")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U6")
+				(pin "6")
+				(pinfunction "VOUT_6")
+				(pintype "power_out")
+			)
+		)
+		(net
+			(code "17")
+			(name "Net-(U1-GPIO19)")
+			(class "Default")
+			(node
+				(ref "R3")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "23")
+				(pinfunction "GPIO19_23")
+				(pintype "output")
+			)
+		)
+		(net
+			(code "18")
+			(name "Net-(U1-GPIO33)")
+			(class "Default")
+			(node
+				(ref "SW1")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "8")
+				(pinfunction "GPIO33_8")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "19")
+			(name "Net-(U2-P4)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "2")
+				(pinfunction "P4_2")
+				(pintype "input")
+			)
+			(node
+				(ref "U5")
+				(pin "3")
+				(pinfunction "DO_3")
+				(pintype "output")
+			)
+		)
+		(net
+			(code "20")
+			(name "Net-(U3-VIN+)")
+			(class "Default")
+			(node
+				(ref "SW2")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "1")
+				(pinfunction "VIN+_1")
+				(pintype "power_in")
+			)
+		)
+		(net
+			(code "21")
+			(name "Net-(U4-OUT+)")
+			(class "Default")
+			(node
+				(ref "C1")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C2")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R1")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "SW2")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U4")
+				(pin "3")
+				(pinfunction "OUT+_3")
+				(pintype "power_out")
+			)
+		)
+		(net
+			(code "22")
+			(name "unconnected-(U1-EN-Pad2)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "2")
+				(pinfunction "EN_2")
+				(pintype "input+no_connect")
+			)
+		)
+		(net
+			(code "23")
+			(name "unconnected-(U1-GPIO2-Pad29)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "29")
+				(pinfunction "GPIO2_29")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "24")
+			(name "unconnected-(U1-GPIO5-Pad25)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "25")
+				(pinfunction "GPIO5_25")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "25")
+			(name "unconnected-(U1-GPIO12-Pad13)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "13")
+				(pinfunction "GPIO12_13")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "26")
+			(name "unconnected-(U1-GPIO14-Pad12)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "12")
+				(pinfunction "GPIO14_12")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "27")
+			(name "unconnected-(U1-GPIO15-Pad30)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "30")
+				(pinfunction "GPIO15_30")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "28")
+			(name "unconnected-(U1-GPIO18-Pad24)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "24")
+				(pinfunction "GPIO18_24")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "29")
+			(name "unconnected-(U1-GPIO21-Pad22)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "22")
+				(pinfunction "GPIO21_22")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "30")
+			(name "unconnected-(U1-GPIO22-Pad19)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "19")
+				(pinfunction "GPIO22_19")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "31")
+			(name "unconnected-(U1-GPIO23-Pad18)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "18")
+				(pinfunction "GPIO23_18")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "32")
+			(name "unconnected-(U1-GPIO32-Pad7)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "7")
+				(pinfunction "GPIO32_7")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "33")
+			(name "unconnected-(U1-GPIO35-Pad6)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "6")
+				(pinfunction "GPIO35_6")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "34")
+			(name "unconnected-(U1-GPIO36-Pad3)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "3")
+				(pinfunction "GPIO36_3")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "35")
+			(name "unconnected-(U1-GPIO39-Pad4)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "4")
+				(pinfunction "GPIO39_4")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "36")
+			(name "unconnected-(U1-RX0-Pad21)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "21")
+				(pinfunction "RX0_21")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "37")
+			(name "unconnected-(U1-TX0-Pad20)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "20")
+				(pinfunction "TX0_20")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "38")
+			(name "unconnected-(U1-VIN-Pad16)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "16")
+				(pinfunction "VIN_16")
+				(pintype "power_in+no_connect")
+			)
+		)
+		(net
+			(code "39")
+			(name "unconnected-(U2-P3-Pad3)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "3")
+				(pinfunction "P3_3")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "40")
+			(name "unconnected-(U2-P5{slash}RESET-Pad1)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "1")
+				(pinfunction "P5/RESET_1")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "41")
+			(name "unconnected-(U2-VIN-Pad8)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "8")
+				(pinfunction "VIN_8")
+				(pintype "power_in+no_connect")
+			)
+		)
+		(net
+			(code "42")
+			(name "unconnected-(U5-AO-Pad4)")
+			(class "Default")
+			(node
+				(ref "U5")
+				(pin "4")
+				(pinfunction "AO_4")
+				(pintype "output+no_connect")
+			)
+		)
+	)
+)
