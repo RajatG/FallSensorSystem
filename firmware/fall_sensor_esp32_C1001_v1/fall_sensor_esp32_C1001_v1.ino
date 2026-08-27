@@ -1,4 +1,4 @@
-// VERSION: v4.20 - Remove 10s hu.begin() blocking delay for fast 4s C1001 Early Exit (2026-08-24)
+// VERSION: v4.21 - Trigger-Aware Early Exit + MIC Wake in Periodic Sleep (2026-08-27)
 
 #include <WiFi.h>
 #include <ArduinoOTA.h>
@@ -227,9 +227,9 @@ void goToSleep(bool infinite) {
       uint64_t bitmask = (1ULL << PIR_WAKE_PIN) | (1ULL << MIC_WAKE_PIN) | (1ULL << SYNC_BUTTON_PIN);
       esp_sleep_enable_ext1_wakeup(bitmask, ESP_EXT1_WAKEUP_ANY_HIGH);
   } else {
-      // Periodic 60s sleep: TIMER ONLY, no PIR/MIC interruptions.
-      // Only the sync button can break a periodic sleep.
-      uint64_t bitmask = (1ULL << SYNC_BUTTON_PIN);
+      // Periodic 60s sleep: Allow Acoustic Impact THUD (MIC) and SYNC button to interrupt immediately!
+      // (PIR walking motion is ignored to prevent battery drain in occupied room)
+      uint64_t bitmask = (1ULL << SYNC_BUTTON_PIN) | (1ULL << MIC_WAKE_PIN);
       esp_sleep_enable_ext1_wakeup(bitmask, ESP_EXT1_WAKEUP_ANY_HIGH);
       esp_sleep_enable_timer_wakeup(PERIODIC_SLEEP_SEC * 1000000ULL);
   }
@@ -292,7 +292,7 @@ void setup() {
   digitalWrite(RADAR_MOSFET_PIN, LOW);
   digitalWrite(FALL_LED_PIN, LOW);
 
-  BLEDevice::init("Fall_Sensor_C1001_v4.20");
+  BLEDevice::init("Fall_Sensor_C1001_v4.21");
   pServer = BLEDevice::createServer();
   pServer->setCallbacks(new MyServerCallbacks());
   BLEService *pService = pServer->createService(SERVICE_UUID);
@@ -566,16 +566,34 @@ void loop() {
           }
       }
       
-      // --- Smart Radar Early Exit Strategy ---
-      // Allow 2.5 seconds for C1001 radar UART response to stabilize.
-      // If room presence is confirmed and NO fall alarm is pending (!fallConfirmed),
-      // we perform an early exit and return to sleep immediately (saving ~90% active battery energy!).
-      bool isWarm = (millis() - radarTurnedOnTime > 2500);
-      bool earlyExitEligible = isWarm && presenceDetected && !fallConfirmed;
-      bool snapshotTimeout = (millis() - radarTurnedOnTime > 30000);
+      // --- Trigger-Aware Smart Radar Early Exit Strategy ---
+      // 1. MIC_THUD (Impact): Early exit is DISABLED. Must observe full 25s window for fall/motionless state!
+      // 2. Debug Mode (Testing): 15s observation window so falls can be staged easily during test.
+      // 3. PIR_WALK_IN: 8s window to observe person entering room.
+      // 4. PERIODIC_TIMER (Routine Heartbeat): Fast 2.5s early exit for max battery life.
+      unsigned long minObservationTime = 2500;
+      bool allowEarlyExit = true;
+
+      if (currentTrigger == MIC_THUD) {
+          allowEarlyExit = false; // High-priority acoustic impact: stay on for full fall evaluation!
+      } else if (debugMode) {
+          minObservationTime = 15000; // 15s in debug mode for comfortable live testing
+      } else if (currentTrigger == PIR_WALK_IN) {
+          minObservationTime = 8000;  // 8s for walk-in verification
+      } else {
+          minObservationTime = 2500;  // 2.5s for routine periodic check
+      }
+
+      bool isWarm = (millis() - radarTurnedOnTime > minObservationTime);
+      bool earlyExitEligible = allowEarlyExit && isWarm && presenceDetected && !fallConfirmed;
+      bool snapshotTimeout = (millis() - radarTurnedOnTime > 25000);
       
       if (earlyExitEligible || snapshotTimeout) {
-          String checkLabel = (currentTrigger == BOOT) ? "Startup" : "Periodic";
+          String checkLabel = "Check";
+          if (currentTrigger == BOOT) checkLabel = "Startup";
+          else if (currentTrigger == PERIODIC_TIMER) checkLabel = "Periodic";
+          else if (currentTrigger == PIR_WALK_IN) checkLabel = "PIR Walk-In";
+          else if (currentTrigger == MIC_THUD) checkLabel = "MIC Thud Fall Evaluation";
           
           if (presenceDetected) {
               if (!wasOccupied) {
@@ -584,7 +602,7 @@ void loop() {
               wasOccupied = true;
               String msg = earlyExitEligible 
                   ? "[SYS]: Fast Occupancy Confirmed (Early Exit at " + String(millis() - radarTurnedOnTime) + "ms). Sleeping for 60s.\n"
-                  : "[SYS]: " + checkLabel + " Check Complete. Room occupied. Sleeping for 60s.\n";
+                  : "[SYS]: " + checkLabel + " Complete. Room occupied. Sleeping for 60s.\n";
               sendBLENotification(msg.c_str());
               goToSleep(false);  // 60s periodic sleep
           } else {
@@ -594,7 +612,7 @@ void loop() {
                   sendBLENotification("[SYS]: Person left the room.\n");
               }
               wasOccupied = false;
-              String msg = "[SYS]: " + checkLabel + " Check Complete. Room empty. Sleeping indefinitely.\n";
+              String msg = "[SYS]: " + checkLabel + " Complete. Room empty. Sleeping indefinitely.\n";
               sendBLENotification(msg.c_str());
               goToSleep(true);  // Infinite sleep
           }
