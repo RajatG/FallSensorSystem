@@ -177,4 +177,17 @@ class BleManager(private val context: Context, private val bluetoothAdapter: Blu
         characteristic.value = "OTA_ON".toByteArray(Charsets.UTF_8)
         gatt.writeCharacteristic(characteristic)
     }
+
+    /**
+     * Sends the ceiling / room height to the sensor (e.g. SET:HEIGHT:274).
+     */
+    fun sendRoomHeight(heightFeet: Float) {
+        val gatt = bluetoothGatt ?: return
+        val service = gatt.getService(SERVICE_UUID) ?: return
+        val characteristic = service.getCharacteristic(CHAR_UUID) ?: return
+
+        val heightCm = (heightFeet * 30.48f).toInt()
+        characteristic.value = "SET:HEIGHT:$heightCm".toByteArray(Charsets.UTF_8)
+        gatt.writeCharacteristic(characteristic)
+    }
 }

@@ -1,4 +1,4 @@
-// VERSION: v4.21 - Trigger-Aware Early Exit + MIC Wake in Periodic Sleep (2026-08-27)
+// VERSION: v4.22 - Ceiling Height Setting (9ft Default) + Floor-Level Static Fall Detection (2026-08-27)
 
 #include <WiFi.h>
 #include <ArduinoOTA.h>
@@ -8,6 +8,13 @@
 #include <BLE2902.h>
 #include <ld2410.h>
 #include <driver/rtc_io.h>
+
+// --- USER CONFIGURABLE CEILING & ROOM HEIGHT SETTINGS ---
+// Default: 9 feet = 274 cm (persists across deep sleep cycles in RTC memory)
+RTC_DATA_ATTR int roomHeightCm = 274;         
+RTC_DATA_ATTR int floorToleranceCm = 45;      // Target detected between (roomHeight - 45) and (roomHeight + 35) is at floor level
+RTC_DATA_ATTR int floorLyingConsecutiveChecks = 0; // Number of consecutive periodic checks target remains on floor
+const int FLOOR_LYING_ALERT_THRESHOLD = 2;   // 2 consecutive checks (~60-120s) triggers static fall alarm
 
 // --- HARDWARE PINS ---
 #define PIR_WAKE_PIN     13  
@@ -152,6 +159,15 @@ class MyCallbacks: public BLECharacteristicCallbacks {
           debugMode = false;
           pChar->setValue("Debug Mode: DISABLED\n");
           pChar->notify();
+        }
+        else if (rxValue.startsWith("SET:HEIGHT:")) {
+          int newH = rxValue.substring(11).toInt();
+          if (newH >= 150 && newH <= 500) {
+              roomHeightCm = newH;
+              String reply = "[CFG] Room Height set to " + String(roomHeightCm) + " cm (" + String(roomHeightCm / 30.48, 1) + " ft)\n";
+              pChar->setValue(reply.c_str());
+              pChar->notify();
+          }
         }
         else if (rxValue.indexOf("OTA_ON") != -1) {
           if (otaActive || otaConnecting || requestOtaStart) {
@@ -298,7 +314,7 @@ void setup() {
   digitalWrite(RADAR_MOSFET_PIN, LOW);
   digitalWrite(FALL_LED_PIN, LOW);
 
-  BLEDevice::init("Fall_Sensor_LD2410_v4.21");
+  BLEDevice::init("Fall_Sensor_LD2410_v4.22");
   pServer = BLEDevice::createServer();
   pServer->setCallbacks(new MyServerCallbacks());
   BLEService *pService = pServer->createService(SERVICE_UUID);
@@ -542,6 +558,12 @@ void loop() {
               }
           }
 
+          uint16_t currentDist = radar.detectionDistance();
+          bool isAtFloorLevel = false;
+          if (currentDist > 0 && currentDist >= (roomHeightCm - floorToleranceCm) && currentDist <= (roomHeightCm + 35)) {
+              isAtFloorLevel = true;
+          }
+
           if (isMoving) {
               // Only track as meaningful movement if energy is above threshold
               // (filters out noise/ghost detections that cause false falls)
@@ -550,6 +572,7 @@ void loop() {
                   wasMoving = true;
               }
               fallCandidate = false;
+              if (floorLyingConsecutiveChecks > 0) floorLyingConsecutiveChecks = 0;
           }
           else if (!isMoving && wasMoving && isStationary) {
               motionLostTime = millis();
@@ -577,6 +600,24 @@ void loop() {
                   fallCandidate = false;
               }
               else if (!isStationary) fallCandidate = false;
+          } else if (isAtFloorLevel && isStationary) {
+              // Static floor-level presence detection (catches falls even if acoustic MIC_THUD was missed)
+              if (floorLyingConsecutiveChecks == 0) {
+                  String warnMsg = "[WARN]: Potential Fall - Subject detected at floor level (" + String(currentDist) + "cm from ceiling). Monitoring...\n";
+                  sendBLENotification(warnMsg.c_str());
+              }
+              floorLyingConsecutiveChecks++;
+              
+              if (floorLyingConsecutiveChecks >= FLOOR_LYING_ALERT_THRESHOLD) {
+                  if (!fallConfirmed) {
+                      fallConfirmed = true;
+                      sustainedMoveStartTime = 0;
+                      String alertMsg = "ALERT: FALL DETECTED (Static Floor Level Presence for >60s at " + String(currentDist) + "cm)!\n";
+                      sendBLENotification(alertMsg.c_str());
+                  }
+              }
+          } else if (currentDist > 0 && currentDist < (roomHeightCm - floorToleranceCm)) {
+              if (floorLyingConsecutiveChecks > 0) floorLyingConsecutiveChecks = 0;
           }
 
           if (fallConfirmed) {
@@ -587,7 +628,8 @@ void loop() {
               }
 
               // Recovery check: require 5 continuous seconds of active walking movement
-              if (isMoving && radar.movingTargetEnergy() > 40) {
+              bool activeWalking = isMoving && (radar.movingTargetEnergy() > 30);
+              if (activeWalking) {
                   if (sustainedMoveStartTime == 0) {
                       sustainedMoveStartTime = millis();
                   } else if (millis() - sustainedMoveStartTime > 5000) {
@@ -603,15 +645,18 @@ void loop() {
       }
       
       // --- Trigger-Aware Smart Radar Early Exit Strategy ---
-      // 1. MIC_THUD (Impact): Early exit is DISABLED. Must observe full 25s window for fall/motionless state!
+      // 1. MIC_THUD (Impact) or Floor Level Presence: Early exit is DISABLED.
       // 2. Debug Mode (Testing): 15s observation window so falls can be staged easily during test.
       // 3. PIR_WALK_IN: 8s window to observe person entering room.
       // 4. PERIODIC_TIMER (Routine Heartbeat): Fast 2.5s early exit for max battery life.
       unsigned long minObservationTime = 2500;
       bool allowEarlyExit = true;
 
-      if (currentTrigger == MIC_THUD) {
-          allowEarlyExit = false; // High-priority acoustic impact: stay on for full fall evaluation!
+      uint16_t distCheck = radar.detectionDistance();
+      bool targetAtFloor = (distCheck > 0 && distCheck >= (roomHeightCm - floorToleranceCm) && distCheck <= (roomHeightCm + 35));
+
+      if (currentTrigger == MIC_THUD || targetAtFloor) {
+          allowEarlyExit = false; // High-priority acoustic impact or subject on floor: stay on for full fall evaluation!
       } else if (debugMode) {
           minObservationTime = 15000; // 15s in debug mode for comfortable live testing
       } else if (currentTrigger == PIR_WALK_IN) {

@@ -417,6 +417,7 @@ fun SettingsDialog(
     var micDuration by remember { mutableStateOf((currentSettings.micLedDurationMs / 1000).toString()) }
     var maxV by remember { mutableStateOf(currentSettings.maxVoltage.toString()) }
     var minV by remember { mutableStateOf(currentSettings.minVoltage.toString()) }
+    var roomHeight by remember { mutableStateOf(currentSettings.roomHeightFeet.toString()) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -426,6 +427,7 @@ fun SettingsDialog(
                 modifier = Modifier.verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
+                SettingsField("Ceiling / Room Height (feet)", roomHeight) { roomHeight = it }
                 SettingsField("Battery Capacity (mAh)", battCapacity) { battCapacity = it }
                 SettingsField("Low Battery Alert (%)", lowThreshold) { lowThreshold = it }
                 SettingsField("Critical Battery Alert (%)", critThreshold) { critThreshold = it }
@@ -445,7 +447,8 @@ fun SettingsDialog(
                         pirLedDurationMs = (pirDuration.toLongOrNull() ?: 5) * 1000,
                         micLedDurationMs = (micDuration.toLongOrNull() ?: 5) * 1000,
                         maxVoltage = maxV.toFloatOrNull() ?: 4.2f,
-                        minVoltage = minV.toFloatOrNull() ?: 3.0f
+                        minVoltage = minV.toFloatOrNull() ?: 3.0f,
+                        roomHeightFeet = roomHeight.toFloatOrNull() ?: 9.0f
                     ))
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = NormalGreen)

@@ -1,4 +1,4 @@
-// VERSION: v4.21 - Trigger-Aware Early Exit + MIC Wake in Periodic Sleep (2026-08-27)
+// VERSION: v4.22 - Ceiling Height Setting (9ft Default) + Floor-Level Static Fall Detection (2026-08-27)
 
 #include <WiFi.h>
 #include <ArduinoOTA.h>
@@ -8,6 +8,13 @@
 #include <BLE2902.h>
 #include <DFRobot_HumanDetection.h>
 #include <driver/rtc_io.h>
+
+// --- USER CONFIGURABLE CEILING & ROOM HEIGHT SETTINGS ---
+// Default: 9 feet = 274 cm (persists across deep sleep cycles in RTC memory)
+RTC_DATA_ATTR int roomHeightCm = 274;         
+RTC_DATA_ATTR int floorToleranceCm = 45;      // Target detected between (roomHeight - 45) and (roomHeight + 35) is at floor level
+RTC_DATA_ATTR int floorLyingConsecutiveChecks = 0; // Number of consecutive periodic checks target remains on floor
+const int FLOOR_LYING_ALERT_THRESHOLD = 2;   // 2 consecutive checks (~60-120s) triggers static fall alarm
 
 // --- HARDWARE PINS ---
 #define PIR_WAKE_PIN     13  
@@ -147,6 +154,15 @@ class MyCallbacks: public BLECharacteristicCallbacks {
           debugMode = false;
           pChar->setValue("Debug Mode: DISABLED\n");
           pChar->notify();
+        }
+        else if (rxValue.startsWith("SET:HEIGHT:")) {
+          int newH = rxValue.substring(11).toInt();
+          if (newH >= 150 && newH <= 500) {
+              roomHeightCm = newH;
+              String reply = "[CFG] Room Height set to " + String(roomHeightCm) + " cm (" + String(roomHeightCm / 30.48, 1) + " ft)\n";
+              pChar->setValue(reply.c_str());
+              pChar->notify();
+          }
         }
         else if (rxValue.indexOf("OTA_ON") != -1) {
           if (otaActive || otaConnecting || requestOtaStart) {
@@ -292,7 +308,7 @@ void setup() {
   digitalWrite(RADAR_MOSFET_PIN, LOW);
   digitalWrite(FALL_LED_PIN, LOW);
 
-  BLEDevice::init("Fall_Sensor_C1001_v4.21");
+  BLEDevice::init("Fall_Sensor_C1001_v4.22");
   pServer = BLEDevice::createServer();
   pServer->setCallbacks(new MyServerCallbacks());
   BLEService *pService = pServer->createService(SERVICE_UUID);
@@ -517,6 +533,17 @@ void loop() {
       uint16_t dist = 0;
       if (uartPresence) { 
           dist = hu.dmHumanData(hu.eMotionHorizontalDistance); 
+          if (dist == 0) {
+              dist = hu.smHumanData(hu.eHumanDistance); // direct line-of-sight distance from ceiling
+          }
+      }
+
+      // Check if target is at floor level (e.g. 9ft room: 274cm - 45cm = 229cm to 274cm + 35cm = 309cm)
+      bool isAtFloorLevel = false;
+      if (presenceDetected && dist > 0) {
+          if (dist >= (roomHeightCm - floorToleranceCm) && dist <= (roomHeightCm + 35)) {
+              isAtFloorLevel = true;
+          }
       }
 
       if (debugMode) {
@@ -524,7 +551,9 @@ void loop() {
           bool valuesChanged = (rawPin25 != lastLoggedHWPres) || (uartPresence != lastLoggedUARTPres) || (rawPin26 != lastLoggedHWFall) || (uartFall != lastLoggedUARTFall) || (dist != lastLoggedDist);
           bool heartbeatDue = (millis() - lastHeartbeatLog > HEARTBEAT_LOG_INTERVAL);
           if (valuesChanged || heartbeatDue) {
-              String logMsg = "[RADAR] Pin25_RAW: " + String(rawPin25) + " | Pin26_RAW: " + String(rawPin26) + " | UART Pres: " + String(uartPresence) + " | UART Fall: " + String(uartFall) + " | Dist: " + String(dist) + "cm\n";
+              String logMsg = "[RADAR] Pin25_RAW: " + String(rawPin25) + " | Pin26_RAW: " + String(rawPin26) + " | UART Pres: " + String(uartPresence) + " | UART Fall: " + String(uartFall) + " | Dist: " + String(dist) + "cm";
+              if (isAtFloorLevel) logMsg += " [FLOOR LEVEL]";
+              logMsg += "\n";
               sendBLENotification(logMsg.c_str());
               lastLoggedHWPres = rawPin25;
               lastLoggedUARTPres = uartPresence;
@@ -539,7 +568,35 @@ void loop() {
           if (!fallConfirmed) {
               fallConfirmed = true;
               sustainedMoveStartTime = 0;
-              sendBLENotification("ALERT: FALL DETECTED!\n");
+              sendBLENotification("ALERT: FALL DETECTED (Dynamic Fall Event)!\n");
+          }
+      } else if (isAtFloorLevel) {
+          // Static floor-level presence detection (catches falls even if acoustic MIC_THUD was missed)
+          if (floorLyingConsecutiveChecks == 0) {
+              String warnMsg = "[WARN]: Potential Fall - Subject detected at floor level (" + String(dist) + "cm from ceiling). Monitoring...\n";
+              sendBLENotification(warnMsg.c_str());
+          }
+          floorLyingConsecutiveChecks++;
+          
+          if (floorLyingConsecutiveChecks >= FLOOR_LYING_ALERT_THRESHOLD) {
+              if (!fallConfirmed) {
+                  fallConfirmed = true;
+                  sustainedMoveStartTime = 0;
+                  String alertMsg = "ALERT: FALL DETECTED (Static Floor Level Presence for >60s at " + String(dist) + "cm)!\n";
+                  sendBLENotification(alertMsg.c_str());
+              }
+          }
+      } else if (presenceDetected && dist > 0 && dist < (roomHeightCm - floorToleranceCm)) {
+          // Person is standing or sitting (distance from ceiling is well above floor level)
+          if (floorLyingConsecutiveChecks > 0) {
+              floorLyingConsecutiveChecks = 0;
+          }
+          if (fallConfirmed) {
+              fallConfirmed = false;
+              sustainedMoveStartTime = 0;
+              digitalWrite(FALL_LED_PIN, HIGH);
+              String clearMsg = "[FALL] Cleared: Person stood up (height now " + String(dist) + "cm from ceiling).\n";
+              sendBLENotification(clearMsg.c_str());
           }
       }
 
@@ -574,8 +631,8 @@ void loop() {
       unsigned long minObservationTime = 2500;
       bool allowEarlyExit = true;
 
-      if (currentTrigger == MIC_THUD) {
-          allowEarlyExit = false; // High-priority acoustic impact: stay on for full fall evaluation!
+      if (currentTrigger == MIC_THUD || isAtFloorLevel) {
+          allowEarlyExit = false; // High-priority acoustic impact or subject on floor: stay on for full fall evaluation!
       } else if (debugMode) {
           minObservationTime = 15000; // 15s in debug mode for comfortable live testing
       } else if (currentTrigger == PIR_WALK_IN) {

@@ -33,7 +33,8 @@ data class SensorSettings(
     val pirLedDurationMs: Long = 5000,
     val micLedDurationMs: Long = 5000,
     val maxVoltage: Float = 4.2f,
-    val minVoltage: Float = 3.0f
+    val minVoltage: Float = 3.0f,
+    val roomHeightFeet: Float = 9.0f // 9 feet default (274 cm) for ceiling-mounted floor detection
 )
 
 /**
@@ -317,6 +318,10 @@ class MainViewModel(private val bleManager: BleManager) : ViewModel() {
 
     fun updateSettings(newSettings: SensorSettings) {
         _settings.value = newSettings
+        // Send room height to sensor over BLE
+        if (newSettings.roomHeightFeet > 0) {
+            bleManager.sendRoomHeight(newSettings.roomHeightFeet)
+        }
         // Recalculate battery percent with new thresholds
         _batteryVoltage.value?.let { v ->
             val pct = ((v - newSettings.minVoltage) / (newSettings.maxVoltage - newSettings.minVoltage) * 100).coerceIn(0f, 100f).toInt()
