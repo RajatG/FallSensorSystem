@@ -1,4 +1,4 @@
-// VERSION: v4.22 - Ceiling Height Setting (9ft Default) + Floor-Level Static Fall Detection (2026-08-27)
+// VERSION: v4.23 - Gradual Posture Collapse Detection (Silent Fall Fix) (2026-09-02)
 
 #include <WiFi.h>
 #include <ArduinoOTA.h>
@@ -15,6 +15,8 @@ RTC_DATA_ATTR int roomHeightCm = 274;
 RTC_DATA_ATTR int floorToleranceCm = 45;      // Target detected between (roomHeight - 45) and (roomHeight + 35) is at floor level
 RTC_DATA_ATTR int floorLyingConsecutiveChecks = 0; // Number of consecutive periodic checks target remains on floor
 const int FLOOR_LYING_ALERT_THRESHOLD = 2;   // 2 consecutive checks (~60-120s) triggers static fall alarm
+RTC_DATA_ATTR int lastStandingDistCm = 0;          // Last distance when person was in standing zone
+RTC_DATA_ATTR unsigned long lastStandingTime = 0;   // millis() when last seen standing
 
 // --- HARDWARE PINS ---
 #define PIR_WAKE_PIN     13  
@@ -564,6 +566,26 @@ void loop() {
               isAtFloorLevel = true;
           }
 
+          // --- Posture Transition Tracking (Silent Fall / Gradual Collapse Detection) ---
+          // Track when person was last at standing height (well above floor)
+          if (!isAtFloorLevel && (presenceDetected || radar.presenceDetected()) && currentDist > 0 && currentDist < (roomHeightCm - floorToleranceCm)) {
+              lastStandingDistCm = currentDist;
+              lastStandingTime = millis();
+          }
+          
+          // Detect rapid standing-to-floor transition (gradual collapse)
+          if (isAtFloorLevel && lastStandingDistCm > 0 && lastStandingTime > 0) {
+              unsigned long transitionTime = millis() - lastStandingTime;
+              if (transitionTime > 0 && transitionTime < 30000) {  // Standing-to-floor in < 30s
+                  if (!fallConfirmed) {
+                      fallConfirmed = true;
+                      sustainedMoveStartTime = 0;
+                      String msg = "ALERT: FALL DETECTED (Gradual Posture Collapse in " + String(transitionTime/1000) + "s)!\n";
+                      sendBLENotification(msg.c_str());
+                  }
+              }
+          }
+
           if (isMoving) {
               // Only track as meaningful movement if energy is above threshold
               // (filters out noise/ghost detections that cause false falls)
@@ -618,6 +640,15 @@ void loop() {
               }
           } else if (currentDist > 0 && currentDist < (roomHeightCm - floorToleranceCm)) {
               if (floorLyingConsecutiveChecks > 0) floorLyingConsecutiveChecks = 0;
+              if (fallConfirmed) {
+                  fallConfirmed = false;
+                  sustainedMoveStartTime = 0;
+                  lastStandingDistCm = 0;
+                  lastStandingTime = 0;
+                  digitalWrite(FALL_LED_PIN, HIGH);
+                  String clearMsg = "[FALL] Cleared: Person stood up (height now " + String(currentDist) + "cm from ceiling).\n";
+                  sendBLENotification(clearMsg.c_str());
+              }
           }
 
           if (fallConfirmed) {
@@ -635,6 +666,8 @@ void loop() {
                   } else if (millis() - sustainedMoveStartTime > 5000) {
                       fallConfirmed = false;
                       sustainedMoveStartTime = 0;
+                      lastStandingDistCm = 0;
+                      lastStandingTime = 0;
                       digitalWrite(FALL_LED_PIN, HIGH);
                       sendBLENotification("[FALL] Cleared: Sustained movement detected (person recovered).\n");
                   }
