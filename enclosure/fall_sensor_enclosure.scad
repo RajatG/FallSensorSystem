@@ -33,10 +33,10 @@ total_h = base_h + lid_h;                 // 31.4 mm
 // PCB_rel_x = KiCad_x - 50;  PCB_rel_y = 130 - KiCad_y
 // =================================================================
 
-// 1. AM312 PIR Fresnel Dome Aperture
-//    KiCad: (125.5, 58.25) → PCB_rel: (75.5, 71.75)
-pir_x = 75.5;
-pir_y = 71.75;
+// 1. AM312 PIR Fresnel Dome Aperture (Flipped into open PCB space)
+//    KiCad: (134.0, 60.79) → PCB_rel: (84.0, 69.2)
+pir_x = 84.0;
+pir_y = 69.2;
 pir_dia = 12.0;   // 10mm dome + 2mm clearance
 
 // 2. C1001 60GHz Radar RF Window
