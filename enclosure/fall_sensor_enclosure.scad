@@ -138,12 +138,12 @@ module enclosure_base() {
         translate([0, -keyhole_spacing/2, -0.5]) keyhole();
         translate([0,  keyhole_spacing/2 - 10, -0.5]) keyhole();
 
-        // USB-C Cutout on bottom wall (Y = -outer_d/2)
-        translate([pcb_ox + usb_x, -outer_d/2, floor_thick + standoff_height + pcb_thickness])
-            cube([usb_w, wall*2 + 2, usb_h], center=true);
+        // USB-C Cutout on left wall (X = -outer_w/2, matching U4 TP4056 position)
+        translate([-outer_w/2, -32.3, floor_thick + standoff_height + pcb_thickness + 1.6])
+            cube([wall*2 + 2, usb_w, usb_h], center=true);
 
-        // Power Switch Cutout on left wall (X = -outer_w/2)
-        translate([-outer_w/2, pcb_oy + sw_y, floor_thick + standoff_height + pcb_thickness + 1.0])
+        // Power Switch Cutout on left wall (X = -outer_w/2, below USB-C)
+        translate([-outer_w/2, -43.0, floor_thick + standoff_height + pcb_thickness + 1.6])
             cube([wall*2 + 2, sw_w, sw_h], center=true);
 
         // Ventilation Slots — Right wall (X = +outer_w/2)
