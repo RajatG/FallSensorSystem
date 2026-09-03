@@ -216,13 +216,13 @@ def test_enclosure_visual_and_framing_lock():
     if "0.58, 0.62, 0.67" not in content:
         return False, "Studio floor color has drifted! Must remain locked to (0.58, 0.62, 0.67)."
         
-    # 3. Studio camera zoom lock: cam_obj.location = (0, -285.0, 235.0)
-    if "(0, -285.0, 235.0)" not in content:
-        return False, "Studio camera framing has drifted! Must remain locked to (0, -285.0, 235.0)."
+    # 3. Studio camera zoom lock: cam_obj.location = (0, -320.0, 260.0)
+    if "(0, -320.0, 260.0)" not in content:
+        return False, "Studio camera framing has drifted! Must remain locked to (0, -320.0, 260.0)."
         
-    # 4. Wallmount camera zoom lock: cam_obj.location = (0, -210.0, 175.0)
-    if "(0, -210.0, 175.0)" not in content:
-        return False, "Wallmount camera framing has drifted! Must remain locked to (0, -210.0, 175.0)."
+    # 4. Wallmount camera zoom lock: cam_obj.location = (0, -240.0, 200.0)
+    if "(0, -240.0, 200.0)" not in content:
+        return False, "Wallmount camera framing has drifted! Must remain locked to (0, -240.0, 200.0)."
         
     # 5. Battery cradle divider lock: bat_len = 79.5 mm
     if "bat_len = 79.5" not in content:
