@@ -177,7 +177,7 @@ def test_port_and_aperture_alignment():
         if not fp:
             return False, f"Missing critical component for enclosure alignment: {ref}"
             
-    return True, "All 7 functional ports and sensors (USB-C, Switch, PIR, Radar, LED, Mic, Button) present and mapped"
+    return True, "All functional ports, sensors, and headers (USB-C, Switch Header, PIR, Radar, LED, Mic, Button) present and mapped"
 
 # -------------------------------------------------------------
 # Test 6: Deliverable File Integrity
