@@ -198,6 +198,43 @@ def test_deliverable_assets():
     return True, "All manufacturing assets (Gerbers, 1:1 A4 PDF, Base STL, Lid STL) exist and valid size"
 
 # -------------------------------------------------------------
+# Test 7: Enclosure Visual & Framing Parameter Lock
+# -------------------------------------------------------------
+def test_enclosure_visual_and_framing_lock():
+    script_path = os.path.join(os.path.dirname(BASE_DIR), "fall_sensor", "build_square_enclosure.py")
+    if not os.path.exists(script_path):
+        return False, f"Enclosure generator script not found: {script_path}"
+        
+    with open(script_path, "r", encoding="utf-8") as f:
+        content = f.read()
+        
+    # 1. Background color lock: (0.68, 0.71, 0.75)
+    if "0.68, 0.71, 0.75" not in content:
+        return False, "World background color has drifted! Must remain locked to (0.68, 0.71, 0.75)."
+        
+    # 2. Studio floor color lock: (0.58, 0.62, 0.67)
+    if "0.58, 0.62, 0.67" not in content:
+        return False, "Studio floor color has drifted! Must remain locked to (0.58, 0.62, 0.67)."
+        
+    # 3. Studio camera zoom lock: cam_obj.location = (0, -285.0, 235.0)
+    if "(0, -285.0, 235.0)" not in content:
+        return False, "Studio camera framing has drifted! Must remain locked to (0, -285.0, 235.0)."
+        
+    # 4. Wallmount camera zoom lock: cam_obj.location = (0, -210.0, 175.0)
+    if "(0, -210.0, 175.0)" not in content:
+        return False, "Wallmount camera framing has drifted! Must remain locked to (0, -210.0, 175.0)."
+        
+    # 5. Battery cradle divider lock: bat_len = 79.5 mm
+    if "bat_len = 79.5" not in content:
+        return False, "Battery cradle divider length has drifted! Must remain locked to 79.5 mm."
+        
+    # 6. Standoff height lock: standoff_h = 5.0 mm
+    if "standoff_h = 5.0" not in content:
+        return False, "PCB standoff height has drifted! Must remain locked to 5.0 mm."
+        
+    return True, "All visual styling, camera zoom framing, and standoff dimensions are 100% locked and verified"
+
+# -------------------------------------------------------------
 # Main Runner
 # -------------------------------------------------------------
 def run_all_tests():
@@ -211,7 +248,8 @@ def run_all_tests():
         ("3. Enclosure Standoff Clearance Verification", test_standoff_and_boss_clearances),
         ("4. 79mm Battery Cradle & PIR Non-Interference", test_battery_cradle_dimensions),
         ("5. PCB ↔ Enclosure Port & Aperture Alignment", test_port_and_aperture_alignment),
-        ("6. Production Deliverables & Assets Integrity", test_deliverable_assets)
+        ("6. Production Deliverables & Assets Integrity", test_deliverable_assets),
+        ("7. Enclosure Visual & Framing Parameter Lock", test_enclosure_visual_and_framing_lock)
     ]
     
     results = []
