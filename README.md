@@ -32,9 +32,12 @@ An ultra-low-power, dual-radar fall detection and room occupancy monitoring syst
 │   ├── build.gradle.kts
 │   └── ...
 │
-└── docs/                            # Architectural Specs & BOM
-    ├── SMD_BOM_Master_List.md       # Production SMD Component Master List
-    ├── SMD_Hardware_Architecture.md # Power-path, Charger & Protection Specs
+└── docs/                            # Architectural Specs, Roadmaps & Engineering Docs
+    ├── Master_4Stream_Roadmap_and_Recommendations.md # Comprehensive 4-Stream Status & Production Roadmap
+    ├── PCB_Component_Connections_Verification.md     # Master 21-Component Netlist & Pinout Verification Guide
+    ├── PCB_Component_Footprints_and_Dimensions.md    # Physical Dimensions, Drills & Pad Pitch Reference
+    ├── SMD_BOM_Master_List.md       # Production SMD Component Master List (Rev B)
+    ├── SMD_Hardware_Architecture.md # Power-path, Charger & Protection Circuitry Specs
     ├── C1001_Early_Exit_Analysis.md # Radar Optimization & Timing Breakdown
     └── ATtiny85_MIC_Analysis.md     # Sentinel Threshold & Acoustic Filter Specs
 ```
