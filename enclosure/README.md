@@ -8,21 +8,25 @@ This directory contains the complete **3D CAD engineering stream** for the Wall-
 
 | File | Type | Description |
 |---|---|---|
-| [`fall_sensor_enclosure_base.stl`](fall_sensor_enclosure_base.stl) | 3D Mesh (STL) | **Base Mount**: Internal PCB standoffs, 4 corner screw bosses, 2 rear keyholes, USB-C & Power switch ports. |
-| [`fall_sensor_enclosure_lid.stl`](fall_sensor_enclosure_lid.stl) | 3D Mesh (STL) | **Front Cover**: PIR dome opening, Radar RF window, Mic port, Fall LED hole, Sync button pinhole. |
-| [`fall_sensor_enclosure.scad`](fall_sensor_enclosure.scad) | OpenSCAD Source | **Parametric CAD model**: Fully customizable wall thickness, standoff height, and aperture sizes. |
-| [`fall_sensor_enclosure.blend`](fall_sensor_enclosure.blend) | Blender CAD | **Master Blender 2.91+ CAD project**: Contains full scene, lighting, materials, and export pipeline. |
-| [`fall_sensor_enclosure_studio.png`](fall_sensor_enclosure_studio.png) | High-Res Render | 3D perspective rendering of the base and lid side-by-side. |
+| [`fall_sensor_enclosure_base.stl`](fall_sensor_enclosure_base.stl) | 3D Mesh (STL) | **Base Mount (v2.0)**: Integrated 18650 battery compartment with wire notch, PCB standoffs, 4 corner screw bosses, rear keyholes, USB-C & Power switch ports, side ventilation. |
+| [`fall_sensor_enclosure_lid.stl`](fall_sensor_enclosure_lid.stl) | 3D Mesh (STL) | **Front Cover (v2.0)**: Modern square profile with PIR dome opening, Radar RF window, Mic port, Fall LED hole, Sync button pinhole, side ventilation. |
+| [`fall_sensor_enclosure_assembled_hero.png`](fall_sensor_enclosure_assembled_hero.png) | High-Res Render | Assembled square enclosure hero view. |
+| [`fall_sensor_enclosure_studio.png`](fall_sensor_enclosure_studio.png) | High-Res Render | Open studio view showing the internal 18650 battery compartment and lid. |
 | [`fall_sensor_enclosure_wallmount.png`](fall_sensor_enclosure_wallmount.png) | High-Res Render | Rear perspective view showing the wall-mounting keyhole slots. |
+| [`fall_sensor_pcb_dummy.stl`](fall_sensor_pcb_dummy.stl) | 3D Mesh (STL) | Flat 1.6mm PCB mock-up plate with 4 corner holes for quick test-fitting into the base. |
+| [`fall_sensor_enclosure.scad`](fall_sensor_enclosure.scad) | OpenSCAD Source | **Parametric CAD model**: Fully customizable square profile, battery bay depth, and wall thicknesses. |
+| [`fall_sensor_enclosure.blend`](fall_sensor_enclosure.blend) | Blender CAD | **Master Blender 2.91+ CAD project**: Multi-material scene, studio lighting, and export pipeline. |
 
 ---
 
-## 📐 Enclosure Dimensions & Mechanical Specifications
+## 📐 Enclosure Dimensions & Mechanical Specifications (v2.0 Square)
 
-* **External Dimensions:** `106.8 mm (Width) × 86.8 mm (Depth) × 32.4 mm (Total Height)`
-* **Internal Cavity:** `102.0 mm × 82.0 mm × 27.6 mm` (fits standard $100 \times 80\text{ mm}$ PCB with $1.0\text{ mm}$ expansion margin).
+* **External Dimensions:** `106.8 mm (Width) × 110.8 mm (Depth) × 31.4 mm (Total Height)`
+* **Aspect Ratio:** `0.96 : 1` — **Balanced modern square form factor**.
+* **Internal Battery Compartment:** `102.0 mm (W) × 22.0 mm (D) × 26.6 mm (H)` — Fits standard single 18650 battery clip holder ($78 \times 21 \times 21.5\text{ mm}$) with a dedicated wire notch to route leads to `BT1`.
+* **Internal PCB Compartment:** `102.0 mm × 82.0 mm × 26.6 mm` (fits standard $100 \times 80\text{ mm}$ PCB with $1.0\text{ mm}$ expansion margin).
 * **Wall Thickness:** `2.4 mm` (high structural rigidity and impact resistance).
-* **Base Height:** `13.0 mm` | **Lid Height:** `19.4 mm` with a `1.8 mm` interlocking alignment lip.
+* **Base Height:** `13.0 mm` | **Lid Height:** `18.4 mm` with a `1.8 mm` interlocking alignment lip.
 
 ---
 
