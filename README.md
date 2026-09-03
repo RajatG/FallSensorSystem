@@ -17,22 +17,32 @@ An ultra-low-power, dual-radar fall detection and room occupancy monitoring syst
 │   ├── fall_sensor.kicad_sch        # Main System Schematic
 │   ├── fall_sensor.kicad_pcb        # 2-Layer PCB Layout
 │   ├── fall_sensor.kicad_pro        # KiCad Project Configuration
-│   ├── FallSensor.kicad_sym         # Custom Symbol Library
-│   ├── FallSensor.pretty/           # Custom Footprint Library
+│   ├── FallSensor.kicad_sym     # Custom Symbol Library
+│   ├── FallSensor.pretty/       # Custom Footprint Library
 │   └── export/
 │       ├── fall_sensor_gerbers.zip  # Production Gerber & Drill Package (JLCPCB/PCBWay)
-│       └── pdf/                     # Printable Documentation
-│           ├── fall_sensor_schematic.pdf
-│           ├── fall_sensor_pcb_all_layers.pdf
-│           ├── fall_sensor_pcb_top_assembly.pdf
-│           └── fall_sensor_pcb_bottom_assembly.pdf
+│       └── pdf/                     # Printable Documentation (See hardware/export/pdf/README.md)
+│           ├── fall_sensor_pcb_front_and_back_A4.pdf  # 1:1 True Scale Paper Testing Sheet
+│           ├── fall_sensor_schematic_A4_printable.pdf # Printable A4 Schematic
+│           ├── assembly/            # Top & Bottom Assembly Drawings
+│           ├── layers/              # Top & Bottom Copper Layer Plots
+│           └── schematic/           # Full-Size A3 Engineering Schematic
+│
+├── enclosure/                       # 3D Printed Wall-Mount Enclosure (v2.0 Square)
+│   ├── fall_sensor_enclosure_base.stl # Base Mount with 18650 Battery Bay & PCB Standoffs
+│   ├── fall_sensor_enclosure_lid.stl  # Front Cover with Apertures & Alignment Lip
+│   ├── fall_sensor_enclosure.scad     # Parametric OpenSCAD Source
+│   ├── fall_sensor_enclosure.blend    # Master Blender CAD Project & Studio Renders
+│   └── README.md                      # Mechanical Specifications & Slicer Guide
 │
 ├── mobile_app/                      # Android Companion App (Jetpack Compose)
 │   ├── app/                         # Source Code supporting C1001 & LD2410 Flavors
 │   ├── build.gradle.kts
 │   └── ...
 │
-└── docs/                            # Architectural Specs, Roadmaps & Engineering Docs
+└── docs/                            # Architectural Specs, Roadmaps & Engineering Docs (See docs/README.md)
+    ├── README.md                    # Master Documentation Hub & Flow Map
+    ├── Firmware_Architecture_and_Detection_Logic.md  # Complete Firmware Logic & 4-Layer Fall Pipeline
     ├── Master_4Stream_Roadmap_and_Recommendations.md # Comprehensive 4-Stream Status & Production Roadmap
     ├── PCB_Component_Connections_Verification.md     # Master 21-Component Netlist & Pinout Verification Guide
     ├── PCB_Component_Footprints_and_Dimensions.md    # Physical Dimensions, Drills & Pad Pitch Reference
@@ -44,50 +54,63 @@ An ultra-low-power, dual-radar fall detection and room occupancy monitoring syst
 
 ---
 
-## ⚡ System Architecture
+## ⚡ System Overview & Architecture
 
-### 1. Power & Wake Sentinel Architecture
-- **ESP32 DevKit V1 (30-Pin)**: Deep sleep current ~10µA.
-- **ATtiny85 Sentinel**: Continuously monitors AM312 PIR (Motion) and LM393 Sound Sensor (Thud/Acoustic), waking ESP32 on valid events via EXT1 wakeup pins (GPIO 13 & GPIO 4).
-- **Radar Power Switching**: N-Channel MOSFET (`RADAR_MOSFET_PIN` = GPIO 27) powers radar modules only during active verification snapshot windows.
-- **Smart Radar Early Exit**: Powers down radar at ~2.5s to 4.0s once occupancy is confirmed, saving up to ~90% battery energy during occupied periods.
+### What the System Is
+The **Fall Sensor System** is a privacy-first, contactless room occupancy and fall detection device designed for elder care and clinical environments. It eliminates the need for cameras, audio-recording microphones, or wearable pendants.
 
-### 2. Supported Radar Modules
-| Radar | Frequency | Mounting | Fall Detection Logic | Warmup Time |
-|---|---|---|---|---|
-| **DFRobot C1001** | 60 GHz | Ceiling | Hardware UART fall detection (`hu.getFallData()`) | 2.5s |
-| **Hi-Link LD2410** | 24 GHz | Wall | Software state machine (Motion-to-Stationary transition with 5s evaluation) | 2.5s |
+### How it Works: The Staged-Wakeup Architecture
+Operating mmWave radar continuously requires 60–120 mA, which would exhaust a battery in under two days. To achieve long battery life on a single 18650 cell, the system uses an **asymmetric staged-wakeup architecture**:
 
-### 3. Pin Mapping (ESP32 30-Pin Layout)
-| Pin | Function | Description |
+```
++-----------------------------------------------------------------------------------+
+| 1. PASSIVE SENSING (Continuous ~35uA Draw)                                        |
+|    - AM312 PIR watches for motion cone entry.                                     |
+|    - LM393 acoustic sensor watches for mechanical floor impact shockwaves.       |
+|    - ATtiny85 Sentinel debounces signals while ESP32 and Radar sleep.             |
++-----------------------------------------+-----------------------------------------+
+                                          | Valid Motion or Thud Pulse
+                                          v
++-----------------------------------------------------------------------------------+
+| 2. RADAR VERIFICATION SNAPSHOT (2.5s - 4.0s Window)                               |
+|    - ESP32 wakes from deep sleep and gates Radar power via MOSFET switch.         |
+|    - mmWave Radar measures distance, target velocity, and floor-level coordinates.|
++-----------------------------------------+-----------------------------------------+
+                                          |
+                      +-------------------+-------------------+
+                      |                                       |
+              [ Normal Upright Motion ]               [ Confirmed Fall ]
+                      |                                       |
+                      v                                       v
++---------------------------------------------+ +-----------------------------------+
+| 3. SMART EARLY EXIT                         | | 4. IMMEDIATE ALERTING             |
+|    - Target confirmed standing/walking.     | |    - Red Fall Siren LED activates.|
+|    - Radar cuts power at 2.5s - 4.0s.       | |    - BLE alert packet transmitted |
+|    - BLE occupancy status updated.          | |      to Android caregiver app.    |
+|    - ESP32 returns to deep sleep (<15uA).   | |    - Persists until recovery or   |
+|      (Saves ~90% energy per event)          | |      manual sync button reset.    |
++---------------------------------------------+ +-----------------------------------+
+```
+
+---
+
+## 📦 Engineering Streams & Subunit Documentation
+
+The system is organized into four self-contained, documented engineering streams:
+
+| Stream | Subunit Directory | Key Deliverables & Documentation |
 |---|---|---|
-| **GPIO 13** | `PIR_WAKE` | ATtiny85 PB2 Wake Pulse Input |
-| **GPIO 4** | `MIC_WAKE` | ATtiny85 PB0 Wake Pulse Input |
-| **GPIO 25** | `PRESENCE_PIN` | Radar Presence Output / C1001 OUT1 |
-| **GPIO 26** | `FALL_PIN` | Radar Fall Detection Output / C1001 OUT2 |
-| **GPIO 27** | `RADAR_MOSFET_PIN` | High-side/Low-side radar power switch control |
-| **GPIO 19** | `FALL_LED_PIN` | Visual Alert LED / Flashing Siren |
-| **GPIO 33** | `SYNC_BUTTON_PIN` | Manual Sync & Alarm Clear Button |
-| **GPIO 34** | `BATTERY_PIN` | ADC Battery Voltage Sensing (100k/100k divider) |
-| **GPIO 16** | `RX_PIN` | Radar UART RX (connects to Radar TX) |
-| **GPIO 17** | `TX_PIN` | Radar UART TX (connects to Radar RX) |
+| **⚡ Firmware** | [`firmware/`](firmware/README.md) | ESP32 C1001 & LD2410 drivers, ATtiny85 wake sentinel, v4.23 Gradual Posture Collapse detection, and flashing guides. |
+| **🔌 Hardware (PCB)** | [`hardware/`](hardware/README.md) | KiCad 10.0 schematics, 2-layer PCB ($100 \times 80\text{ mm}$), pin mapping table, Gerbers, and 1:1 scale printable test sheets. |
+| **🖨️ 3D Enclosure** | [`enclosure/`](enclosure/README.md) | v2.0 Square CAD model ($106.8 \times 110.8 \times 31.4\text{ mm}$), 18650 battery bay, STL meshes, slicer settings, and photorealistic renders. |
+| **📱 Mobile App** | [`mobile_app/`](mobile_app/README.md) | Android companion application (Jetpack Compose, Kotlin, BLE GATT), telemetry parser, and build flavor instructions. |
+| **📚 Documentation** | [`docs/`](docs/README.md) | Master documentation hub, 4-layer fall logic specification, radar early exit analysis, acoustic sensitivity analysis, and SMD Rev B migration roadmap. |
 
 ---
 
-## 📱 Mobile App Features
-- **Jetpack Compose Native UI**: Modern dark theme with animated status cards and real-time glow indicators.
-- **Multi-Sensor Flavors**: Build variants for both `c1001` and `ld2410` devices with automatic BLE advertising prefix targeting.
-- **Battery Health & Autonomy Prediction**: Tracks voltage discharge curves over time to forecast remaining battery days.
-- **Live Diagnostics & Settings**:
-  - Live Uptime Counter (`Xh Ym Zs`).
-  - Configurable Battery Warning Thresholds & Capacity (mAh).
-  - 5-second auto-clearing LED pulse timers for acoustic & PIR triggers.
-  - Non-intrusive logging (suppresses high-frequency radar UART streams unless `LOG_ON` is enabled).
+## 🚀 Quick Manufacturing & Test Links
 
----
+* **PCB Fabrication Gerbers:** [`hardware/export/fall_sensor_gerbers.zip`](hardware/export/fall_sensor_gerbers.zip) (Ready for JLCPCB/PCBWay upload).
+* **1:1 Scale Paper Test Sheet:** [`hardware/export/pdf/fall_sensor_pcb_front_and_back_A4.pdf`](hardware/export/pdf/fall_sensor_pcb_front_and_back_A4.pdf) (For physical component fitting).
+* **3D Printable STLs:** [`enclosure/fall_sensor_enclosure_base.stl`](enclosure/fall_sensor_enclosure_base.stl) and [`enclosure/fall_sensor_enclosure_lid.stl`](enclosure/fall_sensor_enclosure_lid.stl).
 
-## 🛠️ Manufacturing & Assembly
-
-- **Gerber Package**: Located at [`hardware/export/fall_sensor_gerbers.zip`](hardware/export/fall_sensor_gerbers.zip). Ready for upload directly to JLCPCB, PCBWay, or OSH Park.
-- **Schematic PDF**: [`hardware/export/pdf/fall_sensor_schematic.pdf`](hardware/export/pdf/fall_sensor_schematic.pdf).
-- **PCB Layout PDFs**: Multi-page and individual layer PDFs located in [`hardware/export/pdf/`](hardware/export/pdf/).
