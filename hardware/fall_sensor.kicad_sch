@@ -3965,18 +3965,6 @@
 		(uuid "4865658d-c482-4efa-b971-84a91c22a3f2")
 	)
 	(junction
-		(at 148.59 86.36)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "66305aef-efe8-4109-a144-1492015bb525")
-	)
-	(junction
-		(at 81.28 110.49)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "6df35a2b-1475-4656-a232-b0945e84678a")
-	)
-	(junction
 		(at 361.95 130.81)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4005,12 +3993,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c4661d84-5068-4159-a3d5-03437997eee1")
-	)
-	(junction
-		(at 81.28 118.11)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "c75f0332-8a88-44a6-90aa-6eececf05738")
 	)
 	(junction
 		(at 161.29 76.2)
@@ -4228,16 +4210,6 @@
 	)
 	(wire
 		(pts
-			(xy 81.28 118.11) (xy 87.63 118.11)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2539adaf-0f05-47d6-8b45-73dbb2f60e7b")
-	)
-	(wire
-		(pts
 			(xy 27.94 128.27) (xy 35.56 128.27)
 		)
 		(stroke
@@ -4275,16 +4247,6 @@
 			(type default)
 		)
 		(uuid "2a59abed-4f5d-4590-9350-89d816809d63")
-	)
-	(wire
-		(pts
-			(xy 148.59 86.36) (xy 156.21 86.36)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2ada344c-a4d3-41cc-9c49-56fbc4bf497b")
 	)
 	(wire
 		(pts
@@ -4378,7 +4340,7 @@
 	)
 	(wire
 		(pts
-			(xy 73.66 118.11) (xy 81.28 118.11)
+			(xy 73.66 118.11) (xy 87.63 118.11)
 		)
 		(stroke
 			(width 0)
@@ -4395,16 +4357,6 @@
 			(type default)
 		)
 		(uuid "4b333259-4670-4315-b51c-c9da184292cb")
-	)
-	(wire
-		(pts
-			(xy 265.43 111.76) (xy 265.43 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4c251622-0fa4-4f4e-aef2-454562dc4754")
 	)
 	(wire
 		(pts
@@ -4468,7 +4420,7 @@
 	)
 	(wire
 		(pts
-			(xy 73.66 110.49) (xy 81.28 110.49)
+			(xy 73.66 110.49) (xy 87.63 110.49)
 		)
 		(stroke
 			(width 0)
@@ -4768,16 +4720,6 @@
 	)
 	(wire
 		(pts
-			(xy 87.63 110.49) (xy 81.28 110.49)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cfd00175-42d8-47a0-8402-dffbdc36ac3c")
-	)
-	(wire
-		(pts
 			(xy 232.41 142.24) (xy 251.46 142.24)
 		)
 		(stroke
@@ -4845,16 +4787,6 @@
 			(type default)
 		)
 		(uuid "d0d0d0d0-0000-4000-8000-000000000121")
-	)
-	(wire
-		(pts
-			(xy 254 111.76) (xy 254 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d0d0d0d0-0000-4000-8000-000000000123")
 	)
 	(wire
 		(pts
@@ -5985,154 +5917,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+3V3")
-		(at 265.43 104.14 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "9cee3516-1c15-4249-aa88-5919fcc409c0")
-		(property "Reference" "#PWR032"
-			(at 265.43 107.95 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 265.684 100.33 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 265.43 104.14 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 265.43 104.14 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 265.43 104.14 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "3a90f811-6aaa-42b4-b7c3-f7a3d38b0333")
-		)
-		(instances
-			(project "fall_sensor"
-				(path "/d0d0d0d0-0000-4000-8000-000000000001"
-					(reference "#PWR032")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+3V3")
-		(at 254 104.14 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "9ea59954-776c-42d7-b575-7af299d8df69")
-		(property "Reference" "#PWR031"
-			(at 254 107.95 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 254.254 100.33 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 254 104.14 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 254 104.14 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 254 104.14 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "369963f4-7ff2-406c-86f4-312a6b0bb141")
-		)
-		(instances
-			(project "fall_sensor"
-				(path "/d0d0d0d0-0000-4000-8000-000000000001"
-					(reference "#PWR031")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
 		(at 201.93 157.48 0)
@@ -6298,80 +6082,6 @@
 			(project "fall_sensor"
 				(path "/d0d0d0d0-0000-4000-8000-000000000001"
 					(reference "U6")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 265.43 114.3 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "bcd85ed3-be57-4a4b-987f-4117bd842095")
-		(property "Reference" "#PWR011"
-			(at 265.43 120.65 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 265.43 118.11 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 265.43 114.3 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 265.43 114.3 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 265.43 114.3 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "c1cef2d9-8630-4c3c-a232-ed0a96836bbc")
-		)
-		(instances
-			(project "fall_sensor"
-				(path "/d0d0d0d0-0000-4000-8000-000000000001"
-					(reference "#PWR011")
 					(unit 1)
 				)
 			)
@@ -8147,80 +7857,6 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 254 114.3 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "d0d0d0d0-0000-4000-8000-000000000034")
-		(property "Reference" "#PWR05"
-			(at 254 120.65 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 254 118.11 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 254 114.3 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 254 114.3 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 254 114.3 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "d0d0d0d0-0000-4000-8000-000000000584")
-		)
-		(instances
-			(project "fall_sensor"
-				(path "/d0d0d0d0-0000-4000-8000-000000000001"
-					(reference "#PWR05")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
 		(at 142.24 93.98 0)
 		(unit 1)
 		(body_style 1)
@@ -8288,80 +7924,6 @@
 			(project "fall_sensor"
 				(path "/d0d0d0d0-0000-4000-8000-000000000001"
 					(reference "#PWR06")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 156.21 93.98 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "d0d0d0d0-0000-4000-8000-000000000036")
-		(property "Reference" "#PWR07"
-			(at 156.21 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 156.21 97.79 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 156.21 93.98 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 156.21 93.98 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 156.21 93.98 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "d0d0d0d0-0000-4000-8000-000000000586")
-		)
-		(instances
-			(project "fall_sensor"
-				(path "/d0d0d0d0-0000-4000-8000-000000000001"
-					(reference "#PWR07")
 					(unit 1)
 				)
 			)

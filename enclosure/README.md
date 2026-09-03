@@ -20,12 +20,13 @@ This directory contains the complete **3D CAD engineering stream** for the Wall-
 
 ---
 
-## 📐 Enclosure Dimensions & Mechanical Specifications (v2.0 Square)
+## 📐 Enclosure Dimensions & Mechanical Specifications (v2.1 Balanced Square)
 
-* **External Dimensions:** `106.8 mm (Width) × 110.8 mm (Depth) × 31.4 mm (Total Height)`
-* **Aspect Ratio:** `0.96 : 1` — **Balanced modern square form factor**.
-* **Internal Battery Compartment:** `102.0 mm (W) × 22.0 mm (D) × 26.6 mm (H)` — Fits standard single 18650 battery clip holder ($78 \times 21 \times 21.5\text{ mm}$) with a dedicated wire notch to route leads to `BT1`.
-* **Internal PCB Compartment:** `102.0 mm × 82.0 mm × 26.6 mm` (fits standard $100 \times 80\text{ mm}$ PCB with $1.0\text{ mm}$ expansion margin).
+* **External Dimensions:** `116.8 mm (Width) × 110.8 mm (Depth) × 31.4 mm (Total Height)`
+* **Aspect Ratio:** `1.05 : 1` — **Balanced modern square form factor**.
+* **Internal Battery Compartment:** Dedicated `79.5 mm (W) × 22.0 mm (D) × 26.6 mm (H)` cradle with a rigid vertical retaining end-wall and wire notch to securely fit standard 18650 battery holders ($75\text{–}79\text{ mm}$) without loose foam padding.
+* **Internal PCB Compartment:** `102.0 mm × 82.0 mm × 26.6 mm` with perimeter corner support ledges designed to support the blank board margins and clear all through-hole solder pins.
+* **Radar RF Isolation Chamber:** Dedicated $10.0\text{ mm}$ right-side expansion chamber providing complete dielectric isolation and free-air clearance for the overhanging C1001 60GHz radar antenna patches.
 * **Wall Thickness:** `2.4 mm` (high structural rigidity and impact resistance).
 * **Base Height:** `13.0 mm` | **Lid Height:** `18.4 mm` with a `1.8 mm` interlocking alignment lip.
 
