@@ -250,18 +250,33 @@
 | **3** | `(5.08, 0.00)` | `1.70 × 1.70 mm` | circle | 1.00 mm |
 | **4** | `(7.62, 0.00)` | `1.70 × 1.70 mm` | circle | 1.00 mm |
 
-### `U6` - LoadSwitch_DBVT (`Package_TO_SOT_SMD:SOT-23-6`)
-- **Physical Dimensions**: `4.10 mm × 3.40 mm`
-- **Placement on PCB**: `X = 121.36 mm`, `Y = 120.45 mm`, Rotation = `0.0°` (Layer: F.Cu)
-- **Total Pads**: 6 (smd)
-| Pad # | Local Offset (X, Y) | Pad Size (W × H) | Pad Shape | Hole Drill |
-|---|---|---|---|---|
-| **1** | `(-1.14, -0.95)` | `1.32 × 0.60 mm` | roundrect | SMD |
-| **2** | `(-1.14, 0.00)` | `1.32 × 0.60 mm` | roundrect | SMD |
-| **3** | `(-1.14, 0.95)` | `1.32 × 0.60 mm` | roundrect | SMD |
-| **4** | `(1.14, 0.95)` | `1.32 × 0.60 mm` | roundrect | SMD |
-| **5** | `(1.14, 0.00)` | `1.32 × 0.60 mm` | roundrect | SMD |
-| **6** | `(1.14, -0.95)` | `1.32 × 0.60 mm` | roundrect | SMD |
+### `U6` - LoadSwitch_DBVT (Dual Strategy: Prototype 2.54mm THT Header vs Production SOT-23-6 SMD)
+
+> **Design Note**: To facilitate prototyping and hand-assembly without microscope SMD soldering equipment, the current prototype board accommodates a **2.54mm Through-Hole (THT) daughterboard socket**. The ultra-compact **SOT-23-6 SMD footprint** is permanently preserved in the library (`FallSensor.pretty/SOT-23-6.kicad_mod`) for the next-generation fully automated SMD production iteration.
+
+#### Option A: Production SMD Iteration (`FallSensor:SOT-23-6` / `Package_TO_SOT_SMD:SOT-23-6`)
+- **Package Type**: Surface Mount (SMD 6-lead SOT-23)
+- **Physical Dimensions**: `2.90 mm × 2.80 mm` (Courtyard: `4.10 mm × 3.40 mm`)
+- **Lead Pitch**: `0.95 mm`
+- **Pads**: 6 (smd roundrect `1.32 × 0.60 mm`)
+- **Library Location**: Saved in `FallSensor.pretty/SOT-23-6.kicad_mod`
+
+| Pad # | Function | Net | Description |
+|---|---|---|---|
+| **1** | VIN | `+5V` | 5V supply input from MT3608 boost converter |
+| **2** | GND | `GND` | Ground return |
+| **3** | ON / EN | `/RADAR_EN` | Active-high enable from ESP32 GPIO27 |
+| **4** | GND | `GND` | Thermal ground return |
+| **5** | GND | `GND` | Thermal ground return |
+| **6** | VOUT | `Net-(RADAR1-VIN)` | Switched 5V power output to C1001 Radar module |
+
+#### Option B: Prototype Hand-Assembly Daughterboard Socket (`FallSensor:PinHeader_2x03_P2.54mm_Vertical` / `FallSensor:DIP-6_W7.62mm`)
+- **Package Type**: Through-Hole Technology (THT 2.54mm pin header / DIP-6 socket)
+- **Physical Dimensions**: `5.08 mm × 7.62 mm` (2 rows of 3 pins)
+- **Pin Pitch**: `2.54 mm (0.1")`
+- **Row Spacing**: `2.54 mm` (Pin Header) or `7.62 mm (300 mil)` (DIP-6 Socket)
+- **Mounting**: Hand-soldered female/male header socket accepting a plug-in SOT-23-to-DIP daughterboard breakout
+- **Library Location**: Saved in `FallSensor.pretty/PinHeader_2x03_P2.54mm_Vertical.kicad_mod` and `FallSensor.pretty/DIP-6_W7.62mm.kicad_mod`
 
 ### `U7` - Buck Converter (`FallSensor:LM2596_Module`)
 - **Physical Dimensions**: `43.50 mm × 19.50 mm`
