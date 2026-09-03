@@ -10,7 +10,8 @@ This directory contains the complete **3D CAD engineering stream** for the Wall-
 |---|---|---|
 | [`fall_sensor_enclosure_base.stl`](fall_sensor_enclosure_base.stl) | 3D Mesh (STL) | **Base Mount (v2.0)**: Integrated 18650 battery compartment with wire notch, PCB standoffs, 4 corner screw bosses, rear keyholes, USB-C & Power switch ports, side ventilation. |
 | [`fall_sensor_enclosure_lid.stl`](fall_sensor_enclosure_lid.stl) | 3D Mesh (STL) | **Front Cover (v2.0)**: Modern square profile with PIR dome opening, Radar RF window, Mic port, Fall LED hole, Sync button pinhole, side ventilation. |
-| [`fall_sensor_enclosure_assembled_hero.png`](fall_sensor_enclosure_assembled_hero.png) | High-Res Render | Assembled square enclosure hero view. |
+| [`fall_sensor_enclosure_assembled_hero.png`](fall_sensor_enclosure_assembled_hero.png) | High-Res Render | Assembled square enclosure hero view (zoomed 25%). |
+| [`fall_sensor_enclosure_exploded.png`](fall_sensor_enclosure_exploded.png) | High-Res Render | Exploded assembly view showing floating lid and base alignment. |
 | [`fall_sensor_enclosure_studio.png`](fall_sensor_enclosure_studio.png) | High-Res Render | Open studio view showing the internal 18650 battery compartment and lid. |
 | [`fall_sensor_enclosure_wallmount.png`](fall_sensor_enclosure_wallmount.png) | High-Res Render | Rear perspective view showing the wall-mounting keyhole slots. |
 | [`fall_sensor_pcb_dummy.stl`](fall_sensor_pcb_dummy.stl) | 3D Mesh (STL) | Flat 1.6mm PCB mock-up plate with 4 corner holes for quick test-fitting into the base. |
@@ -36,33 +37,31 @@ The enclosure lid and walls feature precision apertures matched to the hardware 
 
 ```
 +-------------------------------------------------------------------------+
-|                                                                         |
-|                          [ PIR Dome Aperture ]                          |
-|                             (Dia: 12.0 mm)                              |
-|                                                                         |
-|   [ Mic Acoustic Port ]                                                 |
-|       (Dia: 3.0 mm)                                                     |
-|                                                                         |
-|                                               [ Status Fall LED ]       |
-|                                                  (Dia: 3.2 mm)          |
-|                                                                         |
-|                                            [ C1001 Radar RF Window ]    |
-|   [ Sync Button Pinhole ]                       (26 x 26 mm Recess,     |
-|        (Dia: 3.5 mm)                            1.0 mm Thin-Wall)       |
-|                                                                         |
+|                    [ 18650 Battery Bay (Top) ]                          |
 +-------------------------------------------------------------------------+
-     |                                                       |
- [Power Switch]                                          [USB-C Port]
- (Left Wall: 9.5x5.0mm)                             (Bottom Wall: 11x4.8mm)
+|                                             [ PIR Dome Aperture ]       |
+|                                                (Dia: 12.0 mm)           |
+|                                                                         |
+|                      [ Mic Acoustic Port ]                              |
+|                          (Dia: 3.0 mm)                                  |
+|                                             [ Status Fall LED ]         |
+|   [USB-C Port]                                 (Dia: 3.2 mm)            |
+|  (11.0x4.8mm)                                                           |
+|                                             [ C1001 Radar RF Window ]   |
+|   [Power Switch]       [ Sync Button ]           (Internal Pocket,      |
+|   (9.5x5.0mm)          (Dia: 3.5 mm)             1.0 mm Membrane)       |
++-------------------------------------------------------------------------+
+       ▲                                             ▲
+   LEFT WALL                                     RIGHT SIDE
 ```
 
 1. **AM312 PIR Fresnel Dome (`Dia 12.0 mm`):** Extends the hemispherical lens through the front face for an unobstructed $100^\circ$ passive infrared motion cone.
-2. **C1001 Radar RF Transmission Window (`26.0 × 26.0 mm`):** Recessed to a **$1.0\text{ mm}$ thin wall**. Millimeter-wave radar (24GHz / 60GHz) passes cleanly through thin plastic with negligible attenuation.
+2. **C1001 Radar RF Transmission Window:** Internal pocket on ceiling leaving a **$1.0\text{ mm}$ thin plastic membrane** while the outer face remains smooth.
 3. **Sound Sensor Acoustic Inlet (`Dia 3.0 mm`):** Positioned directly over the LM393 electret microphone capsule to allow sound waves from a floor "THUD" to reach the diaphragm unimpeded.
 4. **Status / Fall Alarm LED (`Dia 3.2 mm`):** Sits flush with a standard 3mm LED or accepts a standard acrylic light pipe for high visibility.
 5. **Sync Button Pinhole (`Dia 3.5 mm`):** Allows triggering the WiFi/BLE sync tactile switch using a paperclip or stylus without opening the box.
-6. **TP4056 USB-C Charging Cutout (`11.0 × 4.8 mm`):** Allows plugging in standard USB-C cables for battery recharging or continuous wall power.
-7. **Power Switch Slot (`9.5 × 5.0 mm`):** Cutout on the left edge for the main power slide/toggle switch.
+6. **TP4056 USB-C Charging Cutout (`11.0 × 4.8 mm`):** Located on the **left wall** aligned with the TP4056 module receptacle, opposite to the C1001 radar.
+7. **Power Switch Slot (`9.5 × 5.0 mm`):** Located on the **left wall** below the USB-C port with a solid $5.2\text{ mm}$ dividing bridge for the power slide/toggle switch.
 
 ---
 
