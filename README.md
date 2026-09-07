@@ -113,4 +113,5 @@ The system is organized into four self-contained, documented engineering streams
 * **PCB Fabrication Gerbers:** [`hardware/export/fall_sensor_gerbers.zip`](hardware/export/fall_sensor_gerbers.zip) (Ready for JLCPCB/PCBWay upload).
 * **1:1 Scale Paper Test Sheet:** [`hardware/export/pdf/fall_sensor_pcb_front_and_back_A4.pdf`](hardware/export/pdf/fall_sensor_pcb_front_and_back_A4.pdf) (For physical component fitting).
 * **3D Printable STLs:** [`enclosure/fall_sensor_enclosure_base.stl`](enclosure/fall_sensor_enclosure_base.stl) and [`enclosure/fall_sensor_enclosure_lid.stl`](enclosure/fall_sensor_enclosure_lid.stl).
+* **1:1 Scale 3D PCB Test Plate:** [`enclosure/fall_sensor_pcb_dummy.stl`](enclosure/fall_sensor_pcb_dummy.stl) (True KiCad 3D mesh with all 186 through-hole drill cutouts for physical pin-alignment and base cavity test-fitting).
 

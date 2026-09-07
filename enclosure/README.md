@@ -52,7 +52,7 @@ The enclosure utilizes a **zero-screw perimeter clamping architecture**, elimina
   ═══════════════════════════════════════════════════════════  PCB Bottom Surface (Z = 7.4 mm)
       ▲                    ▲  (Solid Upward Support)
   ────┴────────────────────┴─────────────────────────────────
-  │   └── 4x Corner Shelf Posts (Height: 5.0 mm)            │
+  │   └── 4x Perimeter Shelf Posts (Height: 5.0 mm)         │
   │                                                         │
   │   [Solder Clearance: 5.0 mm air gap to floor]           │
   └─────────────────────────────────────────────────────────┘  Base Floor (Z = 0.0 to 2.4 mm)
@@ -93,16 +93,16 @@ The enclosure apertures match the physical PCB component footprint coordinates d
     LEFT WALL                                      RIGHT SIDE
 ```
 
-| Aperture / Port | Location / Face | Dimensions | Matching Hardware Component |
-|---|---|---|---|
-| **PIR Fresnel Dome** | Top Lid Face | $\varnothing 12.0\text{ mm}$ round hole | `PIR1` (AM312 PIR motion sensor lens, $100^\circ$ cone) |
-| **LM393 Mic Sound Port** | Top Lid Face | $\varnothing 3.0\text{ mm}$ round hole | `U5` (Electret microphone capsule acoustic inlet) |
-| **C1001 Radar RF Window** | Inside Lid Ceiling | $22.0 \times 22.0\text{ mm}$ pocket ($1.0\text{ mm}$ membrane) | `RADAR1` (RF transparent window over 60GHz antenna) |
-| **Status / Fall Alarm LED** | Top Lid Face | $\varnothing 3.2\text{ mm}$ round hole | `D1` (3mm through-hole LED / light-pipe opening) |
-| **Sync / Reset Button** | Top Lid Face | $\varnothing 3.5\text{ mm}$ pinhole | `SW1` (6x6x8mm tactile push button access via pin) |
-| **USB-C Charging Cutout** | Left Base Wall | $11.0 \times 4.8\text{ mm}$ slot | `U4` (TP4056 Type-C battery charger receptacle) |
-| **Power Switch** | Internal on PCB | *No external cutout* (Solid wall) | `SW2` (Standard 2.54mm header pin jumper cap / shunt) |
-| **Cooling Vents** | Right Wall | 6x vertical slots ($1.6 \times 7.0\text{ mm}$) | Convective thermal dissipation for MT3608 & TP4056 |
+| Aperture / Port | Location / Face | Coordinates `(ex, ey)` | Dimensions | Matching Hardware Component |
+|---|---|:---:|---|---|
+| **PIR Fresnel Dome** | Top Lid Face | `(+34.50, +19.75) mm` | $\varnothing 12.0\text{ mm}$ round hole | `PIR1` (AM312 PIR motion sensor lens, $100^\circ$ cone) |
+| **LM393 Mic Sound Port** | Top Lid Face | `(+10.50, +1.19) mm` | $\varnothing 3.0\text{ mm}$ round hole | `U5` (Electret microphone capsule acoustic inlet) |
+| **C1001 Radar RF Window** | Inside Lid Ceiling | `(+41.50, -34.00) mm` | $22.0 \times 22.0\text{ mm}$ pocket ($1.0\text{ mm}$ membrane) | `RADAR1` (RF transparent window over 60GHz antenna) |
+| **Status / Fall Alarm LED** | Top Lid Face | `(+35.23, -11.00) mm` | $\varnothing 3.2\text{ mm}$ round hole | `D1` (3mm through-hole LED / light-pipe opening) |
+| **Sync / Reset Button** | Top Lid Face | `(+2.25, -43.25) mm` | $\varnothing 3.5\text{ mm}$ pinhole | `SW1` (6x6x8mm tactile push button access via pin) |
+| **USB-C Charging Cutout** | Left Base Wall | `(-58.40, -25.00) mm` | $11.0 \times 4.8\text{ mm}$ slot ($Z = 10.6\text{ mm}$) | `U4` (TP4056 Type-C battery charger receptacle) |
+| **Power Switch** | Internal on PCB | *N/A* | *No external cutout* (Solid wall) | `SW2` (Standard 2.54mm header pin jumper cap / shunt) |
+| **Cooling Vents** | Right Wall | $Y \in [-15, +15]\text{ mm}$ | 6x vertical slots ($1.6 \times 7.0\text{ mm}$) | Convective thermal dissipation for MT3608 & TP4056 |
 
 ---
 

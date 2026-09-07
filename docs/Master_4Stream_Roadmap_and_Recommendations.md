@@ -76,7 +76,7 @@ Moving from breakout modules to a single, high-reliability commercial SMD board:
   - **Left Wall:** TP4056 USB-C charging slot ($11.0 \times 4.8\text{ mm}$). **Solid wall** — power switch (`SW2`) is an internal 2.54mm header pin jumper cap with no external cutout.
   - **Front Face:** PIR Fresnel dome aperture ($\varnothing 12\text{ mm}$), Microphone acoustic port ($\varnothing 3\text{ mm}$), Alarm LED hole ($\varnothing 3.2\text{ mm}$), Sync pinhole ($\varnothing 3.5\text{ mm}$), and internal $1.0\text{ mm}$ thin-wall RF transmission window for the C1001 mmWave radar.
 - **Lid Closure:** 4× M3 × 25mm Hex Allen CSK screws through solid corner guide pillars.
-- **Fabrication Assets:** Watertight binary STLs [`fall_sensor_enclosure_base.stl`](../enclosure/fall_sensor_enclosure_base.stl) and [`fall_sensor_enclosure_lid.stl`](../enclosure/fall_sensor_enclosure_lid.stl) ready for slicer.
+- **Fabrication Assets:** Watertight binary STLs [`fall_sensor_enclosure_base.stl`](../enclosure/fall_sensor_enclosure_base.stl), [`fall_sensor_enclosure_lid.stl`](../enclosure/fall_sensor_enclosure_lid.stl), and 1:1 scale test-fit PCB [`fall_sensor_pcb_dummy.stl`](../enclosure/fall_sensor_pcb_dummy.stl) (with all 186 through-holes) ready for slicer.
 
 ---
 
