@@ -14,7 +14,7 @@ This directory contains the complete **3D CAD engineering stream** for the Wall-
 | [`fall_sensor_enclosure_exploded.png`](fall_sensor_enclosure_exploded.png) | High-Res Render | Exploded assembly view showing floating lid with visible downward clamp tabs, base alignment, and internal features. |
 | [`fall_sensor_enclosure_studio.png`](fall_sensor_enclosure_studio.png) | High-Res Render | Studio side-by-side open view showing both internal cavities (battery bay and shelf posts on left; clamp tabs and radar pocket on right). |
 | [`fall_sensor_enclosure_wallmount.png`](fall_sensor_enclosure_wallmount.png) | High-Res Render | Rear perspective view showing the 50mm spaced wall-mounting keyhole slots. |
-| [`fall_sensor_pcb_dummy.stl`](fall_sensor_pcb_dummy.stl) | 3D Mesh (STL) | Flat 1.6mm PCB mock-up plate ($100 \times 80\text{ mm}$) for quick physical test-fitting into the base. |
+| [`fall_sensor_pcb_dummy.stl`](fall_sensor_pcb_dummy.stl) | 3D Mesh (STL) | **1:1 Scale Test-Fit PCB ($100.00 \times 80.00 \times 1.51\text{ mm}$)**: Exact 3D mesh exported directly from KiCad 10 with all 186 through-hole pin and via drill cutouts (ESP32, ATtiny85, TP4056, C1001 Radar, passives, etc.) for physical hole-alignment and base cavity test-fitting. |
 | [`fall_sensor_enclosure.blend`](fall_sensor_enclosure.blend) | Blender CAD | **Master Blender 2.91+ CAD project**: Exact parametric Boolean geometry, Cycles lighting, materials, and automated multi-view render pipeline. |
 
 ---
