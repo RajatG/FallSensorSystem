@@ -102,7 +102,7 @@ The system is organized into four self-contained, documented engineering streams
 |---|---|---|
 | **⚡ Firmware** | [`firmware/`](firmware/README.md) | ESP32 C1001 & LD2410 drivers, ATtiny85 wake sentinel, v4.23 Gradual Posture Collapse detection, and flashing guides. |
 | **🔌 Hardware (PCB)** | [`hardware/`](hardware/README.md) | KiCad 10.0 schematics, 2-layer PCB ($100 \times 80\text{ mm}$), pin mapping table, Gerbers, and 1:1 scale printable test sheets. |
-| **🖨️ 3D Enclosure** | [`enclosure/`](enclosure/README.md) | v2.0 Square CAD model ($106.8 \times 110.8 \times 31.4\text{ mm}$), 18650 battery bay, STL meshes, slicer settings, and photorealistic renders. |
+| **🖨️ 3D Enclosure** | [`enclosure/`](enclosure/README.md) | v2.1 Square CAD model ($116.8 \times 110.8 \times 31.4\text{ mm}$), 18650 battery cradle, STL meshes, slicer settings, and photorealistic renders. |
 | **📱 Mobile App** | [`mobile_app/`](mobile_app/README.md) | Android companion application (Jetpack Compose, Kotlin, BLE GATT), telemetry parser, and build flavor instructions. |
 | **📚 Documentation** | [`docs/`](docs/README.md) | Master documentation hub, 4-layer fall logic specification, radar early exit analysis, acoustic sensitivity analysis, and SMD Rev B migration roadmap. |
 

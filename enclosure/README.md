@@ -8,93 +8,134 @@ This directory contains the complete **3D CAD engineering stream** for the Wall-
 
 | File | Type | Description |
 |---|---|---|
-| [`fall_sensor_enclosure_base.stl`](fall_sensor_enclosure_base.stl) | 3D Mesh (STL) | **Base Mount (v2.0)**: Integrated 18650 battery compartment with wire notch, PCB standoffs, 4 corner screw bosses, rear keyholes, USB-C & Power switch ports, side ventilation. |
-| [`fall_sensor_enclosure_lid.stl`](fall_sensor_enclosure_lid.stl) | 3D Mesh (STL) | **Front Cover (v2.0)**: Modern square profile with PIR dome opening, Radar RF window, Mic port, Fall LED hole, Sync button pinhole, side ventilation. |
-| [`fall_sensor_enclosure_assembled_hero.png`](fall_sensor_enclosure_assembled_hero.png) | High-Res Render | Assembled square enclosure hero view (zoomed 25%). |
-| [`fall_sensor_enclosure_exploded.png`](fall_sensor_enclosure_exploded.png) | High-Res Render | Exploded assembly view showing floating lid and base alignment. |
-| [`fall_sensor_enclosure_studio.png`](fall_sensor_enclosure_studio.png) | High-Res Render | Open studio view showing the internal 18650 battery compartment and lid. |
-| [`fall_sensor_enclosure_wallmount.png`](fall_sensor_enclosure_wallmount.png) | High-Res Render | Rear perspective view showing the wall-mounting keyhole slots. |
-| [`fall_sensor_pcb_dummy.stl`](fall_sensor_pcb_dummy.stl) | 3D Mesh (STL) | Flat 1.6mm PCB mock-up plate with 4 corner holes for quick test-fitting into the base. |
-| [`fall_sensor_enclosure.scad`](fall_sensor_enclosure.scad) | OpenSCAD Source | **Parametric CAD model**: Fully customizable square profile, battery bay depth, and wall thicknesses. |
-| [`fall_sensor_enclosure.blend`](fall_sensor_enclosure.blend) | Blender CAD | **Master Blender 2.91+ CAD project**: Multi-material scene, studio lighting, and export pipeline. |
+| [`fall_sensor_enclosure_base.stl`](fall_sensor_enclosure_base.stl) | 3D Mesh (STL) | **Base Mount (v2.1)**: Integrated 79.5mm 18650 battery compartment with wire notch, retaining end-wall, open PIR alcove, 5mm PCB shelf posts, 4 corner screw bosses, rear wall-mount keyholes, USB-C port, and side ventilation louvers. |
+| [`fall_sensor_enclosure_lid.stl`](fall_sensor_enclosure_lid.stl) | 3D Mesh (STL) | **Front Cover (v2.1)**: Balanced square profile with 4 corner screw guide pillars, 4 downward PCB clamping tabs (3.9mm), PIR dome opening, Radar RF thin window, Mic port, Fall LED hole, Sync button pinhole, and side ventilation. |
+| [`fall_sensor_enclosure_assembled_hero.png`](fall_sensor_enclosure_assembled_hero.png) | High-Res Render | Assembled square enclosure hero view in locked high-contrast studio scene. |
+| [`fall_sensor_enclosure_exploded.png`](fall_sensor_enclosure_exploded.png) | High-Res Render | Exploded assembly view showing floating lid with visible downward clamp tabs, base alignment, and internal features. |
+| [`fall_sensor_enclosure_studio.png`](fall_sensor_enclosure_studio.png) | High-Res Render | Studio side-by-side open view showing both internal cavities (battery bay and shelf posts on left; clamp tabs and radar pocket on right). |
+| [`fall_sensor_enclosure_wallmount.png`](fall_sensor_enclosure_wallmount.png) | High-Res Render | Rear perspective view showing the 50mm spaced wall-mounting keyhole slots. |
+| [`fall_sensor_pcb_dummy.stl`](fall_sensor_pcb_dummy.stl) | 3D Mesh (STL) | Flat 1.6mm PCB mock-up plate ($100 \times 80\text{ mm}$) for quick physical test-fitting into the base. |
+| [`fall_sensor_enclosure.blend`](fall_sensor_enclosure.blend) | Blender CAD | **Master Blender 2.91+ CAD project**: Exact parametric Boolean geometry, Cycles lighting, materials, and automated multi-view render pipeline. |
 
 ---
 
 ## 📐 Enclosure Dimensions & Mechanical Specifications (v2.1 Balanced Square)
 
 * **External Dimensions:** `116.8 mm (Width) × 110.8 mm (Depth) × 31.4 mm (Total Height)`
-* **Aspect Ratio:** `1.05 : 1` — **Balanced modern square form factor**.
-* **Internal Battery Compartment:** Dedicated `79.5 mm (W) × 22.0 mm (D) × 26.6 mm (H)` cradle with a rigid vertical retaining end-wall and wire notch to securely fit standard 18650 battery holders ($75\text{–}79\text{ mm}$) without loose foam padding.
-* **Internal PCB Compartment:** `102.0 mm × 82.0 mm × 26.6 mm` with perimeter corner support ledges designed to support the blank board margins and clear all through-hole solder pins.
-* **Radar RF Isolation Chamber:** Dedicated $10.0\text{ mm}$ right-side expansion chamber providing complete dielectric isolation and free-air clearance for the overhanging C1001 60GHz radar antenna patches.
-* **Wall Thickness:** `2.4 mm` (high structural rigidity and impact resistance).
-* **Base Height:** `13.0 mm` | **Lid Height:** `18.4 mm` with a `1.8 mm` interlocking alignment lip.
+* **Form Factor Aspect Ratio:** `1.05 : 1` — **Balanced modern square form factor**.
+* **Base Height:** `13.0 mm` (Floor thickness: `2.4 mm`).
+* **Lid Height:** `18.4 mm` with an interlocking `1.8 mm` perimeter alignment lip (Ceiling thickness: `2.4 mm`).
+* **Total Enclosure Assembled Height:** `31.4 mm`.
+* **Outer Wall Thickness:** `2.4 mm` throughout for high structural rigidity and impact resistance.
+* **Internal Battery Compartment:** Dedicated `79.5 mm (W) × 22.0 mm (D) × 26.6 mm (H)` cradle on the left with a rigid vertical retaining end-wall at $X = +23.5\text{ mm}$ and a $8.0 \times 6.0\text{ mm}$ wire pass-through notch, cleanly fitting standard 18650 battery holders ($75\text{–}79\text{ mm}$).
+* **Open PIR Sensor Alcove:** The region to the right of the battery retaining wall ($X = +23.5$ to $+56.0\text{ mm}$, width $32.5\text{ mm}$) is **100% open** to the main PCB cavity, allowing the AM312 PIR sensor to extend freely without any wall interference.
+* **Internal PCB Compartment:** `102.0 mm × 82.0 mm` pocket providing a snug `1.0 mm` perimeter clearance around the standard $100 \times 80\text{ mm}$ PCB.
+* **Radar RF Isolation Chamber:** Dedicated $10.0\text{ mm}$ right-side expansion chamber ($X = +45.0$ to $+56.0\text{ mm}$) providing complete dielectric isolation and free-air clearance for the overhanging C1001 60GHz radar antenna patches.
+
+---
+
+## 🔒 PCB Clamping Architecture (Zero-Screw Sandwich Clamp)
+
+The enclosure utilizes a **zero-screw perimeter clamping architecture**, eliminating the need for dedicated screw holes through the PCB and maximizing usable copper routing area:
+
+```
+  ┌─────────────────────────────────────────────────────────┐  Lid Ceiling (Z = 29.0 mm)
+  │                     Lid Cavity                          │
+  │     [Headroom: 20.0 mm clear space above PCB]           │
+  │                                                         │
+  │   [4x PCB Downward Clamp Tabs]                          │  Lid Rim (Z = 13.0 mm)
+  │   └── Depth: 3.9 mm ───┐                                │
+  └───┬────────────────────┼────────────────────────────────┘
+      ▼                    ▼  (Snug Downward Clamping)
+  ═══════════════════════════════════════════════════════════  PCB Top Surface (Z = 9.0 mm)
+              PCB (FR4 Core, Thickness = 1.6 mm)
+  ═══════════════════════════════════════════════════════════  PCB Bottom Surface (Z = 7.4 mm)
+      ▲                    ▲  (Solid Upward Support)
+  ────┴────────────────────┴─────────────────────────────────
+  │   └── 4x Corner Shelf Posts (Height: 5.0 mm)            │
+  │                                                         │
+  │   [Solder Clearance: 5.0 mm air gap to floor]           │
+  └─────────────────────────────────────────────────────────┘  Base Floor (Z = 0.0 to 2.4 mm)
+```
+
+1. **Underside Support (Base Shelf Posts):**
+   * 4 monolithic corner shelf posts ($4.0 \times 4.0\text{ mm}$, height `5.0 mm`) molded directly into the base floor.
+   * Provides a generous `5.0 mm` air gap above the floor, giving `>2.5 mm` safety clearance beneath all through-hole solder pins.
+2. **Top Clamping (Lid Downward Tabs):**
+   * 4 monolithic downward clamp tabs ($4.0 \times 4.0\text{ mm}$, height `3.9 mm`) molded into the lid ceiling directly over the base shelf posts.
+   * Located in certified copper-free keepout zones (`>1.0 mm` clear of any trace or pad).
+   * When the 4 lid screws are fastened, the tabs apply a firm `0.1 mm` compression onto the PCB corners, locking the board rigidly with **zero vertical rattle** and **zero lateral play**.
 
 ---
 
 ## 🔍 Sensor Openings & Port Map
 
-The enclosure lid and walls feature precision apertures matched to the hardware footprint:
+The enclosure apertures match the physical PCB component footprint coordinates down to the sub-millimeter:
 
 ```
 +-------------------------------------------------------------------------+
-|                    [ 18650 Battery Bay (Top) ]                          |
-+-------------------------------------------------------------------------+
-|                                             [ PIR Dome Aperture ]       |
-|                                                (Dia: 12.0 mm)           |
+|      [ 18650 Battery Cradle (79.5mm) ]       |   [ Open PIR Alcove ]    |
++----------------------------------------------+--------------------------+
+|                                              [ PIR Dome Aperture ]      |
+|                                                 (Dia: 12.0 mm)          |
 |                                                                         |
-|                      [ Mic Acoustic Port ]                              |
-|                          (Dia: 3.0 mm)                                  |
-|                                             [ Status Fall LED ]         |
-|   [USB-C Port]                                 (Dia: 3.2 mm)            |
-|  (11.0x4.8mm)                                                           |
-|                                             [ C1001 Radar RF Window ]   |
-|   [Power Switch]       [ Sync Button ]           (Internal Pocket,      |
-|   (9.5x5.0mm)          (Dia: 3.5 mm)             1.0 mm Membrane)       |
+|                       [ Mic Acoustic Port ]                             |
+|                           (Dia: 3.0 mm)                                 |
+|                                              [ Status Fall LED ]        |
+|    [USB-C Port]                                 (Dia: 3.2 mm)           |
+|   (11.0x4.8mm)                                                          |
+|                                              [ C1001 Radar RF Window ]  |
+|   (Solid Left Wall,     [ Sync Button ]           (Internal Pocket,     |
+|    Internal Jumper)      (Dia: 3.5 mm)             1.0 mm Membrane)     |
 +-------------------------------------------------------------------------+
-       ▲                                             ▲
-   LEFT WALL                                     RIGHT SIDE
+        ▲                                              ▲
+    LEFT WALL                                      RIGHT SIDE
 ```
 
-1. **AM312 PIR Fresnel Dome (`Dia 12.0 mm`):** Extends the hemispherical lens through the front face for an unobstructed $100^\circ$ passive infrared motion cone.
-2. **C1001 Radar RF Transmission Window:** Internal pocket on ceiling leaving a **$1.0\text{ mm}$ thin plastic membrane** while the outer face remains smooth.
-3. **Sound Sensor Acoustic Inlet (`Dia 3.0 mm`):** Positioned directly over the LM393 electret microphone capsule to allow sound waves from a floor "THUD" to reach the diaphragm unimpeded.
-4. **Status / Fall Alarm LED (`Dia 3.2 mm`):** Sits flush with a standard 3mm LED or accepts a standard acrylic light pipe for high visibility.
-5. **Sync Button Pinhole (`Dia 3.5 mm`):** Allows triggering the WiFi/BLE sync tactile switch using a paperclip or stylus without opening the box.
-6. **TP4056 USB-C Charging Cutout (`11.0 × 4.8 mm`):** Located on the **left wall** aligned with the TP4056 module receptacle, opposite to the C1001 radar.
-7. **Power Switch Slot (`9.5 × 5.0 mm`):** Located on the **left wall** below the USB-C port with a solid $5.2\text{ mm}$ dividing bridge for the power slide/toggle switch.
+| Aperture / Port | Location / Face | Dimensions | Matching Hardware Component |
+|---|---|---|---|
+| **PIR Fresnel Dome** | Top Lid Face | $\varnothing 12.0\text{ mm}$ round hole | `PIR1` (AM312 PIR motion sensor lens, $100^\circ$ cone) |
+| **LM393 Mic Sound Port** | Top Lid Face | $\varnothing 3.0\text{ mm}$ round hole | `U5` (Electret microphone capsule acoustic inlet) |
+| **C1001 Radar RF Window** | Inside Lid Ceiling | $22.0 \times 22.0\text{ mm}$ pocket ($1.0\text{ mm}$ membrane) | `RADAR1` (RF transparent window over 60GHz antenna) |
+| **Status / Fall Alarm LED** | Top Lid Face | $\varnothing 3.2\text{ mm}$ round hole | `D1` (3mm through-hole LED / light-pipe opening) |
+| **Sync / Reset Button** | Top Lid Face | $\varnothing 3.5\text{ mm}$ pinhole | `SW1` (6x6x8mm tactile push button access via pin) |
+| **USB-C Charging Cutout** | Left Base Wall | $11.0 \times 4.8\text{ mm}$ slot | `U4` (TP4056 Type-C battery charger receptacle) |
+| **Power Switch** | Internal on PCB | *No external cutout* (Solid wall) | `SW2` (Standard 2.54mm header pin jumper cap / shunt) |
+| **Cooling Vents** | Right Wall | 6x vertical slots ($1.6 \times 7.0\text{ mm}$) | Convective thermal dissipation for MT3608 & TP4056 |
 
 ---
 
-## 🧱 Wall Mounting Guidelines (9-Foot Ceiling Height)
+## 🧱 Wall Mounting Guidelines
 
 * **Mounting Method:** Two rear **Keyhole Hanging Slots** spaced **$50.0\text{ mm}$ apart**.
-  * Entry hole: $\varnothing 8.5\text{ mm}$ (fits drywall screw heads up to $\varnothing 8\text{ mm}$).
+  * Entry hole: $\varnothing 8.5\text{ mm}$ (fits standard drywall screw heads up to $\varnothing 8.0\text{ mm}$).
   * Slide slot: $4.5\text{ mm}$ wide (accepts standard #6, #8, M3.5, or M4 screws).
-  * Retaining lip: $1.4\text{ mm}$ recessed shelf for secure, anti-shake retention.
+  * Retaining lip: $1.4\text{ mm}$ recessed shelf for anti-shake retention.
 * **Wall Installation:**
-  1. Drive two screws into the wall at the desired room height ($2.4\text{ m} - 2.7\text{ m}$ / 8 to 9 feet), spaced exactly **$50.0\text{ mm}$ vertically or horizontally**, leaving $\approx 2.5\text{ mm}$ of screw head exposed.
-  2. Slide the enclosure onto the screw heads and pull downwards to lock into the keyholes.
-  3. The unit can be lifted off in seconds for inspection or portable charging.
+  1. Drive two screws into the wall at standard wall height ($2.4\text{ m} - 2.7\text{ m}$ / 8 to 9 feet), spaced **$50.0\text{ mm}$ vertically**, leaving $\approx 2.5\text{ mm}$ of screw head exposed.
+  2. Align the keyholes with the screw heads and push downwards to lock into place.
+  3. The unit can be unhooked in seconds for USB-C recharging or battery replacement.
 
 ---
 
 ## 🖨️ 3D Printing Recommended Slicer Settings
 
-| Parameter | Recommended Value | Notes |
+| Slicer Setting | Recommended Value | Notes |
 |---|---|---|
-| **Filament Material** | **PETG** or **ABS / ASA** (PLA for prototypes) | PETG provides high UV and thermal resistance; PLA works fine indoors. |
-| **Layer Height** | `0.20 mm` | Good balance of printing speed and layer adhesion. |
-| **Perimeters / Wall Loops** | `4 loops` ($1.6\text{ mm}$) | Enhances screw boss strength and prevents delamination. |
-| **Top & Bottom Layers** | `5 solid layers` ($1.0\text{ mm}$) | Guarantees watertightness and rigidity. |
-| **Infill Density & Pattern** | `20% - 25% Gyroid` or `Grid` | Gyroid offers uniform strength in all directions. |
-| **Supports** | **Only on Base build plate** | Supports needed only inside the USB-C and power switch horizontal bridges. |
-| **Build Orientation** | **Base:** Bottom face down on bed<br>**Lid:** Front face down on bed | No supports needed on the lid front face! |
+| **Filament Material** | **PETG** (or ABS/ASA; PLA for indoor prototypes) | PETG provides superior heat resistance and impact toughness. |
+| **Layer Height** | `0.20 mm` (Quality/Standard) | Optimum balance of fine feature resolution and layer strength. |
+| **Wall Loops / Perimeters** | `4 loops` ($1.6\text{ mm}$ thickness) | Essential for solid screw boss pillars and durable corner threads. |
+| **Top & Bottom Solid Layers** | `5 layers` ($1.0\text{ mm}$) | Ensures watertight ceiling and rigid bottom base plate. |
+| **Infill Density & Pattern** | `20% - 25% Gyroid` or `Grid` | Gyroid provides isotropic structural strength. |
+| **Supports** | **Minimal (Base build plate only)** | Only a small support tree inside the horizontal USB-C bridge. |
+| **Build Plate Orientation** | **Base:** Bottom face flat on bed<br>**Lid:** Top face flat on bed | **Zero supports required on the lid outer face!** |
 
 ---
 
 ## 🔩 Hardware Bill of Materials (Assembly Screws)
 
-* **PCB Mounting:** 4x `M3 × 6 mm` pan-head self-tapping screws (or `M3 × 5 mm` machine screws with brass heat-set inserts).
-* **Enclosure Lid Closure:** 4x `M3 × 16 mm` countersunk screws.
-* **Wall Screws:** 2x Standard drywall screws (#6 or #8 with plastic expansion anchors).
+| Application | Quantity | Screw Specification | Recommended Product / Notes |
+|---|---|---|---|
+| **Enclosure Lid Closure** | **4x** | **`M3 × 25 mm` Hex Allen CSK** (Countersunk Flat Head) | [EasyMech M3 × 25mm Hex CSK](https://robu.in/product/ntl-easymech-m3-x-25mm-hex-allen-csk-high-tensile109-black-oxide-screw-dia-3mm-length-25mm). Passes through 18.4mm lid pillars and grips 6.6mm into base bosses. Sits flush with top face. |
+| **PCB Mounting** | **0x** | *None required* | PCB is rigidly clamped between the base shelf posts and lid downward tabs. |
+| **Wall Mounting** | **2x** | Standard drywall screws (#6 or #8) | Head diameter $\le 8.0\text{ mm}$, shaft $\le 4.2\text{ mm}$, with wall anchors. |
