@@ -59,12 +59,13 @@ The enclosure utilizes a **zero-screw perimeter clamping architecture**, elimina
 ```
 
 1. **Underside Support (Base Shelf Posts):**
-   * 4 monolithic corner shelf posts ($4.0 \times 4.0\text{ mm}$, height `5.0 mm`) molded directly into the base floor.
-   * Provides a generous `5.0 mm` air gap above the floor, giving `>2.5 mm` safety clearance beneath all through-hole solder pins.
+   * 4 monolithic perimeter shelf posts ($4.0 \times 4.0\text{ mm}$, height `5.0 mm`) molded directly into the base floor.
+   * Located at certified copper-free and pin-free keepout zones: Left `(-53.5, -43.0)`, Right `(+43.5, -21.0)`, Bottom `(+23.0, -50.5)`, Top `(+23.0, +26.5)`.
+   * Provides a generous `5.0 mm` air gap above the floor, completely clear of all through-hole solder pins and joints.
 2. **Top Clamping (Lid Downward Tabs):**
    * 4 monolithic downward clamp tabs ($4.0 \times 4.0\text{ mm}$, height `3.9 mm`) molded into the lid ceiling directly over the base shelf posts.
-   * Located in certified copper-free keepout zones (`>1.0 mm` clear of any trace or pad).
-   * When the 4 lid screws are fastened, the tabs apply a firm `0.1 mm` compression onto the PCB corners, locking the board rigidly with **zero vertical rattle** and **zero lateral play**.
+   * Strategically positioned in certified open keepout zones completely clear of all headers, modules, and components (Left between SW2 & BT1; Right between D1 & RADAR1; Bottom between SW1 & RADAR1; Top between C8 & PIR1).
+   * When the 4 lid screws are fastened, the tabs apply a firm `0.1 mm` compression onto the bare PCB perimeter, locking the board rigidly with **zero vertical rattle** and **zero lateral play**.
 
 ---
 

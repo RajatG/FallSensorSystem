@@ -8,8 +8,8 @@ An ultra-low-power, dual-radar fall detection and room occupancy monitoring syst
 
 ```
 ├── firmware/                        # Microcontroller & Radar Firmware
-│   ├── fall_sensor_esp32_C1001_v1/  # ESP32 Firmware for C1001 60GHz Radar (v4.20)
-│   ├── fall_sensor_esp32_ld2410_v1/ # ESP32 Firmware for LD2410 24GHz Radar (v4.20)
+│   ├── fall_sensor_esp32_C1001_v1/  # ESP32 Firmware for C1001 60GHz Radar (v4.23)
+│   ├── fall_sensor_esp32_ld2410_v1/ # ESP32 Firmware for LD2410 24GHz Radar (v4.23)
 │   ├── fall_attiny_v1/              # ATtiny85 Low-Power Wake Sentinel (v4.8)
 │   └── fall_attiny_mic_debug/       # ATtiny85 MIC Hardware Debug Utility
 │
@@ -28,10 +28,10 @@ An ultra-low-power, dual-radar fall detection and room occupancy monitoring syst
 │           ├── layers/              # Top & Bottom Copper Layer Plots
 │           └── schematic/           # Full-Size A3 Engineering Schematic
 │
-├── enclosure/                       # 3D Printed Wall-Mount Enclosure (v2.0 Square)
+├── enclosure/                       # 3D Printed Wall-Mount Enclosure (v2.1 Square)
 │   ├── fall_sensor_enclosure_base.stl # Base Mount with 18650 Battery Bay & PCB Standoffs
 │   ├── fall_sensor_enclosure_lid.stl  # Front Cover with Apertures & Alignment Lip
-│   ├── fall_sensor_enclosure.scad     # Parametric OpenSCAD Source
+│   ├── build_square_enclosure.py      # Parametric Blender Python CAD Script (v2.1)
 │   ├── fall_sensor_enclosure.blend    # Master Blender CAD Project & Studio Renders
 │   └── README.md                      # Mechanical Specifications & Slicer Guide
 │

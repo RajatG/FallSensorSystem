@@ -16,10 +16,11 @@ Replacing breakout boards with discrete SMD ICs reduces board footprint by **up 
 | **MT3608 Boost Board** | 3.7V to 5V Step-Up | **MT3608** (or **TPS61099** / **SX1308**) | SOT-23-6 | 1.2MHz high-efficiency boost IC. |
 | **LM393 Sound Module** | Acoustic Thud Sensor | **LM393G** / **LM393LV** Dual Comparator + Electret Mic Capsule | SOIC-8 / 6mm Mic | Discrete SMD comparator + SMT electret mic. |
 | **AM312 PIR Module** | Motion Detection | **AS312** (or **PIR sensor element + BISS0001 IC**) | SOT-23-6 / TO-5 | Compact surface-mount PIR sensor element. |
-| **2N7000 MOSFET** | Radar Power Switch | **BSS138** (or **2N7002** / **AO3400A**) | SOT-23 | High-efficiency 30V N-Channel MOSFET. |
+| **Load Switch Socket (U6)** | Radar Power Switch | **TPS22918DBVT** (or **BSS138** / **AO3400A**) | SOT-23-6 | High-efficiency load switch IC with integrated slew rate control. |
+| **LM2596 Buck Module (U7)** | 5V to 3.3V Step-Down | **TLV75533PDBVR** (or **AMS1117-3.3**) | SOT-23-5 | Ultra-low Iq 3.3V LDO regulator replacing bulky prototype buck module. |
 | **Power Switch SW2** | System Power Switch | **SS-12D00** / **SK-12D07** SMT Slide Switch | SMT 3-Pin | Low-profile surface-mount slide switch. |
 | **Sync Button SW1** | Reset / BLE Button | **EVQ-P7A01K** 3x4mm SMT Tactile Switch | SMT 2-Pin | Soft-touch SMT push button. |
-| **Passives (R1-R4, D1)** | Resistors, LED, Caps | 0805 or 0603 SMD Resistors / 0805 LED | 0805 / 0603 SMT | Standard SMT surface mount passives. |
+| **Passives (R1-R3, D1, 5 Caps)** | Resistors, LED, Caps | 0805 or 0603 SMD Resistors / 0805 LED / MLCC | 0805 / 0603 SMT | Standard SMT surface mount passives (C1, C3, C4, C7, C8). |
 
 ---
 

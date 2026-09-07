@@ -1,8 +1,8 @@
 (export
 	(version "E")
 	(design
-		(source "C:\\Users\\devja\\Documents\\AntiGravity\\fall_sensor\\fall_sensor.kicad_sch")
-		(date "2026-08-10T08:54:47")
+		(source "C:\\Users\\devja\\Documents\\AntiGravity\\FallSensorSystem\\hardware\\fall_sensor.kicad_sch")
+		(date "2026-09-08T01:03:19")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -75,7 +75,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -102,11 +102,11 @@
 		)
 		(comp
 			(ref "C1")
-			(value "1000u")
-			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+			(value "10u")
+			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
+					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -116,12 +116,12 @@
 			)
 			(libsource
 				(lib "Device")
-				(part "CP")
+				(part "C")
 				(description "")
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -147,12 +147,12 @@
 			)
 		)
 		(comp
-			(ref "C2")
-			(value "0.1u")
-			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+			(ref "C3")
+			(value "470u")
+			(footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+					(name "Footprint") "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
 				(field
 					(name "Datasheet")
 				)
@@ -167,53 +167,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
-			)
-			(property
-				(name "Sheetfile")
-				(value "fall_sensor.kicad_sch")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "d0d0d0d0-0000-4000-8000-000000000020")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C3")
-			(value "2200u")
-			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "C")
-				(description "")
-			)
-			(property
-				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -240,7 +194,7 @@
 		)
 		(comp
 			(ref "C4")
-			(value "0.1u")
+			(value "22u")
 			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
 			(fields
 				(field
@@ -259,7 +213,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -270,98 +224,6 @@
 				(tstamps "/")
 			)
 			(tstamps "925ac019-f2f1-4356-b14d-d9a0f9a73749")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C5")
-			(value "2200u")
-			(footprint "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "C")
-				(description "")
-			)
-			(property
-				(name "Sheetname")
-				(value "fall_sensor")
-			)
-			(property
-				(name "Sheetfile")
-				(value "fall_sensor.kicad_sch")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "d0d0d0d0-0000-4000-8000-000000000023")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C6")
-			(value "47u")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "C")
-				(description "")
-			)
-			(property
-				(name "Sheetname")
-				(value "fall_sensor")
-			)
-			(property
-				(name "Sheetfile")
-				(value "fall_sensor.kicad_sch")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "3d66e25c-e6eb-411c-afa7-0c8d740ddf9d")
 			(units
 				(unit
 					(name "A")
@@ -397,7 +259,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -443,7 +305,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -454,52 +316,6 @@
 				(tstamps "/")
 			)
 			(tstamps "47af8ef6-d874-4ec2-bfcf-966459a0b604")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C9")
-			(value "47u")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Device")
-				(part "C")
-				(description "")
-			)
-			(property
-				(name "Sheetname")
-				(value "fall_sensor")
-			)
-			(property
-				(name "Sheetfile")
-				(value "fall_sensor.kicad_sch")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "68a1e97c-69d9-497e-994a-206f86ec48a8")
 			(units
 				(unit
 					(name "A")
@@ -535,7 +351,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -563,10 +379,10 @@
 		(comp
 			(ref "PIR1")
 			(value "AM312_PIR")
-			(footprint "FallSensor:AM312_PIR")
+			(footprint "FallSensor:AM312_PIR_Square22x20")
 			(fields
 				(field
-					(name "Footprint") "FallSensor:AM312_PIR")
+					(name "Footprint") "FallSensor:AM312_PIR_Square22x20")
 				(field
 					(name "Datasheet")
 				)
@@ -581,7 +397,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -630,7 +446,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -676,7 +492,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -722,7 +538,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -750,10 +566,10 @@
 		(comp
 			(ref "RADAR1")
 			(value "C1001_Radar")
-			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical")
+			(footprint "FallSensor:C1001_Module")
 			(fields
 				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical")
+					(name "Footprint") "FallSensor:C1001_Module")
 				(field
 					(name "Datasheet")
 				)
@@ -768,7 +584,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -835,7 +651,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -899,7 +715,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -945,7 +761,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -991,7 +807,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -1121,7 +937,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -1188,7 +1004,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -1240,7 +1056,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -1292,7 +1108,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -1326,10 +1142,10 @@
 		(comp
 			(ref "U6")
 			(value "LoadSwitch_DBVT")
-			(footprint "Package_TO_SOT_SMD:SOT-23-6")
+			(footprint "Package_DIP:DIP-6_W7.62mm")
 			(fields
 				(field
-					(name "Footprint") "Package_TO_SOT_SMD:SOT-23-6")
+					(name "Footprint") "Package_DIP:DIP-6_W7.62mm")
 				(field
 					(name "Datasheet")
 				)
@@ -1344,7 +1160,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -1384,11 +1200,11 @@
 		(comp
 			(ref "U7")
 			(value "Buck Converter")
-			(footprint "FallSensor:Mini360_Module")
+			(footprint "FallSensor:LM2596_Module")
 			(description "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
 			(fields
 				(field
-					(name "Footprint") "FallSensor:Mini360_Module")
+					(name "Footprint") "FallSensor:LM2596_Module")
 				(field
 					(name "Datasheet")
 				)
@@ -1402,7 +1218,7 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "fall_sensor")
+				(value "")
 			)
 			(property
 				(name "Sheetfile")
@@ -2071,7 +1887,7 @@
 				(field
 					(name "Value") "LoadSwitch_DBVT")
 				(field
-					(name "Footprint") "Package_TO_SOT_SMD:SOT-23-6")
+					(name "Footprint") "Package_DIP:DIP-6_W7.62mm")
 				(field
 					(name "Datasheet")
 				)
@@ -2281,27 +2097,12 @@
 			(name "+3V3")
 			(class "Power,Default")
 			(node
-				(ref "C5")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "C6")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
 				(ref "C7")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
 				(ref "C8")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "C9")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -2322,6 +2123,12 @@
 				(pin "1")
 				(pinfunction "3V3_1")
 				(pintype "power_out")
+			)
+			(node
+				(ref "U2")
+				(pin "9")
+				(pinfunction "5V_9")
+				(pintype "power_in")
 			)
 			(node
 				(ref "U5")
@@ -2349,12 +2156,6 @@
 				(ref "C4")
 				(pin "1")
 				(pintype "passive")
-			)
-			(node
-				(ref "U2")
-				(pin "9")
-				(pinfunction "5V_9")
-				(pintype "power_in")
 			)
 			(node
 				(ref "U3")
@@ -2543,11 +2344,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C2")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
 				(ref "C3")
 				(pin "2")
 				(pintype "passive")
@@ -2558,27 +2354,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C5")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "C6")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
 				(ref "C7")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
 				(ref "C8")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "C9")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -2847,11 +2628,6 @@
 			(class "Default")
 			(node
 				(ref "C1")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "C2")
 				(pin "1")
 				(pintype "passive")
 			)

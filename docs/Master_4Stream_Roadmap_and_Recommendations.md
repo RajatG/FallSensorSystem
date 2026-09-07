@@ -12,7 +12,7 @@
 |---|---|:---:|---|---|
 | **1. Firmware / Software** | ✅ Verified | **95%** | v4.23 Silent Fall (Gradual Posture Collapse) logic implemented in both C1001 & LD2410 | Configurable floor threshold slider in app, auto acoustic threshold calibration |
 | **2. Hardware (PCB Rev A)** | ✅ DRC Clean | **92%** | Full 100×80mm 2-layer CAD, 0 errors, 0 unconnected nets, 1:1 true scale PDFs, Gerbers packaged | Production SMD Migration (Rev B) |
-| **3. 3D Enclosure (v2.0)** | ✅ Complete | **100%** | Modern Square profile ($106.8 \times 110.8 \times 31.4\text{ mm}$), integrated 18650 bay, left-wall USB-C port, high-res renders | Ready for slicer / 3D printing (PETG/ABS) |
+| **3. 3D Enclosure (v2.1)** | ✅ Complete | **100%** | Modern Square profile ($116.8 \times 110.8 \times 31.4\text{ mm}$), integrated 18650 bay, left-wall USB-C port, high-res renders | Ready for slicer / 3D printing (PETG/ABS) |
 | **4. Mobile App (Android)** | ✅ Functional | **92%** | Jetpack Compose dark UI, C1001 & LD2410 build flavors, BLE telemetry parser, lifetime prediction | High-priority audible alarm channel, floor threshold slider |
 
 ---
@@ -36,7 +36,7 @@
 
 ### Current Rev A (Prototype)
 - **Form Factor:** $100.00 \times 80.00\text{ mm}$ 2-layer FR4 PCB ($1.6\text{ mm}$ thickness, 1 oz copper).
-- **Construction:** Modular breakout socketing using commercially available off-the-shelf boards (ESP32 DevKit V1, Digispark ATtiny85, TP4056, MT3608, LM393, AM312, C1001, DBVT load switch).
+- **Construction:** Modular breakout socketing using commercially available off-the-shelf boards (ESP32 DevKit V1, Digispark ATtiny85, TP4056, MT3608, LM2596 Buck Converter, LM393, AM312, C1001, DBVT load switch).
 - **Verification:** 0 DRC Errors, 0 Unconnected Nets. Gerber production package ready in [`hardware/export/fall_sensor_gerbers.zip`](../hardware/export/fall_sensor_gerbers.zip).
 
 ### 🚀 Production SMD Migration Roadmap (Rev B)
@@ -64,15 +64,18 @@ Moving from breakout modules to a single, high-reliability commercial SMD board:
 
 ---
 
-## 3. 📦 3D Enclosure Stream (v2.0 Square)
+## 3. 📦 3D Enclosure Stream (v2.1 Square)
 
 ### Final Specifications
-- **Dimensions:** $106.8\text{ mm (Width)} \times 110.8\text{ mm (Depth)} \times 31.4\text{ mm (Total Height)}$ (Aspect ratio `0.96 : 1` square).
-- **Integrated Battery Compartment:** Dedicated top bay ($102 \times 22\text{ mm}$) separated from the PCB by a $2.0\text{ mm}$ thermal divider wall with an $8 \times 6\text{ mm}$ wire notch routing directly to `BT1`.
+- **Dimensions:** $116.8\text{ mm (Width)} \times 110.8\text{ mm (Depth)} \times 31.4\text{ mm (Total Height)}$ (Aspect ratio `1.05 : 1` square).
+- **Integrated Battery Compartment:** Dedicated $79.5\text{ mm}$ cradle ($79.5 \times 22\text{ mm}$) on the left, separated from the PCB by a rigid retaining end-wall with an $8 \times 6\text{ mm}$ wire notch. An open PIR alcove ($32.5\text{ mm}$ span) provides unobstructed sensor clearance to the right.
+- **Radar RF Isolation Chamber:** Dedicated $10.0\text{ mm}$ right-side expansion chamber providing complete dielectric clearance for the overhanging C1001 60GHz antenna patches.
 - **Wall Mounting:** Dual rear keyholes spaced $50.0\text{ mm}$ apart for secure slide-and-lock wall attachment.
+- **PCB Clamping:** Zero-screw sandwich architecture — 4 base shelf posts ($5.0\text{ mm}$) support the PCB from below, 4 lid downward clamp tabs ($3.9\text{ mm}$) apply $0.1\text{ mm}$ compression from above. No PCB screw holes required.
 - **Port Alignment:**
-  - **Left Wall:** TP4056 USB-C charging slot ($11.0 \times 4.8\text{ mm}$) and Power Switch slot ($9.5 \times 5.0\text{ mm}$) separated by a solid $5.2\text{ mm}$ structural bridge.
+  - **Left Wall:** TP4056 USB-C charging slot ($11.0 \times 4.8\text{ mm}$). **Solid wall** — power switch (`SW2`) is an internal 2.54mm header pin jumper cap with no external cutout.
   - **Front Face:** PIR Fresnel dome aperture ($\varnothing 12\text{ mm}$), Microphone acoustic port ($\varnothing 3\text{ mm}$), Alarm LED hole ($\varnothing 3.2\text{ mm}$), Sync pinhole ($\varnothing 3.5\text{ mm}$), and internal $1.0\text{ mm}$ thin-wall RF transmission window for the C1001 mmWave radar.
+- **Lid Closure:** 4× M3 × 25mm Hex Allen CSK screws through solid corner guide pillars.
 - **Fabrication Assets:** Watertight binary STLs [`fall_sensor_enclosure_base.stl`](../enclosure/fall_sensor_enclosure_base.stl) and [`fall_sensor_enclosure_lid.stl`](../enclosure/fall_sensor_enclosure_lid.stl) ready for slicer.
 
 ---

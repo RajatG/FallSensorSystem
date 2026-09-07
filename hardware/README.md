@@ -53,7 +53,8 @@ This directory contains the complete electronic schematic and PCB design files f
 | **6** | `PB0` | `/MIC_WAKE` | Active-HIGH 50ms wake pulse to ESP32 `GPIO4` |
 | **4** | `PB2` | `/PIR_WAKE` | Active-HIGH 50ms wake pulse to ESP32 `GPIO13` |
 | **7** | `GND` | `GND` | Common ground |
-| **8** | `VIN` | `+5V` | Regulated 5.0V power rail |
+| **8** | `VIN` | *Unconnected* | Bypassed (Digispark onboard regulator not used) |
+| **9** | `5V/VCC` | `+3V3` | Regulated 3.3V power input from U7 buck converter |
 
 ---
 
