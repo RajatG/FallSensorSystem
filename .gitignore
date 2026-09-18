@@ -15,7 +15,7 @@ local.properties
 
 # KiCad locks & backup histories
 *.lck
-*.bak
+*.bak*
 *.kicad_prl
 *-save.kicad_pcb
 *-save.kicad_sch

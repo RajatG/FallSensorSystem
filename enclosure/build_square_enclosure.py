@@ -127,21 +127,29 @@ def generate_photorealistic_enclosure():
     cavity.location.z = floor_t
     boolean_op(base, cavity, 'DIFFERENCE')
 
-    # Battery Cradle Retaining Walls (Encloses 79.5 mm battery bay on left)
-    # Divider wall runs ONLY along the 79.5 mm cradle (from X = -56.0 to X = +23.5 mm).
-    # To the right of X = +23.5 mm, the space is 100% OPEN for the PIR sensor to extend freely!
+    # Battery Cradle Retaining Walls (Shifted to X in [-42.0, +32.0] mm, clear of top-left screw boss)
     div_y = 30.0
-    bat_len = 79.5
-    bat_div_cx = -inner_w / 2.0 + bat_len / 2.0  # -56.0 + 39.75 = -16.25 mm
+    bat_x_min = -42.0
+    bat_x_max = 32.0
+    bat_len = bat_x_max - bat_x_min  # 74.0 mm (standard 18650 holder fits comfortably)
+    bat_div_cx = (bat_x_min + bat_x_max) / 2.0  # -5.0 mm
     div_wall = create_cube("Divider_Wall", bat_len, divider_t, divider_h, location=(bat_div_cx, div_y, floor_t + divider_h / 2.0))
-    wire_notch = create_cube("Wire_Notch", 8.0, divider_t * 2.0, 6.0, location=(-inner_w/2.0 + 10.0, div_y, floor_t + divider_h - 2.0))
+    # Wire notch aligned with BT1 at kx = 78.0 mm (ex = -27.0 mm)
+    wire_notch = create_cube("Wire_Notch", 8.0, divider_t * 2.0, 6.0, location=(-27.0, div_y, floor_t + divider_h - 2.0))
     boolean_op(div_wall, wire_notch, 'DIFFERENCE')
     boolean_op(base, div_wall, 'UNION')
 
-    # Battery Retaining End-Wall at X = +23.5 mm (from Y = 30.0 to back wall 52.0 mm)
-    bat_end_x = -inner_w / 2.0 + bat_len
-    bat_end_wall = create_cube("Battery_End_Wall", divider_t, bat_bay_d, divider_h, location=(bat_end_x, div_y + divider_t/2.0 + bat_bay_d/2.0, floor_t + divider_h / 2.0))
-    boolean_op(base, bat_end_wall, 'UNION')
+    # Left Battery Retaining Wall at X = -42.0 mm
+    bat_left_wall = create_cube("Battery_Left_Wall", divider_t, bat_bay_d, divider_h, location=(bat_x_min, div_y + divider_t/2.0 + bat_bay_d/2.0, floor_t + divider_h / 2.0))
+    boolean_op(base, bat_left_wall, 'UNION')
+
+    # Right Battery Retaining Wall at X = +32.0 mm
+    bat_right_wall = create_cube("Battery_Right_Wall", divider_t, bat_bay_d, divider_h, location=(bat_x_max, div_y + divider_t/2.0 + bat_bay_d/2.0, floor_t + divider_h / 2.0))
+    boolean_op(base, bat_right_wall, 'UNION')
+
+    # Solid Support Shelf Under U7 (LM2596 module corner support, X in [-55.0, -42.0], Y in [20.0, 28.0])
+    u7_shelf = create_cube("U7_Support_Shelf", 13.0, 8.0, standoff_h, location=(-48.5, 24.0, floor_t + standoff_h / 2.0))
+    boolean_op(base, u7_shelf, 'UNION')
 
     # PCB Support Ledges (Certified 100% copper-free and pin-free keepout zones)
     # PCB sits at X in [-55.0, +45.0], Y in [-52.0, +28.0]
@@ -149,7 +157,7 @@ def generate_photorealistic_enclosure():
     # Ledge 2 (Right):  (+43.5, -21.0) — wide open zone between D1 LED and RADAR1
     # Ledge 3 (Bottom): (+23.0, -50.5) — wide open zone between SW1 and RADAR1
     # Ledge 4 (Top):    (+23.0, +26.5) — wide open zone between C8 and PIR1
-    for lx, ly in [(-53.5, -43.0), (43.5, -21.0), (23.0, -50.5), (23.0, 26.5)]:
+    for lx, ly in [(-53.5, -35.0), (43.5, -21.0), (23.0, -50.5), (23.0, 26.5)]:
         post = create_cube("Shelf_Ledge", 4.0, 4.0, standoff_h, location=(lx, ly, floor_t + standoff_h/2.0))
         boolean_op(base, post, 'UNION')
 
@@ -163,11 +171,11 @@ def generate_photorealistic_enclosure():
             boolean_op(boss, hole, 'DIFFERENCE')
             boolean_op(base, boss, 'UNION')
 
-    # 2 Rear Wall-Mount Keyholes (Centered on back wall)
+    # 2 Rear Wall-Mount Keyholes (Centered on back wall at X = 0.0 mm)
     for ky in [-25.0, 25.0]:
-        kh_head = create_cylinder("KH_Head", radius=4.25, height=2.2, location=(-5.0, ky - 4.0, 1.0))
-        kh_slot = create_cube("KH_Slot", 4.5, 8.0, floor_t + 1.0, location=(-5.0, ky, floor_t / 2.0))
-        kh_recess = create_cube("KH_Recess", 9.0, 8.0, 1.4, location=(-5.0, ky, floor_t - 0.7))
+        kh_head = create_cylinder("KH_Head", radius=4.25, height=2.2, location=(0.0, ky - 4.0, 1.0))
+        kh_slot = create_cube("KH_Slot", 4.5, 8.0, floor_t + 1.0, location=(0.0, ky, floor_t / 2.0))
+        kh_recess = create_cube("KH_Recess", 9.0, 8.0, 1.4, location=(0.0, ky, floor_t - 0.7))
         boolean_op(base, kh_head, 'DIFFERENCE')
         boolean_op(base, kh_slot, 'DIFFERENCE')
         boolean_op(base, kh_recess, 'DIFFERENCE')
@@ -196,23 +204,9 @@ def generate_photorealistic_enclosure():
     lid_cavity.location.z = -0.5
     boolean_op(lid, lid_cavity, 'DIFFERENCE')
 
-    # Alignment Lip
-    lip_outer = create_rounded_prism("Lip_Outer", inner_w - 0.5, inner_d - 0.5, 1.8, r=2.8)
-    lip_outer.location.z = -1.8
-    lip_inner = create_rounded_prism("Lip_Inner", inner_w - 0.5 - 2*1.5, inner_d - 0.5 - 2*1.5, 3.0, r=2.0)
-    lip_inner.location.z = -2.5
-    boolean_op(lip_outer, lip_inner, 'DIFFERENCE')
-    boolean_op(lid, lip_outer, 'UNION')
+    # Flush Butt Joint (Zero protruding lip for clean, support-free face-down printing)
 
-    # 4 PCB Downward Clamping Posts (Rigid Sandwich Clamp)
-    # Directly above the 4 base shelf ledges at (-53.5, -43.0), (43.5, -21.0), (23.0, -50.5), (23.0, 26.5)
-    # These locations are certified 100% CLEAR on both top and bottom (zero pads, zero tracks, zero component collisions).
-    # Vertical distance from lid rim (Z=0) down to top of PCB is exactly 4.0 mm.
-    # Clamp post height = 3.9 mm (giving 0.1 mm snug clamping force with zero rattle).
-    clamp_h = 3.9
-    for lx, ly in [(-53.5, -43.0), (43.5, -21.0), (23.0, -50.5), (23.0, 26.5)]:
-        c_tab = create_cube("PCB_Clamp_Tab", 4.0, 4.0, clamp_h, location=(lx, ly, -clamp_h / 2.0))
-        boolean_op(lid, c_tab, 'UNION')
+    # (Floating lid clamp tabs removed; PCB is rigidly secured by corner bosses and base ledges)
 
     # 4 Corner Lid Screw Boss Pillars (Creates solid guide tubes matching base bosses)
     for bx in [-boss_x, boss_x]:
@@ -228,29 +222,24 @@ def generate_photorealistic_enclosure():
             boolean_op(lid, cs_hole, 'DIFFERENCE')
             boolean_op(lid, cs_sink, 'DIFFERENCE')
 
-    # Sensor Apertures - EXACT MAPPING TO PCB
-    # PIR1 at kx = 139.5 mm, ky = 58.25 mm
-    pir_ex, pir_ey = k2e(139.5, 58.25)
+    # Sensor Apertures - EXACT MAPPING TO SENSOR ELEMENTS (COLLINEAR AT kx = 142.50 mm)
+    # 1. PIR1 Fresnel Dome (Optical center at kx = 142.50 mm, ky = 53.71 mm)
+    pir_ex, pir_ey = k2e(142.50, 53.71)
     pir_hole = create_cylinder("PIR_Aperture", radius=6.0, height=lid_t * 3.0, location=(pir_ex, pir_ey, lid_h))
     boolean_op(lid, pir_hole, 'DIFFERENCE')
 
-    # Radar RF Window: Internal ceiling pocket over C1001 module (kx=141.5, ky=112.0)
-    radar_ex, radar_ey = k2e(141.5, 112.0)
-    radar_recess = create_cube("Radar_RF_Window", 22.0, 22.0, 1.4, location=(radar_ex + 5.0, radar_ey, lid_h - lid_t + 0.7))
-    boolean_op(lid, radar_recess, 'DIFFERENCE')
-
-    # Mic Port (LM393 DO / electret at kx=115.5, ky=76.8)
-    mic_ex, mic_ey = k2e(115.5, 76.8)
+    # 2. Mic Acoustic Port (Electret capsule center at kx = 142.50 mm, ky = 73.00 mm)
+    mic_ex, mic_ey = k2e(142.50, 73.00)
     mic_hole = create_cylinder("Mic_Port", radius=1.5, height=lid_t * 3.0, location=(mic_ex, mic_ey, lid_h))
     boolean_op(lid, mic_hole, 'DIFFERENCE')
 
-    # Status LED D1 (kx=140.2, ky=89.0)
-    led_ex, led_ey = k2e(140.2, 89.0)
+    # 3. Status LED D1 (Center at kx = 142.50 mm, ky = 89.00 mm)
+    led_ex, led_ey = k2e(142.50, 89.00)
     led_hole = create_cylinder("LED_Hole", radius=1.6, height=lid_t * 3.0, location=(led_ex, led_ey, lid_h))
     boolean_op(lid, led_hole, 'DIFFERENCE')
 
-    # Sync Button SW1 (kx=107.25, ky=121.25)
-    btn_ex, btn_ey = k2e(107.25, 121.25)
+    # 4. Sync Button SW1 (Pinhole access over button actuator center at kx = 110.50 mm, ky = 123.50 mm)
+    btn_ex, btn_ey = k2e(110.50, 123.50)
     btn_hole = create_cylinder("Sync_Hole", radius=1.75, height=lid_t * 3.0, location=(btn_ex, btn_ey, lid_h))
     boolean_op(lid, btn_hole, 'DIFFERENCE')
 

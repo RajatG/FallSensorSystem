@@ -1,0 +1,255 @@
+================================================================================
+FALL SENSOR SYSTEM - PERFBOARD / PROTOTYPE WIRING DIRECTORY
+================================================================================
+Based on KiCad Carrier PCB: fall_sensor.kicad_pcb
+Total Connected Nets: 21 | Total Components: 21
+
+This guide provides a functional, point-to-point connection list for assembling 
+the Fall Sensor system on a prototype perfboard or breadboard before finalizing 
+the printed circuit board.
+
+--------------------------------------------------------------------------------
+SECTION 1: COMPONENT & MODULE PINOUT REFERENCE
+--------------------------------------------------------------------------------
+1. U1: ESP32 DevKit V1 (30-Pin NodeMCU ESP-WROOM-32)
+   - Left Row (Pins 1-15):
+     Pin 1:  3V3              Pin 9:  GPIO25 (PRESENCE_PIN)
+     Pin 2:  EN (NC)          Pin 10: GPIO26 (FALL_PIN)
+     Pin 3:  GPIO36/VP (NC)   Pin 11: GPIO27 (RADAR_EN)
+     Pin 4:  GPIO39/VN (NC)   Pin 12: GPIO14 (NC)
+     Pin 5:  GPIO34 (BATT_ADC)Pin 13: GPIO12 (NC)
+     Pin 6:  GPIO35 (NC)      Pin 14: GND
+     Pin 7:  GPIO32 (NC)      Pin 15: GPIO13 (PIR_WAKE)
+     Pin 8:  GPIO33 (SYNC_BTN)
+
+   - Right Row (Pins 16-30):
+     Pin 16: VIN (NC)         Pin 24: GPIO18 (NC)
+     Pin 17: GND              Pin 25: GPIO5 (NC)
+     Pin 18: GPIO23 (NC)      Pin 26: GPIO17 (RADAR_TX)
+     Pin 19: GPIO22 (NC)      Pin 27: GPIO16 (RADAR_RX)
+     Pin 20: TX0 (NC)         Pin 28: GPIO4 (MIC_WAKE)
+     Pin 21: RX0 (NC)         Pin 29: GPIO2 (NC)
+     Pin 22: GPIO21 (NC)      Pin 30: GPIO15 (NC)
+     Pin 23: GPIO19 (FALL_LED)
+
+2. U2: Digispark ATtiny85 (Low-Power Sensor Co-Processor)
+   - Pin 1: P5 / RST (NC)
+   - Pin 2: P4 (MIC_SIG Input from LM393 DO)
+   - Pin 3: P3 (NC)
+   - Pin 4: P2 (PIR_WAKE Output to ESP32 GPIO13)
+   - Pin 5: P1 (PIR_SIG Input from AM312 OUT)
+   - Pin 6: P0 (MIC_WAKE Output to ESP32 GPIO4)
+   - Pin 7: GND
+   - Pin 8 / 9: VIN / 5V (Connected to +3.3V Logic Rail)
+
+3. U3: MT3608 Step-Up Boost Converter Module
+   - Pin 1: VIN+ (Battery switched input via SW2)
+   - Pin 2: VIN- / GND
+   - Pin 3: VOUT+ (Boosted +5.0V output, trimpot-adjusted)
+   - Pin 4: GND
+
+4. U4: TP4056 LiPo Battery Charging & Protection Module
+   - Pin 1: BAT+ (Direct connection to BT1 Pad 2)
+   - Pin 2: BAT- (Direct connection to BT1 Pad 1)
+   - Pin 3: OUT+ (Protected battery output to SW2, C1, and R1)
+   - Pin 4: OUT- / GND (Common system ground)
+
+5. U5: LM393 Sound Detection Sensor Module
+   - Pin 1: VCC (+3.3V rail)
+   - Pin 2: GND
+   - Pin 3: DO (Digital Output to ATtiny85 P4)
+   - Pin 4: AO (Analog Output, NC)
+
+6. U6: Load Switch (SOT-23-6 DBVT or discrete P-MOSFET circuit)
+   - Pin 1: VIN (+5V boosted rail)
+   - Pins 2, 4, 5: GND
+   - Pin 3: EN (Enable control from ESP32 GPIO27)
+   - Pin 6: VOUT (Switched +5V power to Radar VIN)
+
+7. U7: LM2596 Step-Down Buck Converter Module
+   - Pin 1: IN+ (+5V from MT3608 VOUT+)
+   - Pin 2: IN- (GND)
+   - Pin 3: OUT+ (+3.3V high-current logic rail, trimpot-adjusted)
+   - Pin 4: OUT- (GND)
+
+8. RADAR1: C1001 60GHz mmWave Fall Detection Radar
+   - Pin 1: VIN (Switched +5V from U6 Pin 6)
+   - Pin 2: GND
+   - Pin 3: TX (UART TX to ESP32 GPIO17/RX)
+   - Pin 4: RX (UART RX to ESP32 GPIO16/TX)
+   - Pin 5: OUT1 (Digital Presence Detection to ESP32 GPIO25)
+   - Pin 6: OUT2 (Digital Fall Alert to ESP32 GPIO26)
+
+9. PIR1: AM312 Mini PIR Motion Sensor
+   - Pin 1: VCC (+3.3V rail)
+   - Pin 2: OUT (Digital Motion signal to ATtiny85 P1)
+   - Pin 3: GND
+
+10. Switches, Battery & UI Components:
+   - BT1: 18650 Battery Solder Pads (Pin 1: BAT-, Pin 2: BAT+)
+   - SW1: Tactile Pushbutton (SYNC button)
+   - SW2: SPST Power Toggle Switch (Main System Power)
+   - D1:  Status LED (Pin 1: Anode A, Pin 2: Cathode K)
+   - R1:  100kΩ Resistor (Battery Divider High-Side)
+   - R2:  100kΩ Resistor (Battery Divider Low-Side)
+   - R3:  270Ω Resistor (LED Current Limiter)
+   - C1:  10µF Capacitor (Battery rail buffer)
+   - C3:  470µF 16V Electrolytic Capacitor (Radar +5V pulse buffer)
+   - C4:  22µF Capacitor (+5V filter)
+   - C7:  0.1µF Ceramic Capacitor (+3.3V decoupling)
+   - C8:  0.1µF Ceramic Capacitor (+3.3V decoupling)
+
+--------------------------------------------------------------------------------
+SECTION 2: FUNCTIONAL WIRING NETLIST (GROUP BY GROUP)
+--------------------------------------------------------------------------------
+
+================================================================================
+GROUP 1: COMMON GROUND BUS (GND) - Connect all 21 points together
+================================================================================
+Create a sturdy bare-copper ground rail along the perfboard. Solder each point:
+  1.  U4 TP4056       Pin 4  (OUT-)
+  2.  U3 MT3608       Pin 2  (VIN-)
+  3.  U3 MT3608       Pin 4  (GND)
+  4.  U7 LM2596       Pin 2  (IN-)
+  5.  U7 LM2596       Pin 4  (OUT-)
+  6.  U1 ESP32        Pin 14 (GND)
+  7.  U1 ESP32        Pin 17 (GND)
+  8.  U2 ATtiny85     Pin 7  (GND)
+  9.  PIR1 AM312      Pin 3  (GND)
+  10. U5 LM393        Pin 2  (GND)
+  11. RADAR1 C1001    Pin 2  (GND)
+  12. U6 LoadSwitch   Pin 2  (GND)
+  13. U6 LoadSwitch   Pin 4  (GND)
+  14. U6 LoadSwitch   Pin 5  (GND)
+  15. D1 Status LED   Pin 2  (Cathode K, short leg / flat side)
+  16. R2 Resistor     Pin 2  (Low side of 100kΩ divider)
+  17. C1 Capacitor    Pin 2  (10µF negative)
+  18. C3 Capacitor    Pin 2  (470µF electrolytic negative stripe)
+  19. C4 Capacitor    Pin 2  (22µF negative)
+  20. C7 Capacitor    Pin 2  (0.1µF ceramic ground)
+  21. C8 Capacitor    Pin 2  (0.1µF ceramic ground)
+
+================================================================================
+GROUP 2: BATTERY & CHARGING PATH
+================================================================================
+  1. BT1 Battery Lead (+) [Pin 2] ---------> U4 TP4056 BAT+ [Pin 1]
+  2. BT1 Battery Lead (-) [Pin 1] ---------> U4 TP4056 BAT- [Pin 2]
+     (Keep these two leads thick and direct to ensure low ESR during charging)
+
+================================================================================
+GROUP 3: PROTECTED BATTERY OUTPUT & MAIN POWER SWITCH
+================================================================================
+  All these 4 points connect together:
+  - U4 TP4056 OUT+ [Pin 3]
+  - C1 Capacitor (10µF) Positive [Pin 1]
+  - R1 Resistor (100kΩ) [Pin 1]
+  - SW2 Power Switch Terminal 1 [Pin 1]
+
+  Then from switch:
+  - SW2 Power Switch Terminal 2 [Pin 2] ---> U3 MT3608 VIN+ [Pin 1]
+  (Closing SW2 connects battery power into the boost converter)
+
+================================================================================
+GROUP 4: BOOSTED +5V POWER RAIL (Adjust MT3608 to 5.00V before connecting load)
+================================================================================
+  All these 5 points connect together:
+  - U3 MT3608 VOUT+ [Pin 3]
+  - U7 LM2596 IN+ [Pin 1]
+  - U6 LoadSwitch VIN [Pin 1]
+  - C3 Capacitor (470µF 16V) Positive [Pin 1]
+  - C4 Capacitor (22µF) Positive [Pin 1]
+  (C3 absorbs current transients when the mmWave radar sweeps)
+
+================================================================================
+GROUP 5: REGULATED +3.3V LOGIC RAIL (Adjust LM2596 to 3.30V before connecting)
+================================================================================
+  All these 8 points connect together:
+  - U7 LM2596 OUT+ [Pin 3]
+  - U1 ESP32 3V3 [Pin 1]
+  - U2 ATtiny85 VCC/VIN [Pin 9 / Pin 8]
+  - PIR1 AM312 VCC [Pin 1]
+  - U5 LM393 Sound VCC [Pin 1]
+  - SW1 SYNC Pushbutton Terminal 2 [Pin 2]
+  - C7 Capacitor (0.1µF) [Pin 1]
+  - C8 Capacitor (0.1µF) [Pin 1]
+
+================================================================================
+GROUP 6: BATTERY VOLTAGE MONITORING DIVIDER (BATT_ADC)
+================================================================================
+  Connect these 3 points together:
+  - R1 Resistor (100kΩ) Pin 2
+  - R2 Resistor (100kΩ) Pin 1
+  - U1 ESP32 GPIO34 [Pin 5]
+  (R1 is tied to battery OUT+, R2 is tied to GND; mid-point gives V_batt / 2)
+
+================================================================================
+GROUP 7: SENSOR WAKEUP & CO-PROCESSOR SIGNALS
+================================================================================
+  1. PIR Signal:
+     - PIR1 AM312 OUT [Pin 2] -------------> U2 ATtiny85 Pin 5 (P1)
+
+  2. Acoustic / Sound Signal:
+     - U5 LM393 Sound DO [Pin 3] ----------> U2 ATtiny85 Pin 2 (P4)
+
+  3. Co-Processor Wakeup Lines to ESP32:
+     - U2 ATtiny85 Pin 4 (P2) -------------> U1 ESP32 GPIO13 [Pin 15] (PIR_WAKE)
+     - U2 ATtiny85 Pin 6 (P0) -------------> U1 ESP32 GPIO4  [Pin 28] (MIC_WAKE)
+
+================================================================================
+GROUP 8: C1001 mmWAVE RADAR INTERFACE & POWER GATING
+================================================================================
+  1. Radar Power Switch:
+     - U1 ESP32 GPIO27 [Pin 11] -----------> U6 LoadSwitch EN [Pin 3]
+     - U6 LoadSwitch VOUT [Pin 6] ---------> RADAR1 C1001 VIN [Pin 1]
+     (ESP32 drives GPIO27 HIGH to energize the radar module)
+
+  2. Radar UART Communications:
+     - RADAR1 C1001 TX [Pin 3] ------------> U1 ESP32 GPIO17 [Pin 26] (RX2)
+     - RADAR1 C1001 RX [Pin 4] ------------> U1 ESP32 GPIO16 [Pin 27] (TX2)
+
+  3. Radar Real-Time Hardware Alert Lines:
+     - RADAR1 C1001 OUT1 [Pin 5] ----------> U1 ESP32 GPIO25 [Pin 9]  (PRESENCE)
+     - RADAR1 C1001 OUT2 [Pin 6] ----------> U1 ESP32 GPIO26 [Pin 10] (FALL)
+
+================================================================================
+GROUP 9: STATUS INDICATORS & USER CONTROLS
+================================================================================
+  1. Status LED:
+     - U1 ESP32 GPIO19 [Pin 23] -----------> R3 Resistor (270Ω) Pin 1
+     - R3 Resistor (270Ω) Pin 2 -----------> D1 Status LED Pin 1 (Anode A)
+     (D1 Cathode connects to common Ground)
+
+  2. SYNC Pushbutton:
+     - SW1 SYNC Button Pin 1 --------------> U1 ESP32 GPIO33 [Pin 8]
+     (SW1 Pin 2 is connected to +3.3V rail. Pressing button pulls GPIO33 HIGH)
+
+--------------------------------------------------------------------------------
+SECTION 3: PERFBOARD STEP-BY-STEP BRING-UP CHECKLIST
+--------------------------------------------------------------------------------
+STEP 1: POWER SUPPLY CALIBRATION (CRITICAL - DO NOT SKIP)
+  1. Wire ONLY the battery path, SW2, MT3608, and LM2596. DO NOT connect ESP32, 
+     ATtiny85, or any sensors yet!
+  2. Insert battery and toggle SW2 ON.
+  3. Measure MT3608 VOUT+ with a digital multimeter:
+     - Adjust the tiny brass screw on the MT3608 trimpot until output is EXACTLY 5.00V.
+  4. Measure LM2596 OUT+ with a digital multimeter:
+     - Adjust the trimpot on the LM2596 until output is EXACTLY 3.30V.
+  5. Toggle SW2 OFF.
+
+STEP 2: GROUND & RAILS CONTINUITY CHECK
+  1. With power OFF, test continuity with multimeter beeper across all GND points.
+  2. Verify NO short circuit between GND and +5V rail (resistance should be > 10kΩ).
+  3. Verify NO short circuit between GND and +3.3V rail (resistance should be > 10kΩ).
+  4. Verify NO short circuit between +5V and +3.3V rails.
+
+STEP 3: POPULATE MCUs & SENSORS
+  1. Solder or plug in U1 ESP32 and U2 ATtiny85 into socket headers.
+  2. Plug in PIR1 and LM393 modules.
+  3. Power on and verify 3.3V is present on ESP32 3V3 pin and ATtiny85 VCC pin.
+  4. Test battery voltage divider at ESP32 GPIO34 (should read approx. 1.8V-2.1V).
+
+STEP 4: RADAR MODULE INTEGRATION
+  1. Connect C1001 Radar header.
+  2. When ESP32 boots and pulls GPIO27 HIGH, verify 5.0V appears on Radar VIN pin.
+  3. Verify UART communication and falling edge detection signals.
+================================================================================
