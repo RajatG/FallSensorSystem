@@ -272,12 +272,32 @@ bb_x2, bb_y2 = b2pt(32.0, 30.0)
 p2.draw_rect(fitz.Rect(bb_x1, bb_y1, bb_x2, bb_y2), color=(0.8, 0.4, 0.1), fill=(1.0, 0.92, 0.85), width=0.8)
 p2.insert_text(fitz.Point(bb_x1 + 4, bb_y1 + 10), "18650 Battery Cradle (74.0 x 22.0 mm, Shifted X: -42 to +32)", fontsize=6.0, fontname="helv", color=(0.8, 0.4, 0.1))
 
-# Solid U7 Shelf
-sh_x1, sh_y1 = b2pt(-55.0, 28.0)
-sh_x2, sh_y2 = b2pt(-42.0, 20.0)
+# U7 Support Shelf (8x8mm, centered at eX=-44, eY=+24, clear of Pad 2)
+sh_x1, sh_y1 = b2pt(-48.0, 28.0)
+sh_x2, sh_y2 = b2pt(-40.0, 20.0)
 p2.draw_rect(fitz.Rect(sh_x1, sh_y1, sh_x2, sh_y2), color=(0.1, 0.5, 0.2), fill=(0.8, 0.95, 0.8), width=0.8)
-p2.insert_text(fitz.Point(sh_x1 + 2, sh_y1 + 7), "Solid U7 Shelf", fontsize=5.5, fontname="helv", color=(0.1, 0.5, 0.2))
-p2.insert_text(fitz.Point(sh_x1 + 2, sh_y1 + 14), "Ledge (Z=7.4mm)", fontsize=5.0, fontname="helv", color=(0.1, 0.5, 0.2))
+p2.insert_text(fitz.Point(sh_x1 + 1, sh_y1 + 7), "U7 Shelf (8x8mm)", fontsize=5.0, fontname="helv", color=(0.1, 0.5, 0.2))
+p2.insert_text(fitz.Point(sh_x1 + 1, sh_y1 + 13), "(Clear of Pad 2)", fontsize=4.5, fontname="helv", color=(0.1, 0.5, 0.2))
+
+# 4 Perimeter PCB Support Ledges (4x4mm each, Z=5.0mm, all certified pin/via-free)
+ledges_base = [
+    ("L1", -53.5, -25.0),  # Safe between U7 Pad 4 and SW2
+    ("L2", 43.5, -21.0),   # Open zone between D1 LED and RADAR1
+    ("L3", 23.0, -50.5),   # Open zone between SW1 and RADAR1
+    ("L4", 19.0, 26.5),    # Open zone between C8 and PIR1
+]
+for lid, lx, ly in ledges_base:
+    lp1 = b2pt(lx - 2.0, ly + 2.0)
+    lp2 = b2pt(lx + 2.0, ly - 2.0)
+    p2.draw_rect(fitz.Rect(lp1[0], lp1[1], lp2[0], lp2[1]), color=(0.1, 0.5, 0.2), fill=(0.85, 0.96, 0.85), width=0.7)
+    if lid == "L1":
+        p2.insert_text(fitz.Point(lp1[0] - mm2pt(20), lp1[1] + 5), "Ledge 1 (4x4)", fontsize=4.8, fontname="helv", color=(0.1, 0.5, 0.2))
+    elif lid == "L2":
+        p2.insert_text(fitz.Point(lp2[0] + 2, lp1[1] + 5), "Ledge 2", fontsize=4.8, fontname="helv", color=(0.1, 0.5, 0.2))
+    elif lid == "L3":
+        p2.insert_text(fitz.Point(lp1[0] - 2, lp2[1] + 7), "Ledge 3", fontsize=4.8, fontname="helv", color=(0.1, 0.5, 0.2))
+    elif lid == "L4":
+        p2.insert_text(fitz.Point(lp2[0] + 2, lp1[1] + 5), "Ledge 4", fontsize=4.8, fontname="helv", color=(0.1, 0.5, 0.2))
 
 # Wire notch
 wn_x1, wn_y1 = b2pt(-31.0, 31.0)

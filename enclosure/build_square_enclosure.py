@@ -147,17 +147,19 @@ def generate_photorealistic_enclosure():
     bat_right_wall = create_cube("Battery_Right_Wall", divider_t, bat_bay_d, divider_h, location=(bat_x_max, div_y + divider_t/2.0 + bat_bay_d/2.0, floor_t + divider_h / 2.0))
     boolean_op(base, bat_right_wall, 'UNION')
 
-    # Solid Support Shelf Under U7 (LM2596 module corner support, X in [-55.0, -42.0], Y in [20.0, 28.0])
-    u7_shelf = create_cube("U7_Support_Shelf", 13.0, 8.0, standoff_h, location=(-48.5, 24.0, floor_t + standoff_h / 2.0))
+    # Support Shelf Under U7 (LM2596 module perimeter support, X in [-48.0, -40.0], Y in [20.0, 28.0])
+    # Centered at eX = -44.0 mm in the 14.15mm clear span between Pad 2 (eX=-52.5) and Pad 1 (eX=-35.35)
+    # Leaves Pad 2 completely in open air (4.5mm clearance to shelf edge, full 5.0mm vertical cavity depth)
+    u7_shelf = create_cube("U7_Support_Shelf", 8.0, 8.0, standoff_h, location=(-44.0, 24.0, floor_t + standoff_h / 2.0))
     boolean_op(base, u7_shelf, 'UNION')
 
     # PCB Support Ledges (Certified 100% copper-free and pin-free keepout zones)
     # PCB sits at X in [-55.0, +45.0], Y in [-52.0, +28.0]
-    # Ledge 1 (Left):   (-53.5, -43.0) — dead center between SW2 and BT1
+    # Ledge 1 (Left):   (-53.5, -25.0) — dead center in 22.5mm clear span between U7-Pad4 and SW2 (11.5mm to SW2-1)
     # Ledge 2 (Right):  (+43.5, -21.0) — wide open zone between D1 LED and RADAR1
     # Ledge 3 (Bottom): (+23.0, -50.5) — wide open zone between SW1 and RADAR1
     # Ledge 4 (Top):    (+19.0, +26.5) — wide open zone between C8 and PIR1 (X=124.0mm)
-    for lx, ly in [(-53.5, -35.0), (43.5, -21.0), (23.0, -50.5), (19.0, 26.5)]:
+    for lx, ly in [(-53.5, -25.0), (43.5, -21.0), (23.0, -50.5), (19.0, 26.5)]:
         post = create_cube("Shelf_Ledge", 4.0, 4.0, standoff_h, location=(lx, ly, floor_t + standoff_h/2.0))
         boolean_op(base, post, 'UNION')
 
