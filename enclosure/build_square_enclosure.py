@@ -156,8 +156,8 @@ def generate_photorealistic_enclosure():
     # Ledge 1 (Left):   (-53.5, -43.0) — dead center between SW2 and BT1
     # Ledge 2 (Right):  (+43.5, -21.0) — wide open zone between D1 LED and RADAR1
     # Ledge 3 (Bottom): (+23.0, -50.5) — wide open zone between SW1 and RADAR1
-    # Ledge 4 (Top):    (+23.0, +26.5) — wide open zone between C8 and PIR1
-    for lx, ly in [(-53.5, -35.0), (43.5, -21.0), (23.0, -50.5), (23.0, 26.5)]:
+    # Ledge 4 (Top):    (+19.0, +26.5) — wide open zone between C8 and PIR1 (X=124.0mm)
+    for lx, ly in [(-53.5, -35.0), (43.5, -21.0), (23.0, -50.5), (19.0, 26.5)]:
         post = create_cube("Shelf_Ledge", 4.0, 4.0, standoff_h, location=(lx, ly, floor_t + standoff_h/2.0))
         boolean_op(base, post, 'UNION')
 
@@ -223,8 +223,8 @@ def generate_photorealistic_enclosure():
             boolean_op(lid, cs_sink, 'DIFFERENCE')
 
     # Sensor Apertures - EXACT MAPPING TO SENSOR ELEMENTS (COLLINEAR AT kx = 142.50 mm)
-    # 1. PIR1 Fresnel Dome (Optical center at kx = 142.50 mm, ky = 53.71 mm)
-    pir_ex, pir_ey = k2e(142.50, 53.71)
+    # 1. PIR1 Fresnel Dome (Optical center at kx = 142.50 mm, ky = 54.61 mm)
+    pir_ex, pir_ey = k2e(142.50, 54.61)
     pir_hole = create_cylinder("PIR_Aperture", radius=6.0, height=lid_t * 3.0, location=(pir_ex, pir_ey, lid_h))
     boolean_op(lid, pir_hole, 'DIFFERENCE')
 

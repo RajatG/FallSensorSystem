@@ -11,7 +11,7 @@
 | **C7** | 0.1u | `C_Disc_D5.0mm_W2.5mm_P5.00mm` | `7.10 × 3.00 mm` | 5.00 mm (Span: 5.0×0.0mm) | thru_hole (0.80 mm) | (110.0, 76.5) |
 | **C8** | 0.1u | `C_Disc_D5.0mm_W2.5mm_P5.00mm` | `7.10 × 3.00 mm` | 5.00 mm (Span: 5.0×0.0mm) | thru_hole (0.80 mm) | (120.0, 54.5) |
 | **D1** | LED | `LED_D3.0mm` | `4.84 × 4.42 mm` | 2.54 mm (Span: 2.5×0.0mm) | thru_hole (0.90 mm) | (140.2, 89.0) |
-| **PIR1** | AM312_PIR | `AM312_PIR_Square22x20` | `22.00 × 20.00 mm` | 2.54 mm (Span: 5.08×0.0mm) | thru_hole (1.00 mm) | (139.5, 58.25) |
+| **PIR1** | AM312_PIR | `AM312_PIR_Square22x20` | `22.00 × 20.00 mm` | 2.54 mm (Span: 5.08×0.0mm) | thru_hole (1.00 mm) | (128.7, 57.15) |
 | **R1** | 100k | `R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal` | `12.26 × 3.00 mm` | 10.16 mm (Span: 10.2×0.0mm) | thru_hole (0.80 mm) | (93.0, 121.5) |
 | **R2** | 100k | `R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal` | `12.26 × 3.00 mm` | 10.16 mm (Span: 10.2×0.0mm) | thru_hole (0.80 mm) | (92.9, 126.0) |
 | **R3** | 270 | `R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal` | `12.26 × 3.00 mm` | 10.16 mm (Span: 10.2×0.0mm) | thru_hole (0.80 mm) | (138.5, 106.7) |
@@ -96,8 +96,8 @@
 
 ### `PIR1` - AM312_PIR (`FallSensor:AM312_PIR_Square22x20`)
 - **Physical Dimensions**: `24.00 mm × 20.00 mm` ($\varnothing 12.0\text{ mm}$ dome lens at $13.80\text{ mm}$ offset from header pins)
-- **Placement on PCB**: `X = 128.70 mm`, `Y = 56.25 mm`, Rotation = `90.0°` (Layer: F.Cu)
-- **Optical Center of Fresnel Dome**: `X = 142.50 mm`, `Y = 53.71 mm` — *Collinear on unified aperture axis $X = 142.50\text{ mm}$*
+- **Placement on PCB**: `X = 128.70 mm`, `Y = 57.15 mm`, Rotation = `90.0°` (Layer: F.Cu)
+- **Optical Center of Fresnel Dome**: `X = 142.50 mm`, `Y = 54.61 mm` — *Collinear on unified aperture axis $X = 142.50\text{ mm}$ (Enclosure Lid $eY = +23.39\text{ mm}$)*
 - **Total Pads**: 3 (thru_hole)
 | Pad # | Local Offset (X, Y) | Pad Size (W × H) | Pad Shape | Hole Drill |
 |---|---|---|---|---|
