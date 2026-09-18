@@ -371,6 +371,13 @@ draw_crosshair(p2, led_pt, 3.0, (0.9, 0.1, 0.1))
 p2.insert_text(fitz.Point(led_pt.x + mm2pt(6), led_pt.y - 2), "Status LED D1 (dia 3.2mm)", fontsize=6.5, fontname="helv", color=(0.9, 0.1, 0.1))
 p2.insert_text(fitz.Point(led_pt.x + mm2pt(6), led_pt.y + 5), "Center: (+37.50, -11.00) mm", fontsize=5.5, fontname="helv", color=(0.5, 0.5, 0.5))
 
+# Built-in ESP32 Contact Boss (14x14 mm, H=6.8mm inside ceiling, roof-mount clamp)
+eb_p1 = l2pt(2.0 - 7.0, -19.0 + 7.0)
+eb_p2 = l2pt(2.0 + 7.0, -19.0 - 7.0)
+p2.draw_rect(fitz.Rect(eb_p1[0], eb_p1[1], eb_p2[0], eb_p2[1]), color=(0.1, 0.3, 0.7), fill=(0.90, 0.94, 1.0), width=0.8)
+p2.insert_text(fitz.Point(eb_p1[0] - mm2pt(3), eb_p1[1] - mm2pt(2)), "Built-in ESP32 Contact Boss (14x14mm, H=6.8mm)", fontsize=5.2, fontname="helv", color=(0.1, 0.3, 0.7))
+p2.insert_text(fitz.Point(eb_p1[0] - mm2pt(3), eb_p2[1] + mm2pt(3)), "Holds ESP32 metal shield in roof mount (~0.5mm gap)", fontsize=4.6, fontname="helv", color=(0.3, 0.4, 0.6))
+
 # SYNC Button pinhole (dia 3.5 mm)
 btn_pt = fitz.Point(*l2pt(5.50, -45.50))
 p2.draw_circle(btn_pt, mm2pt(1.75), color=(0.8, 0.3, 0.1), fill=(1, 0.9, 0.8), width=0.9)

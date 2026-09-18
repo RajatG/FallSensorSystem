@@ -208,7 +208,16 @@ def generate_photorealistic_enclosure():
 
     # Flush Butt Joint (Zero protruding lip for clean, support-free face-down printing)
 
-    # (Floating lid clamp tabs removed; PCB is rigidly secured by corner bosses and base ledges)
+    # Built-in ESP32 Contact Boss (14.0 x 14.0 x 6.8 mm)
+    # Centered at eX = +2.0 mm, eY = -19.0 mm on the inside ceiling of the lid
+    # Contacts the grounded metal RF shield of the socketed ESP32 (leaves WiFi antenna open)
+    # Leaves ~0.5 mm nominal gap for 100% flush rim closure while preventing overhead PCB sag
+    esp32_boss_w = 14.0
+    esp32_boss_d = 14.0
+    esp32_boss_h = 6.8
+    esp32_boss_z = (lid_h - lid_t) - esp32_boss_h / 2.0  # 16.0 - 3.4 = 12.6 mm
+    esp32_boss = create_cube("ESP32_Contact_Boss", esp32_boss_w, esp32_boss_d, esp32_boss_h, location=(2.0, -19.0, esp32_boss_z))
+    boolean_op(lid, esp32_boss, 'UNION')
 
     # 4 Corner Lid Screw Boss Pillars (Creates solid guide tubes matching base bosses)
     for bx in [-boss_x, boss_x]:
