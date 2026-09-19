@@ -19,16 +19,16 @@ This directory contains the complete **3D CAD engineering stream** for the Wall-
 
 ---
 
-## 📐 Enclosure Dimensions & Mechanical Specifications (v2.1 Balanced Square)
+## 📐 Enclosure Dimensions & Mechanical Specifications (v2.2 Slim Ceiling-Mount)
 
-* **External Dimensions:** `116.8 mm (Width) × 110.8 mm (Depth) × 31.4 mm (Total Height)`
+* **External Dimensions:** `116.8 mm (Width) × 110.8 mm (Depth) × 28.0 mm (Total Height)`
 * **Form Factor Aspect Ratio:** `1.05 : 1` — **Balanced modern square form factor**.
-* **Base Height:** `13.0 mm` (Floor thickness: `2.4 mm`).
-* **Lid Height:** `18.4 mm` with an interlocking `1.8 mm` perimeter alignment lip (Ceiling thickness: `2.4 mm`).
-* **Total Enclosure Assembled Height:** `31.4 mm`.
+* **Base Height:** `21.5 mm` (Floor thickness: `2.4 mm`, Internal depth: `19.1 mm` securely cradling the 18650 battery holder and PCB assembly).
+* **Lid Height:** `6.5 mm` low-profile room-facing faceplate (Ceiling thickness: `2.4 mm`, Internal depth: `4.1 mm`).
+* **Total Enclosure Assembled Height:** `28.0 mm` (shaves 3.4mm off previous bulk, leaving strictly what is required).
 * **Outer Wall Thickness:** `2.4 mm` throughout for high structural rigidity and impact resistance.
-* **Internal Battery Compartment:** Dedicated `79.5 mm (W) × 22.0 mm (D) × 26.6 mm (H)` cradle on the left with a rigid vertical retaining end-wall at $X = +23.5\text{ mm}$ and a $8.0 \times 6.0\text{ mm}$ wire pass-through notch, cleanly fitting standard 18650 battery holders ($75\text{–}79\text{ mm}$).
-* **Open PIR Sensor Alcove:** The region to the right of the battery retaining wall ($X = +23.5$ to $+56.0\text{ mm}$, width $32.5\text{ mm}$) is **100% open** to the main PCB cavity, allowing the AM312 PIR sensor to extend freely without any wall interference.
+* **Internal Battery Compartment:** Dedicated `74.0 mm (W) × 22.0 mm (D) × 16.0 mm (H)` cradle ($X$ in $[-42.0, +32.0]\text{ mm}$) with a rigid vertical retaining end-wall and a $8.0 \times 6.0\text{ mm}$ wire pass-through notch, cleanly fitting standard 18650 battery holders.
+* **Open PIR Sensor Alcove:** The region to the right of the battery retaining wall ($X = +32.0$ to $+56.0\text{ mm}$) is **100% open** to the main PCB cavity, allowing the AM312 PIR sensor to extend freely without any wall interference.
 * **Internal PCB Compartment:** `102.0 mm × 82.0 mm` pocket providing a snug `1.0 mm` perimeter clearance around the standard $100 \times 80\text{ mm}$ PCB.
 * **Radar RF Isolation Chamber:** Dedicated $10.0\text{ mm}$ right-side expansion chamber ($X = +45.0$ to $+56.0\text{ mm}$) providing complete dielectric isolation and free-air clearance for the overhanging C1001 60GHz radar antenna patches.
 
@@ -95,14 +95,15 @@ The enclosure apertures match the physical PCB component footprint coordinates d
 
 | Aperture / Port | Location / Face | Coordinates `(ex, ey)` | Dimensions | Matching Hardware Component |
 |---|---|:---:|---|---|
-| **PIR Fresnel Dome** | Top Lid Face | `(+34.50, +19.75) mm` | $\varnothing 12.0\text{ mm}$ round hole | `PIR1` (AM312 PIR motion sensor lens, $100^\circ$ cone) |
-| **LM393 Mic Sound Port** | Top Lid Face | `(+10.50, +1.19) mm` | $\varnothing 3.0\text{ mm}$ round hole | `U5` (Electret microphone capsule acoustic inlet) |
-| **C1001 Radar RF Window** | Inside Lid Ceiling | `(+41.50, -34.00) mm` | $22.0 \times 22.0\text{ mm}$ pocket ($1.0\text{ mm}$ membrane) | `RADAR1` (RF transparent window over 60GHz antenna) |
-| **Status / Fall Alarm LED** | Top Lid Face | `(+35.23, -11.00) mm` | $\varnothing 3.2\text{ mm}$ round hole | `D1` (3mm through-hole LED / light-pipe opening) |
-| **Sync / Reset Button** | Top Lid Face | `(+2.25, -43.25) mm` | $\varnothing 3.5\text{ mm}$ pinhole | `SW1` (6x6x8mm tactile push button access via pin) |
+| **PIR Fresnel Dome** | Top Lid Face | `(+37.50, +23.39) mm` | $\varnothing 12.0\text{ mm}$ hole + **$\mathbf{\varnothing 17.0\text{ mm}}$ $45^\circ$ optical flare** | `PIR1` (AM312 PIR motion sensor lens, unobstructed wide-angle doorway view) |
+| **LM393 Mic Sound Port** | Top Lid Face | `(+37.50, +5.00) mm` | $\varnothing 4.5\text{ mm}$ port + **$\mathbf{\varnothing 9.5\text{ mm}}$ $45^\circ$ acoustic horn** | `U5` (Acoustic collector funnels wide-angle room sounds into electret capsule) |
+| **Status / Fall Alarm LED** | Top Lid Face | `(+37.50, -11.00) mm` | $\varnothing 3.2\text{ mm}$ round hole | `D1` (3mm through-hole LED / light-pipe opening) |
+| **C1001 Radar RF Window** | Inside Lid Ceiling | `(+36.50, -34.00) mm` | $24.0 \times 24.0\text{ mm}$ pocket ($1.0\text{ mm}$ membrane) | `RADAR1` (RF transparent window over 60GHz antenna) |
+| **ESP32 Contact Boss** | Inside Lid Ceiling | `(+2.00, -19.00) mm` | $14.0 \times 14.0 \times 3.4\text{ mm}$ boss | `U1` (Clamps metal RF shield against roof sag with ~0.5mm EVA gap) |
+| **Sync / Reset Button** | Top Lid Face | `(+5.50, -45.50) mm` | $\varnothing 3.5\text{ mm}$ pinhole | `SW1` (6x6x8mm tactile push button access via pin) |
 | **USB-C Charging Cutout** | Left Base Wall | `(-58.40, -25.00) mm` | $11.0 \times 4.8\text{ mm}$ slot ($Z = 10.6\text{ mm}$) | `U4` (TP4056 Type-C battery charger receptacle) |
 | **Power Switch** | Internal on PCB | *N/A* | *No external cutout* (Solid wall) | `SW2` (Standard 2.54mm header pin jumper cap / shunt) |
-| **Cooling Vents** | Right Wall | $Y \in [-15, +15]\text{ mm}$ | 6x vertical slots ($1.6 \times 7.0\text{ mm}$) | Convective thermal dissipation for MT3608 & TP4056 |
+| **Cooling Vents** | Right Base Wall | $Y \in [-15, +15]\text{ mm}$ | 6x vertical slots ($1.6 \times 10.0\text{ mm}$) | Convective thermal dissipation for MT3608 & TP4056 |
 
 ---
 

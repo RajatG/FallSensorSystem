@@ -56,6 +56,18 @@ def create_cylinder(name, radius, height, location=(0, 0, 0)):
     obj.name = name
     return obj
 
+def create_cone(name, radius1, radius2, height, location=(0, 0, 0)):
+    bpy.ops.mesh.primitive_cone_add(
+        vertices=32,
+        radius1=radius1,
+        radius2=radius2,
+        depth=height,
+        location=location
+    )
+    obj = bpy.context.active_object
+    obj.name = name
+    return obj
+
 def create_cube(name, size_x, size_y, size_z, location=(0, 0, 0)):
     bpy.ops.mesh.primitive_cube_add(
         size=1.0,
@@ -87,7 +99,7 @@ def generate_photorealistic_enclosure():
     
     bat_bay_d = 22.0     # 18650 battery bay depth
     divider_t = 2.0      # Separation wall between battery and PCB
-    divider_h = 10.0     # Divider height
+    divider_h = 16.0     # Divider height (cradles 18650 holder snugly inside base)
 
     # Enclosure cavity dimensions:
     # Adding right-side expansion (+10.0 mm) for C1001 mmWave Radar RF isolation
@@ -101,10 +113,10 @@ def generate_photorealistic_enclosure():
     lid_t = 2.4
     standoff_h = 5.0
     pcb_t = 1.6
-    comp_clearance_z = 20.0
 
-    base_h = floor_t + standoff_h + pcb_t + 4.0 # 13.0 mm
-    lid_h = comp_clearance_z - 4.0 + lid_t      # 18.4 mm
+    # Optimized Slim Ceiling-Mount Profile (Total Height = 28.0 mm)
+    base_h = 21.5 # Base houses 18650 holder (20mm) and PCB assembly safely (Internal depth: 19.1 mm)
+    lid_h = 6.5   # Sleek, low-profile downward faceplate (Internal depth: 4.1 mm)
 
     # Coordinate mapping from KiCad (50..150, 50..130) to Enclosure centered coords:
     # PCB left edge is at X = -inner_w/2 + clearance = -56.0 + 1.0 = -55.0 mm
@@ -192,11 +204,11 @@ def generate_photorealistic_enclosure():
     # Ventilation Slots on Right Wall
     for vi in range(6):
         vy = -15.0 + vi * 6.0
-        v_slot = create_cube("Vent_Base", wall * 2.0 + 2.0, 1.6, 7.0, location=(outer_w/2.0, vy, floor_t + 4.5))
+        v_slot = create_cube("Vent_Base", wall * 2.0 + 2.0, 1.6, 10.0, location=(outer_w/2.0, vy, floor_t + 7.0))
         boolean_op(base, v_slot, 'DIFFERENCE')
 
     # -------------------------------------------------------------
-    # 2. LID PART (SQUARE FORM FACTOR)
+    # 2. LID PART (SQUARE FORM FACTOR - LOW PROFILE CEILING FACEPLATE)
     # -------------------------------------------------------------
     lid = create_rounded_prism("Lid_Body", outer_w, outer_d, lid_h, r=4.0)
     
@@ -208,14 +220,14 @@ def generate_photorealistic_enclosure():
 
     # Flush Butt Joint (Zero protruding lip for clean, support-free face-down printing)
 
-    # Built-in ESP32 Contact Boss (14.0 x 14.0 x 6.8 mm)
+    # Built-in ESP32 Contact Boss (14.0 x 14.0 x 3.4 mm)
     # Centered at eX = +2.0 mm, eY = -19.0 mm on the inside ceiling of the lid
     # Contacts the grounded metal RF shield of the socketed ESP32 (leaves WiFi antenna open)
-    # Leaves ~0.5 mm nominal gap for 100% flush rim closure while preventing overhead PCB sag
+    # Leaves ~0.5 mm nominal gap for thin EVA damping foam while preventing overhead PCB sag
     esp32_boss_w = 14.0
     esp32_boss_d = 14.0
-    esp32_boss_h = 6.8
-    esp32_boss_z = (lid_h - lid_t) - esp32_boss_h / 2.0  # 16.0 - 3.4 = 12.6 mm
+    esp32_boss_h = 3.4
+    esp32_boss_z = (lid_h - lid_t) - esp32_boss_h / 2.0  # 4.1 - 1.7 = 2.4 mm
     esp32_boss = create_cube("ESP32_Contact_Boss", esp32_boss_w, esp32_boss_d, esp32_boss_h, location=(2.0, -19.0, esp32_boss_z))
     boolean_op(lid, esp32_boss, 'UNION')
 
@@ -225,24 +237,35 @@ def generate_photorealistic_enclosure():
             lid_boss = create_cylinder("Lid_Boss_Pillar", radius=3.5, height=lid_h - lid_t, location=(bx, by, (lid_h - lid_t)/2.0))
             boolean_op(lid, lid_boss, 'UNION')
 
-    # 4 Corner Countersunk / Counterbore Screw Pass-Through Holes
+    # 4 Corner Countersunk Screw Pass-Through Holes
     for bx in [-boss_x, boss_x]:
         for by in [-boss_y, boss_y]:
             cs_hole = create_cylinder("Lid_Hole", radius=1.65, height=lid_h + 6.0, location=(bx, by, lid_h/2.0))
-            cs_sink = create_cylinder("Lid_Sink", radius=3.2, height=3.0, location=(bx, by, lid_h - 1.0))
+            cs_sink = create_cylinder("Lid_Sink", radius=3.2, height=2.0, location=(bx, by, lid_h - 0.7))
             boolean_op(lid, cs_hole, 'DIFFERENCE')
             boolean_op(lid, cs_sink, 'DIFFERENCE')
 
+    # Dedicated Radar RF Window Pocket (24.0 x 24.0 mm, 1.0 mm membrane over C1001 mmWave antenna)
+    radar_ex, radar_ey = k2e(141.50, 112.00)
+    radar_pocket = create_cube("Radar_RF_Pocket", 24.0, 24.0, 1.4 + 0.5, location=(radar_ex, radar_ey, (lid_h - lid_t) + 0.7 - 0.25))
+    boolean_op(lid, radar_pocket, 'DIFFERENCE')
+
     # Sensor Apertures - EXACT MAPPING TO SENSOR ELEMENTS (COLLINEAR AT kx = 142.50 mm)
     # 1. PIR1 Fresnel Dome (Optical center at kx = 142.50 mm, ky = 54.61 mm)
+    # Inner Dia 12.0 mm through-hole with 45-degree wide-angle optical flare to Dia 17.0 mm on outer ceiling
     pir_ex, pir_ey = k2e(142.50, 54.61)
-    pir_hole = create_cylinder("PIR_Aperture", radius=6.0, height=lid_t * 3.0, location=(pir_ex, pir_ey, lid_h))
-    boolean_op(lid, pir_hole, 'DIFFERENCE')
+    pir_cyl = create_cylinder("PIR_Aperture", radius=6.0, height=lid_t * 3.0, location=(pir_ex, pir_ey, lid_h))
+    boolean_op(lid, pir_cyl, 'DIFFERENCE')
+    pir_flare = create_cone("PIR_Optical_Flare", radius1=6.0, radius2=8.5, height=lid_t + 0.2, location=(pir_ex, pir_ey, lid_h - lid_t / 2.0 + 0.1))
+    boolean_op(lid, pir_flare, 'DIFFERENCE')
 
     # 2. Mic Acoustic Port (Electret capsule center at kx = 142.50 mm, ky = 73.00 mm)
+    # Inner Dia 4.5 mm acoustic through-hole with 45-degree horn flare to Dia 9.5 mm on outer ceiling
     mic_ex, mic_ey = k2e(142.50, 73.00)
-    mic_hole = create_cylinder("Mic_Port", radius=1.5, height=lid_t * 3.0, location=(mic_ex, mic_ey, lid_h))
-    boolean_op(lid, mic_hole, 'DIFFERENCE')
+    mic_cyl = create_cylinder("Mic_Port", radius=2.25, height=lid_t * 3.0, location=(mic_ex, mic_ey, lid_h))
+    boolean_op(lid, mic_cyl, 'DIFFERENCE')
+    mic_flare = create_cone("Mic_Horn_Flare", radius1=2.25, radius2=4.75, height=lid_t + 0.2, location=(mic_ex, mic_ey, lid_h - lid_t / 2.0 + 0.1))
+    boolean_op(lid, mic_flare, 'DIFFERENCE')
 
     # 3. Status LED D1 (Center at kx = 142.50 mm, ky = 89.00 mm)
     led_ex, led_ey = k2e(142.50, 89.00)
@@ -253,12 +276,6 @@ def generate_photorealistic_enclosure():
     btn_ex, btn_ey = k2e(110.50, 123.50)
     btn_hole = create_cylinder("Sync_Hole", radius=1.75, height=lid_t * 3.0, location=(btn_ex, btn_ey, lid_h))
     boolean_op(lid, btn_hole, 'DIFFERENCE')
-
-    # Right Wall Ventilation Slots on Lid
-    for vi in range(6):
-        vy = -15.0 + vi * 6.0
-        v_slot = create_cube("Vent_Lid_R", wall * 2.0 + 2.0, 1.6, 7.0, location=(outer_w/2.0, vy, lid_h/2.0))
-        boolean_op(lid, v_slot, 'DIFFERENCE')
 
     # -------------------------------------------------------------
     # 3. EXPORT WATERTIGHT STLS
@@ -431,10 +448,10 @@ def render_hero_and_exploded(base, lid, outer_w, outer_d, base_h, lid_h):
     print(f"Rendered Studio Image: {img_studio}")
 
     # 4. Rear Wall-Mount View (Zoomed out with generous margin around base)
-    base.location = (0, 0, 13.0)
+    base.location = (0, 0, base_h)
     base.rotation_euler = (math.radians(180), 0, 0)
     lid.hide_render = True
-    target.location = (0, 0, 7.0)
+    target.location = (0, 0, base_h / 2.0)
     cam_obj.location = (0, -240.0, 200.0)
 
     img_wall = r"C:\Users\devja\Documents\AntiGravity\FallSensorSystem\enclosure\fall_sensor_enclosure_wallmount.png"

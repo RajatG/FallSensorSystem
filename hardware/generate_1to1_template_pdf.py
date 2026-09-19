@@ -254,7 +254,7 @@ def b2pt(ex, ey):
 
 rect_base_outer = fitz.Rect(mm2pt(base_cx - hw), mm2pt(base_cy - hd), mm2pt(base_cx + hw), mm2pt(base_cy + hd))
 p2.draw_rect(rect_base_outer, color=(0, 0, 0), fill=(0.98, 0.98, 0.98), width=1.0)
-p2.insert_text(fitz.Point(rect_base_outer.x0 + mm2pt(3), rect_base_outer.y0 - mm2pt(2)), "ENCLOSURE BASE: 116.8 x 110.8 mm (Internal Cavity, Standoffs, Cradle & Shelf)", fontsize=7.5, fontname="helv", color=(0, 0, 0))
+p2.insert_text(fitz.Point(rect_base_outer.x0 + mm2pt(3), rect_base_outer.y0 - mm2pt(2)), "ENCLOSURE BASE: 116.8 x 110.8 x 21.5 mm (Internal Depth: 19.1 mm - Cradles 18650 Battery & PCB)", fontsize=7.5, fontname="helv", color=(0, 0, 0))
 
 rect_base_inner = fitz.Rect(mm2pt(base_cx - ihw), mm2pt(base_cy - ihd), mm2pt(base_cx + ihw), mm2pt(base_cy + ihd))
 p2.draw_rect(rect_base_inner, color=(0.5, 0.5, 0.5), fill=(0.94, 0.94, 0.94), width=0.6)
@@ -335,7 +335,7 @@ def l2pt(ex, ey):
 
 rect_lid_outer = fitz.Rect(mm2pt(lid_cx - hw), mm2pt(lid_cy - hd), mm2pt(lid_cx + hw), mm2pt(lid_cy + hd))
 p2.draw_rect(rect_lid_outer, color=(0, 0, 0), fill=(1, 1, 1), width=1.0)
-p2.insert_text(fitz.Point(rect_lid_outer.x0 + mm2pt(3), rect_lid_outer.y0 - mm2pt(2)), "ENCLOSURE LID: 116.8 x 110.8 mm (Flat Support-Free Rim & Aperture Drill Guide)", fontsize=7.5, fontname="helv", color=(0, 0, 0))
+p2.insert_text(fitz.Point(rect_lid_outer.x0 + mm2pt(3), rect_lid_outer.y0 - mm2pt(2)), "ENCLOSURE LID: 116.8 x 110.8 x 6.5 mm (Total Height: 28.0 mm - Flared Apertures & Drill Guide)", fontsize=7.5, fontname="helv", color=(0, 0, 0))
 
 # 4 Corner Screw Holes
 for bx in [-boss_x, boss_x]:
@@ -350,19 +350,21 @@ axis_x, _ = l2pt(37.50, 0)
 p2.draw_line(fitz.Point(axis_x, rect_lid_outer.y0 + mm2pt(4)), fitz.Point(axis_x, rect_lid_outer.y1 - mm2pt(4)), color=(0.9, 0.1, 0.1), width=0.6)
 p2.insert_text(fitz.Point(axis_x - mm2pt(22), rect_lid_outer.y1 + mm2pt(3.5)), "Collinear Sensor Axis (X = +37.50 mm)", fontsize=6.0, fontname="helv", color=(0.9, 0.1, 0.1))
 
-# PIR dome (dia 12.0 mm)
+# PIR dome (dia 12.0 mm inner hole + dia 17.0 mm 45-degree optical flare)
 pir_pt = fitz.Point(*l2pt(37.50, 23.39))
+p2.draw_circle(pir_pt, mm2pt(8.5), color=(0.9, 0.4, 0.4), width=0.6) # Outer 17mm flare ring
 p2.draw_circle(pir_pt, mm2pt(6.0), color=(0.9, 0.1, 0.1), fill=(1, 0.88, 0.88), width=0.9)
 draw_crosshair(p2, pir_pt, 6.0, (0.9, 0.1, 0.1))
-p2.insert_text(fitz.Point(pir_pt.x + mm2pt(8), pir_pt.y - 2), "PIR1 Dome Lens (dia 12.0mm)", fontsize=6.5, fontname="helv", color=(0.9, 0.1, 0.1))
-p2.insert_text(fitz.Point(pir_pt.x + mm2pt(8), pir_pt.y + 5), "Center: (+37.50, +23.39) mm", fontsize=5.5, fontname="helv", color=(0.5, 0.5, 0.5))
+p2.insert_text(fitz.Point(pir_pt.x + mm2pt(10), pir_pt.y - 4), "PIR1 Dome: 12mm Hole + 17mm 45° Flare", fontsize=6.2, fontname="helv", color=(0.9, 0.1, 0.1))
+p2.insert_text(fitz.Point(pir_pt.x + mm2pt(10), pir_pt.y + 4), "Center: (+37.50, +23.39) mm | Unobstructed Door View", fontsize=4.8, fontname="helv", color=(0.5, 0.5, 0.5))
 
-# Mic acoustic port (dia 3.0 mm)
+# Mic acoustic port (dia 4.5 mm inner hole + dia 9.5 mm 45-degree horn flare)
 mic_pt = fitz.Point(*l2pt(37.50, 5.00))
-p2.draw_circle(mic_pt, mm2pt(1.5), color=(0.9, 0.1, 0.1), fill=(1, 0.88, 0.88), width=0.9)
+p2.draw_circle(mic_pt, mm2pt(4.75), color=(0.9, 0.4, 0.4), width=0.6) # Outer 9.5mm horn flare
+p2.draw_circle(mic_pt, mm2pt(2.25), color=(0.9, 0.1, 0.1), fill=(1, 0.88, 0.88), width=0.9)
 draw_crosshair(p2, mic_pt, 3.0, (0.9, 0.1, 0.1))
-p2.insert_text(fitz.Point(mic_pt.x + mm2pt(6), mic_pt.y - 2), "LM393 Mic Port (dia 3.0mm)", fontsize=6.5, fontname="helv", color=(0.9, 0.1, 0.1))
-p2.insert_text(fitz.Point(mic_pt.x + mm2pt(6), mic_pt.y + 5), "Center: (+37.50, +5.00) mm", fontsize=5.5, fontname="helv", color=(0.5, 0.5, 0.5))
+p2.insert_text(fitz.Point(mic_pt.x + mm2pt(7), mic_pt.y - 4), "LM393 Mic: 4.5mm Port + 9.5mm 45° Horn", fontsize=6.2, fontname="helv", color=(0.9, 0.1, 0.1))
+p2.insert_text(fitz.Point(mic_pt.x + mm2pt(7), mic_pt.y + 4), "Center: (+37.50, +5.00) mm | Wide Acoustic Funnel", fontsize=4.8, fontname="helv", color=(0.5, 0.5, 0.5))
 
 # Status LED D1 (dia 3.2 mm)
 led_pt = fitz.Point(*l2pt(37.50, -11.00))
@@ -371,12 +373,12 @@ draw_crosshair(p2, led_pt, 3.0, (0.9, 0.1, 0.1))
 p2.insert_text(fitz.Point(led_pt.x + mm2pt(6), led_pt.y - 2), "Status LED D1 (dia 3.2mm)", fontsize=6.5, fontname="helv", color=(0.9, 0.1, 0.1))
 p2.insert_text(fitz.Point(led_pt.x + mm2pt(6), led_pt.y + 5), "Center: (+37.50, -11.00) mm", fontsize=5.5, fontname="helv", color=(0.5, 0.5, 0.5))
 
-# Built-in ESP32 Contact Boss (14x14 mm, H=6.8mm inside ceiling, roof-mount clamp)
+# Built-in ESP32 Contact Boss (14x14 mm, H=3.4mm inside ceiling, roof-mount clamp)
 eb_p1 = l2pt(2.0 - 7.0, -19.0 + 7.0)
 eb_p2 = l2pt(2.0 + 7.0, -19.0 - 7.0)
 p2.draw_rect(fitz.Rect(eb_p1[0], eb_p1[1], eb_p2[0], eb_p2[1]), color=(0.1, 0.3, 0.7), fill=(0.90, 0.94, 1.0), width=0.8)
-p2.insert_text(fitz.Point(eb_p1[0] - mm2pt(3), eb_p1[1] - mm2pt(2)), "Built-in ESP32 Contact Boss (14x14mm, H=6.8mm)", fontsize=5.2, fontname="helv", color=(0.1, 0.3, 0.7))
-p2.insert_text(fitz.Point(eb_p1[0] - mm2pt(3), eb_p2[1] + mm2pt(3)), "Holds ESP32 metal shield in roof mount (~0.5mm gap)", fontsize=4.6, fontname="helv", color=(0.3, 0.4, 0.6))
+p2.insert_text(fitz.Point(eb_p1[0] - mm2pt(3), eb_p1[1] - mm2pt(2)), "Built-in ESP32 Contact Boss (14x14mm, H=3.4mm)", fontsize=5.2, fontname="helv", color=(0.1, 0.3, 0.7))
+p2.insert_text(fitz.Point(eb_p1[0] - mm2pt(3), eb_p2[1] + mm2pt(3)), "Holds ESP32 metal shield for 28.0mm enclosure (~0.5mm gap)", fontsize=4.6, fontname="helv", color=(0.3, 0.4, 0.6))
 
 # SYNC Button pinhole (dia 3.5 mm)
 btn_pt = fitz.Point(*l2pt(5.50, -45.50))
