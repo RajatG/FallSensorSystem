@@ -356,7 +356,7 @@ p2.draw_circle(pir_pt, mm2pt(8.5), color=(0.9, 0.4, 0.4), width=0.6) # Outer 17m
 p2.draw_circle(pir_pt, mm2pt(6.0), color=(0.9, 0.1, 0.1), fill=(1, 0.88, 0.88), width=0.9)
 draw_crosshair(p2, pir_pt, 6.0, (0.9, 0.1, 0.1))
 p2.insert_text(fitz.Point(pir_pt.x + mm2pt(10), pir_pt.y - 4), "PIR1 Dome: 12mm Hole + 17mm 45° Flare", fontsize=6.2, fontname="helv", color=(0.9, 0.1, 0.1))
-p2.insert_text(fitz.Point(pir_pt.x + mm2pt(10), pir_pt.y + 4), "Center: (+37.50, +23.39) mm | Unobstructed Door View", fontsize=4.8, fontname="helv", color=(0.5, 0.5, 0.5))
+p2.insert_text(fitz.Point(pir_pt.x + mm2pt(10), pir_pt.y + 4), "Center: (+37.50, +23.39) mm | Dome Protrudes ~2.4mm (360° View)", fontsize=4.8, fontname="helv", color=(0.5, 0.5, 0.5))
 
 # Mic acoustic port (dia 4.5 mm inner hole + dia 9.5 mm 45-degree horn flare)
 mic_pt = fitz.Point(*l2pt(37.50, 5.00))
@@ -366,12 +366,13 @@ draw_crosshair(p2, mic_pt, 3.0, (0.9, 0.1, 0.1))
 p2.insert_text(fitz.Point(mic_pt.x + mm2pt(7), mic_pt.y - 4), "LM393 Mic: 4.5mm Port + 9.5mm 45° Horn", fontsize=6.2, fontname="helv", color=(0.9, 0.1, 0.1))
 p2.insert_text(fitz.Point(mic_pt.x + mm2pt(7), mic_pt.y + 4), "Center: (+37.50, +5.00) mm | Wide Acoustic Funnel", fontsize=4.8, fontname="helv", color=(0.5, 0.5, 0.5))
 
-# Status LED D1 (dia 3.2 mm)
+# Status LED D1 (dia 3.2 mm inner hole + dia 4.8 mm 45-degree diffuser flare)
 led_pt = fitz.Point(*l2pt(37.50, -11.00))
+p2.draw_circle(led_pt, mm2pt(2.4), color=(0.9, 0.4, 0.4), width=0.6) # Outer 4.8mm diffuser ring
 p2.draw_circle(led_pt, mm2pt(1.6), color=(0.9, 0.1, 0.1), fill=(1, 0.88, 0.88), width=0.9)
 draw_crosshair(p2, led_pt, 3.0, (0.9, 0.1, 0.1))
-p2.insert_text(fitz.Point(led_pt.x + mm2pt(6), led_pt.y - 2), "Status LED D1 (dia 3.2mm)", fontsize=6.5, fontname="helv", color=(0.9, 0.1, 0.1))
-p2.insert_text(fitz.Point(led_pt.x + mm2pt(6), led_pt.y + 5), "Center: (+37.50, -11.00) mm", fontsize=5.5, fontname="helv", color=(0.5, 0.5, 0.5))
+p2.insert_text(fitz.Point(led_pt.x + mm2pt(6), led_pt.y - 4), "Status LED D1: 3.2mm + 4.8mm Diffuser", fontsize=6.2, fontname="helv", color=(0.9, 0.1, 0.1))
+p2.insert_text(fitz.Point(led_pt.x + mm2pt(6), led_pt.y + 4), "Center: (+37.50, -11.00) mm | Wide-Angle Glow", fontsize=4.8, fontname="helv", color=(0.5, 0.5, 0.5))
 
 # Built-in ESP32 Contact Boss (14x14 mm, H=3.4mm inside ceiling, roof-mount clamp)
 eb_p1 = l2pt(2.0 - 7.0, -19.0 + 7.0)
@@ -380,12 +381,13 @@ p2.draw_rect(fitz.Rect(eb_p1[0], eb_p1[1], eb_p2[0], eb_p2[1]), color=(0.1, 0.3,
 p2.insert_text(fitz.Point(eb_p1[0] - mm2pt(3), eb_p1[1] - mm2pt(2)), "Built-in ESP32 Contact Boss (14x14mm, H=3.4mm)", fontsize=5.2, fontname="helv", color=(0.1, 0.3, 0.7))
 p2.insert_text(fitz.Point(eb_p1[0] - mm2pt(3), eb_p2[1] + mm2pt(3)), "Holds ESP32 metal shield for 28.0mm enclosure (~0.5mm gap)", fontsize=4.6, fontname="helv", color=(0.3, 0.4, 0.6))
 
-# SYNC Button pinhole (dia 3.5 mm)
+# SYNC Button pinhole (dia 3.5 mm inner hole + dia 5.0 mm 45-degree funnel chamfer)
 btn_pt = fitz.Point(*l2pt(5.50, -45.50))
+p2.draw_circle(btn_pt, mm2pt(2.5), color=(0.8, 0.4, 0.2), width=0.6) # Outer 5.0mm chamfer ring
 p2.draw_circle(btn_pt, mm2pt(1.75), color=(0.8, 0.3, 0.1), fill=(1, 0.9, 0.8), width=0.9)
 draw_crosshair(p2, btn_pt, 3.0, (0.8, 0.3, 0.1))
-p2.insert_text(fitz.Point(btn_pt.x + mm2pt(6), btn_pt.y - 2), "SW1 SYNC Button (dia 3.5mm)", fontsize=6.5, fontname="helv", color=(0.8, 0.3, 0.1))
-p2.insert_text(fitz.Point(btn_pt.x + mm2pt(6), btn_pt.y + 5), "Center: (+5.50, -45.50) mm", fontsize=5.5, fontname="helv", color=(0.5, 0.5, 0.5))
+p2.insert_text(fitz.Point(btn_pt.x + mm2pt(6), btn_pt.y - 4), "SW1 SYNC Button: 3.5mm + 5.0mm Funnel", fontsize=6.2, fontname="helv", color=(0.8, 0.3, 0.1))
+p2.insert_text(fitz.Point(btn_pt.x + mm2pt(6), btn_pt.y + 4), "Center: (+5.50, -45.50) mm | Pen/Pin Guide", fontsize=4.8, fontname="helv", color=(0.5, 0.5, 0.5))
 
 # Instructions at bottom of Sheet 2
 p2.insert_textbox(fitz.Rect(mm2pt(15), mm2pt(267), mm2pt(195), mm2pt(292)),

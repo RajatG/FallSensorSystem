@@ -252,8 +252,14 @@ def generate_photorealistic_enclosure():
 
     # Sensor Apertures - EXACT MAPPING TO SENSOR ELEMENTS (COLLINEAR AT kx = 142.50 mm)
     # 1. PIR1 Fresnel Dome (Optical center at kx = 142.50 mm, ky = 54.61 mm)
-    # Inner Dia 12.0 mm through-hole with 45-degree wide-angle optical flare to Dia 17.0 mm on outer ceiling
+    # Internal Ceiling Counterbore Pocket (Dia 20.0 mm, Depth 1.5 mm into inner ceiling)
+    # Allows the AM312 module and dome base to seat 1.5mm closer to the outside face,
+    # causing the Fresnel dome to project proud into the room by ~2.4 mm for full 360-deg hemispherical FOV.
     pir_ex, pir_ey = k2e(142.50, 54.61)
+    pir_pocket = create_cylinder("PIR_Internal_Pocket", radius=10.0, height=1.5 + 0.2, location=(pir_ex, pir_ey, (lid_h - lid_t) + (1.5 + 0.2) / 2.0 - 0.1))
+    boolean_op(lid, pir_pocket, 'DIFFERENCE')
+
+    # Inner Dia 12.0 mm through-hole with 45-degree wide-angle optical flare to Dia 17.0 mm on outer ceiling
     pir_cyl = create_cylinder("PIR_Aperture", radius=6.0, height=lid_t * 3.0, location=(pir_ex, pir_ey, lid_h))
     boolean_op(lid, pir_cyl, 'DIFFERENCE')
     pir_flare = create_cone("PIR_Optical_Flare", radius1=6.0, radius2=8.5, height=lid_t + 0.2, location=(pir_ex, pir_ey, lid_h - lid_t / 2.0 + 0.1))
@@ -268,14 +274,20 @@ def generate_photorealistic_enclosure():
     boolean_op(lid, mic_flare, 'DIFFERENCE')
 
     # 3. Status LED D1 (Center at kx = 142.50 mm, ky = 89.00 mm)
+    # Inner Dia 3.2 mm through-hole with 45-degree wide-angle light-diffusing bevel to Dia 4.8 mm
     led_ex, led_ey = k2e(142.50, 89.00)
     led_hole = create_cylinder("LED_Hole", radius=1.6, height=lid_t * 3.0, location=(led_ex, led_ey, lid_h))
     boolean_op(lid, led_hole, 'DIFFERENCE')
+    led_flare = create_cone("LED_Bevel_Flare", radius1=1.6, radius2=2.4, height=lid_t + 0.2, location=(led_ex, led_ey, lid_h - lid_t / 2.0 + 0.1))
+    boolean_op(lid, led_flare, 'DIFFERENCE')
 
     # 4. Sync Button SW1 (Pinhole access over button actuator center at kx = 110.50 mm, ky = 123.50 mm)
+    # Dia 3.5 mm access hole with 45-degree funnel chamfer to Dia 5.0 mm for smooth pen/pin guidance
     btn_ex, btn_ey = k2e(110.50, 123.50)
     btn_hole = create_cylinder("Sync_Hole", radius=1.75, height=lid_t * 3.0, location=(btn_ex, btn_ey, lid_h))
     boolean_op(lid, btn_hole, 'DIFFERENCE')
+    btn_flare = create_cone("Sync_Bevel_Flare", radius1=1.75, radius2=2.5, height=1.2, location=(btn_ex, btn_ey, lid_h - 0.6 + 0.05))
+    boolean_op(lid, btn_flare, 'DIFFERENCE')
 
     # -------------------------------------------------------------
     # 3. EXPORT WATERTIGHT STLS
@@ -382,7 +394,7 @@ def render_hero_and_exploded(base, lid, outer_w, outer_d, base_h, lid_h):
     # Render Settings
     bpy.context.scene.render.engine = 'CYCLES'
     bpy.context.scene.cycles.device = 'CPU'
-    bpy.context.scene.cycles.samples = 64
+    bpy.context.scene.cycles.samples = 32
     bpy.context.scene.render.resolution_x = 1920
     bpy.context.scene.render.resolution_y = 1080
     bpy.context.scene.render.film_transparent = False

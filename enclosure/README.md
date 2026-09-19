@@ -97,10 +97,10 @@ The enclosure apertures match the physical PCB component footprint coordinates d
 |---|---|:---:|---|---|
 | **PIR Fresnel Dome** | Top Lid Face | `(+37.50, +23.39) mm` | $\varnothing 12.0\text{ mm}$ hole + **$\mathbf{\varnothing 17.0\text{ mm}}$ $45^\circ$ optical flare** | `PIR1` (AM312 PIR motion sensor lens, unobstructed wide-angle doorway view) |
 | **LM393 Mic Sound Port** | Top Lid Face | `(+37.50, +5.00) mm` | $\varnothing 4.5\text{ mm}$ port + **$\mathbf{\varnothing 9.5\text{ mm}}$ $45^\circ$ acoustic horn** | `U5` (Acoustic collector funnels wide-angle room sounds into electret capsule) |
-| **Status / Fall Alarm LED** | Top Lid Face | `(+37.50, -11.00) mm` | $\varnothing 3.2\text{ mm}$ round hole | `D1` (3mm through-hole LED / light-pipe opening) |
+| **Status / Fall Alarm LED** | Top Lid Face | `(+37.50, -11.00) mm` | $\varnothing 3.2\text{ mm}$ hole + **$\mathbf{\varnothing 4.8\text{ mm}}$ $45^\circ$ diffuser flare** | `D1` (3mm through-hole LED, wide-angle ceiling visibility) |
 | **C1001 Radar RF Window** | Inside Lid Ceiling | `(+36.50, -34.00) mm` | $24.0 \times 24.0\text{ mm}$ pocket ($1.0\text{ mm}$ membrane) | `RADAR1` (RF transparent window over 60GHz antenna) |
 | **ESP32 Contact Boss** | Inside Lid Ceiling | `(+2.00, -19.00) mm` | $14.0 \times 14.0 \times 3.4\text{ mm}$ boss | `U1` (Clamps metal RF shield against roof sag with ~0.5mm EVA gap) |
-| **Sync / Reset Button** | Top Lid Face | `(+5.50, -45.50) mm` | $\varnothing 3.5\text{ mm}$ pinhole | `SW1` (6x6x8mm tactile push button access via pin) |
+| **Sync / Reset Button** | Top Lid Face | `(+5.50, -45.50) mm` | $\varnothing 3.5\text{ mm}$ hole + **$\mathbf{\varnothing 5.0\text{ mm}}$ $45^\circ$ funnel chamfer** | `SW1` (6x6x8mm tactile push button access via pen/pin) |
 | **USB-C Charging Cutout** | Left Base Wall | `(-58.40, -25.00) mm` | $11.0 \times 4.8\text{ mm}$ slot ($Z = 10.6\text{ mm}$) | `U4` (TP4056 Type-C battery charger receptacle) |
 | **Power Switch** | Internal on PCB | *N/A* | *No external cutout* (Solid wall) | `SW2` (Standard 2.54mm header pin jumper cap / shunt) |
 | **Cooling Vents** | Right Base Wall | $Y \in [-15, +15]\text{ mm}$ | 6x vertical slots ($1.6 \times 10.0\text{ mm}$) | Convective thermal dissipation for MT3608 & TP4056 |
