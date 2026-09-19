@@ -84,7 +84,7 @@ The enclosure apertures match the physical PCB component footprint coordinates d
 |                           (Dia: 3.0 mm)                                 |
 |                                              [ Status Fall LED ]        |
 |    [USB-C Port]                                 (Dia: 3.2 mm)           |
-|   (11.0x4.8mm)                                                          |
+|   (12.0x6.5mm, Z=14.5mm)                                                |
 |                                              [ C1001 Radar RF Window ]  |
 |   (Solid Left Wall,     [ Sync Button ]           (Internal Pocket,     |
 |    Internal Jumper)      (Dia: 3.5 mm)             1.0 mm Membrane)     |
@@ -101,7 +101,7 @@ The enclosure apertures match the physical PCB component footprint coordinates d
 | **C1001 Radar RF Window** | Inside Lid Ceiling | `(+36.50, -34.00) mm` | $24.0 \times 24.0\text{ mm}$ pocket ($1.0\text{ mm}$ membrane) | `RADAR1` (RF transparent window over 60GHz antenna) |
 | **ESP32 Contact Boss** | Inside Lid Ceiling | `(+2.00, -19.00) mm` | $14.0 \times 14.0 \times 3.4\text{ mm}$ boss | `U1` (Clamps metal RF shield against roof sag with ~0.5mm EVA gap) |
 | **Sync / Reset Button** | Top Lid Face | `(+5.50, -45.50) mm` | $\varnothing 3.5\text{ mm}$ hole + **$\mathbf{\varnothing 5.0\text{ mm}}$ $45^\circ$ funnel chamfer** | `SW1` (6x6x8mm tactile push button access via pen/pin) |
-| **USB-C Charging Cutout** | Left Base Wall | `(-58.40, -25.00) mm` | $11.0 \times 4.8\text{ mm}$ slot ($Z = 10.6\text{ mm}$) | `U4` (TP4056 Type-C battery charger receptacle) |
+| **USB-C Charging Cutout** | Left Base Wall | `(-58.40, -25.00) mm` | $12.0 \times 6.5\text{ mm}$ slot ($Z = 14.5\text{ mm}$) | `U4` (TP4056 Type-C charger elevated on 2.5mm male header spacer) |
 | **Power Switch** | Internal on PCB | *N/A* | *No external cutout* (Solid wall) | `SW2` (Standard 2.54mm header pin jumper cap / shunt) |
 | **Cooling Vents** | Right Base Wall | $Y \in [-15, +15]\text{ mm}$ | 6x vertical slots ($1.6 \times 10.0\text{ mm}$) | Convective thermal dissipation for MT3608 & TP4056 |
 

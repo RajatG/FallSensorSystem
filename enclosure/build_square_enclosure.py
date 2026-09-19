@@ -194,9 +194,11 @@ def generate_photorealistic_enclosure():
         boolean_op(base, kh_slot, 'DIFFERENCE')
         boolean_op(base, kh_recess, 'DIFFERENCE')
 
-    # USB-C Port Cutout on Left Wall (TP4056 Module: ky = 103.0 mm => ey = -25.0 mm)
-    usb_z = floor_t + standoff_h + pcb_t + 1.6
-    usb_cut = create_cube("USB_Cutout_LeftWall", wall * 2.0 + 2.0, 11.0, 4.8, location=(-outer_w/2.0, -25.0, usb_z))
+    # USB-C Port Cutout on Left Wall (TP4056 on 2.5mm male header standoff: ky = 103.0 mm => ey = -25.0 mm)
+    tp4056_header_spacer = 2.5  # Standard 2.54mm male pin header plastic spacer
+    tp4056_pcb_t = 1.2          # TP4056 board substrate thickness
+    usb_z = floor_t + standoff_h + pcb_t + tp4056_header_spacer + tp4056_pcb_t + 1.6 # 14.3 mm -> nominal 14.5 mm
+    usb_cut = create_cube("USB_Cutout_LeftWall", wall * 2.0 + 2.0, 12.0, 6.5, location=(-outer_w/2.0, -25.0, 14.5))
     boolean_op(base, usb_cut, 'DIFFERENCE')
 
     # Power Switch: Internal header pin jumper cap used on PCB; no external opening needed.
